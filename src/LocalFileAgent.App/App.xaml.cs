@@ -1,7 +1,72 @@
+using System;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using LocalFileAgent.Application.FileSystem;
+using LocalFileAgent.Application.Indexing;
+using LocalFileAgent.Application.Search;
+using LocalFileAgent.Domain.FileSystem;
+using LocalFileAgent.Domain.Storage;
+using LocalFileAgent.Domain.Text;
+using LocalFileAgent.Domain.Worker;
+using LocalFileAgent.Infrastructure.Storage;
+using LocalFileAgent.Infrastructure.Worker;
+using LocalFileAgent.Text;
 
 namespace LocalFileAgent.App;
 
 public partial class App : System.Windows.Application
 {
+    private IHost? _host;
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        var builder = Host.CreateDefaultBuilder();
+        builder.ConfigureServices((_, services) =>
+        {
+            // Arabic text processing services
+            services.AddSingleton<ITextNormalizer, ArabicTextNormalizer>();
+            services.AddSingleton<IChunker, ArabicChunker>();
+            services.AddSingleton<IEncodingDetector, EncodingDetector>();
+            services.AddSingleton<IArabicOrderFixer, ArabicOrderFixer>();
+            services.AddSingleton<ITextQualityGate, TextQualityGate>();
+
+            // File system scanner
+            services.AddSingleton<IFileScanner, FileScanner>();
+
+            // Storage and background worker
+            var dbPath = AppDataPaths.GetDatabasePath();
+            services.AddSingleton<IIndexStore>(_ => new SqliteIndexStore(dbPath));
+            services.AddSingleton<IWorkerClient, WorkerClient>();
+            services.AddSingleton<IIndexOrchestrator, IndexOrchestrator>();
+
+            // UI and ViewModel
+            services.AddSingleton<IDispatcherService, WpfDispatcherService>();
+            services.AddSingleton<SearchViewModel>();
+            services.AddSingleton<MainWindow>();
+        });
+
+        _host = builder.Build();
+        _host.Start();
+
+        var mainWindow = _host.Services.GetRequiredService<MainWindow>();
+        var viewModel = _host.Services.GetRequiredService<SearchViewModel>();
+        mainWindow.DataContext = viewModel;
+        mainWindow.Show();
+
+        _ = viewModel.RefreshStatsCommand.ExecuteAsync(null);
+    }
+
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        if (_host != null)
+        {
+            await _host.StopAsync().ConfigureAwait(false);
+            _host.Dispose();
+        }
+
+        base.OnExit(e);
+    }
 }

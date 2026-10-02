@@ -9,7 +9,6 @@
     <ProjectReference Include="..\..\src\LocalFileAgent.Domain\LocalFileAgent.Domain.csproj" />
     <ProjectReference Include="..\..\src\LocalFileAgent.Text\LocalFileAgent.Text.csproj" />
     <ProjectReference Include="..\..\src\LocalFileAgent.Application\LocalFileAgent.Application.csproj" />
-    <ProjectReference Include="..\..\src\LocalFileAgent.Infrastructure\LocalFileAgent.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +19,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="FluentAssertions" Version="8.0.1" />
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
   </ItemGroup>
 
 </Project>

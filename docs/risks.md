@@ -9,13 +9,13 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | R01 | Arabic PDF text layers reversed, disconnected, or garbage | H | H | Open | NFKC, order fixer, quality gate, two PDF text engines (PdfPig + PDFium), OCR fallback, test fixtures. |
 | R02 | Arabic OCR weak; small VLMs hallucinate or loop | H | H | Open | Two-tier OCR with quality gate (Windows OCR -> GLM-OCR), hallucination guards, noise-tolerant trigram/vector retrieval. |
 | R03 | Windows OCR Arabic pack missing/unverified | M | H | Mitigated | Verified in M0 probe: `ar-SA` and `en-US` recognizers are installed and available. |
-| R04 | FTS tokenizer mishandles tashkeel/tatweel/digits | H | M | Open | Normalize in C# before FTS; tests AR-1/AR-2. |
+| R04 | FTS tokenizer mishandles tashkeel/tatweel/digits | H | M | Mitigated | Text normalized via ArabicTextNormalizer in C# before FTS; queries symmetric. Verified in M4 tests. |
 | R05 | Over-normalization or stemming raises false positives | M | M | Open | Keep ة/ؤ/ئ normalization off by default; stemming is separate low-weight channel; ablate in M6. |
 | R06 | Dialect/Arabizi queries mis-planned | M | M | Open | Deterministic fallback analyzer; query variants; evaluate agent model on dialect set. |
 | R07 | Cross-lingual mismatch (Arabic <-> English) | M | M | Open | Evaluate embedder cross-lingual metrics in M3; query translation variants. |
 | R08 | Token-limit assumptions wrong -> silent truncation | M | M | Open | Character chunking (1,000-1,600 chars) + measured embedder token limit assertions. |
 | R09 | Mojibake in CP1256 / ISO-8859-6 text and CSV | H | M | Open | Encoding detector + Arabic letter ratio heuristic + byte fixtures in M1. |
-| R10 | Bidi bugs in UI (paths, mixed text, highlights) | H | L-M | Open | Unicode isolate wrappers (U+2066..U+2069) for paths, offset maps, per-item direction, manual RTL review. |
+| R10 | Bidi bugs in UI (paths, mixed text, highlights) | H | L-M | Mitigated | All paths wrapped with BidiHelper.WrapLtrIsolate (U+2066..U+2069), SnippetHighlighter maps offsets back to raw text. |
 | R11 | SigLIP 2 weak with direct Arabic queries | M | L | Open | Translate visual queries to English via planner; caption-based retrieval. |
 | R12 | Arabic file names: NFC/NFD, very long paths, mixed scripts | M | M | Open | Normalize names for search; long-path manifest; unit tests. |
 | R13 | Legacy .doc/.xls common and unsupported by Open XML | H | M | Open | M5b sandboxed LibreOffice conversion if installed, else metadata only with clear UI note. |
@@ -33,7 +33,7 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | R26 | Private corpus leaked | L | H | Open | AGENTS.md rule 3, git-ignored `corpus/private/`, metrics-only reporting, no network in product. |
 | R27 | Ollama exposed beyond loopback or port hijacked | L | H | Mitigated | Strict loopback validation in `OllamaClient` rejects non-loopback endpoints; verified by 5 unit tests. |
 | R28 | Index corruption or crash inconsistency | M | M | Open | WAL mode, vector generations, rollback to previous valid generation. |
-| R39 | OneDrive/cloud placeholders trigger network downloads | M | H | Open | Skip files with recall-on-data-access/offline attributes; counter + UI note. |
+| R39 | OneDrive/cloud placeholders trigger network downloads | M | H | Mitigated | FileScanner filters out Offline, RecallOnDataAccess (0x00400000), and RecallOnOpen (0x00040000) attributes. |
 
 ## Models, Runtime, Performance Risks
 

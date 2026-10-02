@@ -1,12 +1,295 @@
 <Window x:Class="LocalFileAgent.App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="LocalFileAgent — باحث الملفات المحلي" Height="600" Width="900"
-        FlowDirection="RightToLeft">
-    <Grid Margin="16">
-        <TextBlock Text="LocalFileAgent — باحث الملفات المحلي (جاهز)" 
-                   FontSize="18" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"/>
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LocalFileAgent.App"
+        xmlns:search="clr-namespace:LocalFileAgent.Application.Search;assembly=LocalFileAgent.Application"
+        mc:Ignorable="d"
+        Title="{DynamicResource AppTitle}" 
+        Height="750" 
+        Width="1050"
+        MinHeight="500"
+        MinWidth="700"
+        WindowStartupLocation="CenterScreen"
+        FlowDirection="RightToLeft"
+        FontFamily="Segoe UI, Arial, Tahoma"
+        FontSize="14"
+        Background="#F5F6F8">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        
+        <!-- Style for badges -->
+        <Style x:Key="BadgeBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="6,2" />
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Top Header -->
+            <RowDefinition Height="Auto" /> <!-- Search Card -->
+            <RowDefinition Height="Auto" /> <!-- Indexing & Status Notification -->
+            <RowDefinition Height="*" />    <!-- Results Area -->
+            <RowDefinition Height="Auto" /> <!-- Footer Status Bar -->
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Header with App title and action chips -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="🔍" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Center" />
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{DynamicResource AppTitle}" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Foreground="#1A202C" />
+                    <TextBlock Text="البحث السريع والذكي في المستندات والملفات المحلية" 
+                               FontSize="12" 
+                               Foreground="#718096" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <!-- Stats chips -->
+                <Border Background="#E2E8F0" CornerRadius="6" Padding="10,6" Margin="4,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource IndexedFilesLabel}" Foreground="#4A5568" FontWeight="SemiBold" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding IndexedFilesCount}" Foreground="#2D3748" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#E2E8F0" CornerRadius="6" Padding="10,6" Margin="4,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource IndexedChunksLabel}" Foreground="#4A5568" FontWeight="SemiBold" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding IndexedChunksCount}" Foreground="#2D3748" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Index Folder Button -->
+                <Button Content="{DynamicResource IndexFolder}"
+                        Click="OnIndexFolderClick"
+                        Margin="8,0,0,0"
+                        Padding="14,6"
+                        Background="#3182CE"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        BorderThickness="0"
+                        Cursor="Hand">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Row 1: Search Box Card -->
+        <Border Grid.Row="1" 
+                Background="White" 
+                CornerRadius="8" 
+                Padding="16" 
+                BorderBrush="#E2E8F0" 
+                BorderThickness="1" 
+                Margin="0,0,0,12">
+            <StackPanel>
+                <!-- Search input box -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="SearchBox"
+                             Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"
+                             FontSize="16"
+                             Padding="10,8"
+                             BorderBrush="#CBD5E0"
+                             BorderThickness="1"
+                             Background="#FAFAFA"
+                             VerticalContentAlignment="Center" />
+
+                    <!-- Clear button -->
+                    <Button Grid.Column="1"
+                            Command="{Binding ClearSearchCommand}"
+                            Content="✕ مسح"
+                            Margin="8,0,0,0"
+                            Padding="12,6"
+                            Background="#ED8936"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontWeight="SemiBold"
+                            Cursor="Hand" />
+                </Grid>
+
+                <!-- Search Options & Quick Status -->
+                <Grid Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Trigram toggle -->
+                    <CheckBox Content="{DynamicResource TrigramMatch}"
+                              IsChecked="{Binding UseTrigram}"
+                              VerticalAlignment="Center"
+                              Foreground="#4A5568" />
+
+                    <!-- Search status message -->
+                    <TextBlock Grid.Column="1" 
+                               Text="{Binding StatusMessage}" 
+                               Margin="16,0"
+                               VerticalAlignment="Center" 
+                               Foreground="#4A5568" 
+                               FontSize="13" />
+
+                    <!-- Searching indicator -->
+                    <ProgressBar Grid.Column="2"
+                                 Width="100" 
+                                 Height="6" 
+                                 IsIndeterminate="True"
+                                 Visibility="{Binding IsSearching, Converter={StaticResource BoolToVisConverter}}" 
+                                 VerticalAlignment="Center" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Row 2: Indexing Progress Notification (shown when indexing) -->
+        <Border Grid.Row="2"
+                Background="#EBF8FF"
+                BorderBrush="#BEE3F8"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="12,8"
+                Margin="0,0,0,12"
+                Visibility="{Binding IsIndexing, Converter={StaticResource BoolToVisConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ProgressBar Width="120" Height="6" IsIndeterminate="True" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding IndexingMessage}" Foreground="#2B6CB0" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="{DynamicResource Cancel}"
+                        Command="{Binding CancelIndexingCommand}"
+                        Padding="10,4"
+                        Background="#E53E3E"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand" />
+            </Grid>
+        </Border>
+
+        <!-- Row 3: Search Results List -->
+        <Border Grid.Row="3" Background="White" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1" Padding="4">
+            <Grid>
+                <ListView ItemsSource="{Binding Results}"
+                          SelectedItem="{Binding SelectedResult}"
+                          BorderThickness="0"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type search:SearchResultViewModel}">
+                            <Border Margin="4,6" Padding="12" Background="#FAFAFA" CornerRadius="6" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <StackPanel>
+                                    <!-- Top Row: File Name + Badges -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- File name with LTR isolate -->
+                                        <TextBlock Text="{Binding DisplayFileName}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="16" 
+                                                   Foreground="#2B6CB0" />
+
+                                        <!-- Badges: SourceKind, Page, Score -->
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <Border Style="{StaticResource BadgeBorderStyle}" Background="#EDF2F7">
+                                                <TextBlock Text="{Binding SourceKindDisplay}" FontSize="11" Foreground="#4A5568" />
+                                            </Border>
+                                            <Border Style="{StaticResource BadgeBorderStyle}" Background="#FEFCBF">
+                                                <TextBlock Text="{Binding PageDisplay}" FontSize="11" Foreground="#744210" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <Border Style="{StaticResource BadgeBorderStyle}" Background="#E2E8F0">
+                                                <TextBlock Text="{Binding FormattedScore, StringFormat='الصلة: {0}'}" FontSize="11" Foreground="#4A5568"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Middle Row: Path rendered Left-to-Right -->
+                                    <TextBlock Text="{Binding DisplayPath}" 
+                                               FlowDirection="LeftToRight"
+                                               HorizontalAlignment="Left"
+                                               Foreground="#718096" 
+                                               FontSize="12" 
+                                               Margin="0,4,0,6" />
+
+                                    <!-- Bottom Row: Highlighted Snippet -->
+                                    <Border Background="#F7FAFC" CornerRadius="4" Padding="8,6" Margin="0,2,0,0">
+                                        <TextBlock local:SnippetHighlightBehavior.Runs="{Binding SnippetRuns}"
+                                                   TextWrapping="Wrap"
+                                                   FontSize="13"
+                                                   LineHeight="20"
+                                                   Foreground="#2D3748" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <!-- No Results Watermark -->
+                <TextBlock Text="{DynamicResource NoResults}"
+                           Foreground="#A0AEC0"
+                           FontSize="16"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="{Binding Results.Count, Converter={StaticResource BoolToVisConverter}}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Results.Count}" Value="0" />
+                                        <Condition Binding="{Binding IsSearching}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </Border>
+
+        <!-- Row 4: Footer Status Bar -->
+        <Grid Grid.Row="4" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{DynamicResource Ready}" Foreground="#A0AEC0" FontSize="12" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="LocalFileAgent v2 • محرك محلي 100%" Foreground="#A0AEC0" FontSize="12" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>

@@ -1,0 +1,188 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using LocalFileAgent.Domain.FileSystem;
+using LocalFileAgent.Domain.Storage;
+using LocalFileAgent.Domain.Text;
+using LocalFileAgent.Domain.Worker;
+
+namespace LocalFileAgent.Application.Indexing;
+
+public sealed record IndexingProgressReport(
+    int TotalDiscovered,
+    int IndexedCount,
+    int SkippedCount,
+    int FailedCount,
+    string CurrentFilePath
+);
+
+public sealed record IndexProgressResult(
+    int IndexedCount,
+    int SkippedCount,
+    int FailedCount,
+    TimeSpan Elapsed
+);
+
+public interface IIndexOrchestrator
+{
+    Task<IndexProgressResult> IndexDirectoryAsync(
+        string directoryPath,
+        ScanOptions? options = null,
+        IProgress<IndexingProgressReport>? progress = null,
+        CancellationToken cancellationToken = default
+    );
+}
+
+public sealed class IndexOrchestrator : IIndexOrchestrator
+{
+    private readonly IFileScanner _scanner;
+    private readonly IWorkerClient _worker;
+    private readonly IIndexStore _indexStore;
+    private readonly ITextNormalizer _normalizer;
+    private readonly IChunker _chunker;
+
+    public IndexOrchestrator(
+        IFileScanner scanner,
+        IWorkerClient worker,
+        IIndexStore indexStore,
+        ITextNormalizer normalizer,
+        IChunker chunker)
+    {
+        _scanner = scanner ?? throw new ArgumentNullException(nameof(scanner));
+        _worker = worker ?? throw new ArgumentNullException(nameof(worker));
+        _indexStore = indexStore ?? throw new ArgumentNullException(nameof(indexStore));
+        _normalizer = normalizer ?? throw new ArgumentNullException(nameof(normalizer));
+        _chunker = chunker ?? throw new ArgumentNullException(nameof(chunker));
+    }
+
+    public async Task<IndexProgressResult> IndexDirectoryAsync(
+        string directoryPath,
+        ScanOptions? options = null,
+        IProgress<IndexingProgressReport>? progress = null,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(directoryPath);
+
+        var start = DateTime.UtcNow;
+        options ??= new ScanOptions();
+
+        await _indexStore.InitializeAsync(cancellationToken).ConfigureAwait(false);
+        await _worker.StartAsync(cancellationToken).ConfigureAwait(false);
+
+        var totalDiscovered = 0;
+        var indexedCount = 0;
+        var skippedCount = 0;
+        var failedCount = 0;
+
+        await foreach (var file in _scanner.ScanAsync(directoryPath, options, null, cancellationToken).ConfigureAwait(false))
+        {
+            totalDiscovered++;
+            var etag = $"{file.SizeBytes}_{file.ModifiedAt.ToUnixTimeSeconds()}";
+
+            // Incremental check: has file already been indexed with same etag?
+            var existing = await _indexStore.GetFileByPathAsync(file.Path, cancellationToken).ConfigureAwait(false);
+            if (existing != null && existing.ETag == etag && existing.Status == "indexed")
+            {
+                skippedCount++;
+                progress?.Report(new IndexingProgressReport(totalDiscovered, indexedCount, skippedCount, failedCount, file.Path));
+                continue;
+            }
+
+            try
+            {
+                var parseReq = new WorkerParseRequest(
+                    RequestId: Guid.NewGuid().ToString("N"),
+                    FilePath: file.Path,
+                    Extension: file.Extension
+                );
+
+                var parseResp = await _worker.ParseFileAsync(parseReq, cancellationToken).ConfigureAwait(false);
+                if (!parseResp.Success)
+                {
+                    failedCount++;
+                    var failedFile = new IndexedFile(
+                        Id: 0,
+                        Path: file.Path,
+                        Name: file.Name,
+                        Extension: file.Extension,
+                        SizeBytes: file.SizeBytes,
+                        CreatedAt: file.CreatedAt,
+                        ModifiedAt: file.ModifiedAt,
+                        IndexedAt: DateTimeOffset.UtcNow,
+                        ETag: etag,
+                        Status: "failed",
+                        ErrorMessage: parseResp.ErrorMessage
+                    );
+                    await _indexStore.UpsertFileAsync(failedFile, cancellationToken).ConfigureAwait(false);
+                    progress?.Report(new IndexingProgressReport(totalDiscovered, indexedCount, skippedCount, failedCount, file.Path));
+                    continue;
+                }
+
+                var indexedFile = new IndexedFile(
+                    Id: 0,
+                    Path: file.Path,
+                    Name: file.Name,
+                    Extension: file.Extension,
+                    SizeBytes: file.SizeBytes,
+                    CreatedAt: file.CreatedAt,
+                    ModifiedAt: file.ModifiedAt,
+                    IndexedAt: DateTimeOffset.UtcNow,
+                    ETag: etag,
+                    Status: "indexed"
+                );
+
+                var fileId = await _indexStore.UpsertFileAsync(indexedFile, cancellationToken).ConfigureAwait(false);
+
+                var chunksList = new List<IndexedChunk>();
+                var chunkingOptions = new ChunkingOptions();
+
+                foreach (var page in parseResp.Pages)
+                {
+                    if (string.IsNullOrWhiteSpace(page.Text)) continue;
+
+                    var rawChunks = _chunker.Chunk(page.Text, chunkingOptions, page.PageNumber, page.SourceKind, page.Confidence);
+                    foreach (var rc in rawChunks)
+                    {
+                        var norm = _normalizer.Normalize(rc.Text, NormalizationProfile.Search);
+                        chunksList.Add(new IndexedChunk(
+                            Id: 0,
+                            FileId: fileId,
+                            PageNumber: rc.PageNumber,
+                            Ordinal: rc.Ordinal,
+                            TextRaw: rc.Text,
+                            TextNormalized: norm.ProcessedText,
+                            SourceKind: rc.SourceKind,
+                            Confidence: rc.Confidence
+                        ));
+                    }
+                }
+
+                await _indexStore.InsertChunksAsync(fileId, chunksList, cancellationToken).ConfigureAwait(false);
+                indexedCount++;
+            }
+            catch (Exception ex)
+            {
+                failedCount++;
+                var errFile = new IndexedFile(
+                    Id: 0,
+                    Path: file.Path,
+                    Name: file.Name,
+                    Extension: file.Extension,
+                    SizeBytes: file.SizeBytes,
+                    CreatedAt: file.CreatedAt,
+                    ModifiedAt: file.ModifiedAt,
+                    IndexedAt: DateTimeOffset.UtcNow,
+                    ETag: etag,
+                    Status: "failed",
+                    ErrorMessage: ex.Message
+                );
+                await _indexStore.UpsertFileAsync(errFile, cancellationToken).ConfigureAwait(false);
+            }
+
+            progress?.Report(new IndexingProgressReport(totalDiscovered, indexedCount, skippedCount, failedCount, file.Path));
+        }
+
+        return new IndexProgressResult(indexedCount, skippedCount, failedCount, DateTime.UtcNow - start);
+    }
+}

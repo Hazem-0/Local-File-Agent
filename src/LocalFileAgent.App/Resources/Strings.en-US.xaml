@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="AppTitle">LocalFileAgent — Local File Search</system:String>
+    <system:String x:Key="SearchPlaceholder">Search files (invoices, contracts, reports, IDs, text)...</system:String>
+    <system:String x:Key="IndexFolder">Index Folder...</system:String>
+    <system:String x:Key="Indexing">Indexing...</system:String>
+    <system:String x:Key="Cancel">Cancel</system:String>
+    <system:String x:Key="Clear">Clear</system:String>
+    <system:String x:Key="ScopeLabel">Search Scope:</system:String>
+    <system:String x:Key="AllScopes">All Indexed Files</system:String>
+    <system:String x:Key="TrigramMatch">Partial Match (Trigram)</system:String>
+    <system:String x:Key="IndexedFilesLabel">Files:</system:String>
+    <system:String x:Key="IndexedChunksLabel">Chunks:</system:String>
+    <system:String x:Key="NoResults">No matching files or snippets found</system:String>
+    <system:String x:Key="ScoreLabel">Score:</system:String>
+    <system:String x:Key="SourceKindLabel">Source:</system:String>
+    <system:String x:Key="Ready">Ready</system:String>
+
+</ResourceDictionary>

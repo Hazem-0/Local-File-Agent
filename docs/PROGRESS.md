@@ -1,5 +1,48 @@
 # Progress Tracking
 
+## M4 — Deterministic Arabic finder (2026-10-02)
+**Status:** done
+**Tasks done:**
+- T4.1 Read-only file scanner (`LocalFileAgent.Application.FileSystem`):
+  - `IFileScanner` and `FileScanner` supporting depth-limited recursion, cancellation tokens, and progress reporting.
+  - Traversal safety guards: skips hidden/system directories, skips symlink reparse points to avoid recursion cycles, and skips OneDrive/cloud placeholders (`Offline`, `RecallOnDataAccess`, `RecallOnOpen`).
+  - 5 unit tests in `LocalFileAgent.Application.Tests/FileScannerTests.cs`.
+- T4.2 SQLite database schema & FTS5 store (`LocalFileAgent.Infrastructure.Storage`):
+  - `IIndexStore` and `SqliteIndexStore` managing SQLite in WAL mode with normal sync and foreign keys enabled.
+  - Normalized schema: `files`, `chunks`, and external-content virtual tables `fts_chunks_unicode61` (exact token matching) and `fts_chunks_trigram` (substring matching).
+  - INSERT, UPDATE, and DELETE triggers keep FTS5 synchronized with zero manual indexing overhead.
+  - Path-scoped containment search and BM25 relevance scoring.
+  - 6 unit & integration tests in `LocalFileAgent.Infrastructure.Tests/SqliteIndexStoreTests.cs`.
+- T4.3 Worker process IPC protocol (`LocalFileAgent.Infrastructure.Worker` & `LocalFileAgent.Worker`):
+  - Out-of-process isolation for file parsing: `IWorkerClient` and `WorkerClient` communicating with `LocalFileAgent.Worker` over Named Pipes.
+  - Deterministic 4-byte length-prefixed binary JSON-RPC wire framing (`IpcProtocol`) preventing stream deadlocks.
+  - Standalone worker decodes text and CSV files via `EncodingDetector` and `ArabicOrderFixer`, and runs native Windows OCR (`ar-SA`) on image files.
+  - 2 integration tests in `LocalFileAgent.Infrastructure.Tests/WorkerClientTests.cs`.
+- T4.4 WPF shell with native RTL layout and `ar-EG` localization (`LocalFileAgent.App`):
+  - Native RTL interface (`FlowDirection="RightToLeft"`) with Arabic typography.
+  - Resource dictionaries `Strings.ar-EG.xaml` and `Strings.en-US.xaml`.
+  - Folder indexing dialog via native `OpenFolderDialog` and live progress display.
+  - Strict LTR isolate wrapping (`BidiHelper.WrapLtrIsolate`, `U+2066..U+2069`) for all file paths and filenames inside RTL layout.
+  - Dependency Injection container wired via `Microsoft.Extensions.Hosting` in `App.xaml.cs`.
+- T4.5 Instant substring search & highlight ViewModel (`LocalFileAgent.Application.Search`):
+  - `SearchViewModel` with debounced instant search (250ms), symmetric Arabic query normalization, and automatic trigram fallback.
+  - `SnippetHighlighter` using `ArabicTextNormalizer.OffsetMap` to map normalized token matches back to exact character offsets in the raw snippet without corrupting diacritics or typography.
+  - `SnippetHighlightBehavior` WPF attached property rendering highlighted runs seamlessly.
+  - 16 unit tests in `LocalFileAgent.Application.Tests` and end-to-end acceptance test in `LocalFileAgent.Acceptance.Tests/M4DeterministicArabicFinderTests.cs`.
+
+**Evidence:**
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 107 tests passing across 4 test projects).
+- Zero banned-API analyzer violations.
+- Corpus integrity verified (zero modifications to synthetic corpus files).
+
+**Next:**
+- Begin **Milestone M5 — Office & PDF Extractors**:
+  - T5.1 UglyToad.PdfPig + PDFiumCore per-page triage and extractor routing.
+  - T5.2 DocumentFormat.OpenXml for DOCX/PPTX text extraction and embedded image carving.
+  - T5.3 Quality gate integration routing broken text layers to OCR.
+
+---
+
 ## M3 — Ollama gateway and Arabic model bake-offs (2026-10-02)
 **Status:** done (Gate G3 reached)
 **Tasks done:**
