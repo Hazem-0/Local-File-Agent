@@ -13,6 +13,7 @@ using LocalFileAgent.Domain.Text;
 using LocalFileAgent.Domain.Worker;
 using LocalFileAgent.Infrastructure.Ollama;
 using LocalFileAgent.Infrastructure.Storage;
+using LocalFileAgent.Infrastructure.Vision;
 using LocalFileAgent.Infrastructure.Worker;
 using LocalFileAgent.Text;
 
@@ -43,8 +44,13 @@ public partial class App : System.Windows.Application
             var dbPath = AppDataPaths.GetDatabasePath();
             services.AddSingleton<IIndexStore>(_ => new SqliteIndexStore(dbPath));
             services.AddSingleton<IVectorIndex>(_ => new SqliteVectorIndex(dbPath));
+            services.AddSingleton<IVisualVectorIndex>(_ => new SqliteVisualVectorIndex(dbPath));
             services.AddSingleton<IOllamaClient>(_ => new OllamaClient(new System.Net.Http.HttpClient { BaseAddress = new Uri("http://127.0.0.1:11434") }));
             services.AddSingleton<IEmbeddingService, EmbeddingService>();
+            services.AddSingleton<IVisualEmbeddingService, VisualEmbeddingService>();
+            services.AddSingleton<IImageHasher, ImageHasher>();
+            services.AddSingleton<ITier2OcrService, Tier2OcrService>();
+            services.AddSingleton<IVisualDescriber, VisualDescriber>();
             services.AddSingleton<IWorkerClient, WorkerClient>();
             services.AddSingleton<IIndexOrchestrator, IndexOrchestrator>();
             services.AddSingleton<ISearchService, HybridSearchService>();

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LocalFileAgent.Domain.Text;
 
@@ -106,3 +108,11 @@ public interface IQueryAnalyzer
 {
     QueryAnalysis Analyze(string query);
 }
+
+public interface IImageHasher
+{
+    Task<ulong> ComputeDHashAsync(string imagePath, CancellationToken cancellationToken = default);
+    int ComputeHammingDistance(ulong hashA, ulong hashB);
+    bool AreNearDuplicates(ulong hashA, ulong hashB, int threshold = 5);
+}
+

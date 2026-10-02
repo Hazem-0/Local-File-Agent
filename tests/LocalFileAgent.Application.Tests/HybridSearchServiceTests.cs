@@ -22,6 +22,7 @@ public class HybridSearchServiceTests
         public Task InitializeAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
         public Task<long> UpsertFileAsync(IndexedFile file, CancellationToken cancellationToken = default) => Task.FromResult(1L);
         public Task<IndexedFile?> GetFileByPathAsync(string path, CancellationToken cancellationToken = default) => Task.FromResult<IndexedFile?>(null);
+        public Task<IndexedFile?> GetFileByIdAsync(long id, CancellationToken cancellationToken = default) => Task.FromResult<IndexedFile?>(null);
         public Task<IReadOnlyList<long>> InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default) => Task.FromResult<IReadOnlyList<long>>(Array.Empty<long>());
         public Task DeleteFileAsync(long fileId, CancellationToken cancellationToken = default) => Task.CompletedTask;
 

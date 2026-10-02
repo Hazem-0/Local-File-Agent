@@ -7,7 +7,7 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | ID | Risk | Likelihood | Impact | Status | Mitigation / Evidence |
 |---|---|---|---|---|---|
 | R01 | Arabic PDF text layers reversed, disconnected, or garbage | H | H | Mitigated | PdfExtractor + TextQualityGate + ArabicOrderFixer routes defective/reversed layers to OCR. Verified in M5 tests. |
-| R02 | Arabic OCR weak; small VLMs hallucinate or loop | H | H | Open | Two-tier OCR with quality gate (Windows OCR -> GLM-OCR), hallucination guards, noise-tolerant trigram/vector retrieval. |
+| R02 | Arabic OCR weak; small VLMs hallucinate or loop | H | H | Mitigated | Two-tier OCR with quality gate escalation (Tier2OcrService), RepetitionDetector loop cutoff, and TextQualityGate scoring. Verified in M7 tests. |
 | R03 | Windows OCR Arabic pack missing/unverified | M | H | Mitigated | Verified in M0 probe: `ar-SA` and `en-US` recognizers are installed and available. |
 | R04 | FTS tokenizer mishandles tashkeel/tatweel/digits | H | M | Mitigated | Text normalized via ArabicTextNormalizer in C# before FTS; queries symmetric. Verified in M4 tests. |
 | R05 | Over-normalization or stemming raises false positives | M | M | Open | Keep ة/ؤ/ئ normalization off by default; stemming is separate low-weight channel; ablate in M6. |
@@ -27,7 +27,7 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 |---|---|---|---|---|---|
 | R15 | Prompt injection through documents, OCR, captions | M | H | Open | Treat text as untrusted data, read-only schema tools, no tools in OCR/caption calls, grounding validator, injection test suite. |
 | R16 | Decompression bombs, malformed files, native crashes | M | H | Mitigated | Out-of-process worker process via Named Pipes isolates PDF/Office/Image parsers from UI/host process. |
-| R17 | Hallucinated captions or OCR presented as fact | M | M | Open | Explicit source labels (OCR/caption/live vision), confidence scores, "model-read" tag. |
+| R17 | Hallucinated captions or OCR presented as fact | M | M | Mitigated | Explicit provenance labels on every chunk (`ocr_win`, `ocr_glm`, `vlm`), confidence scores, and RepetitionDetector sanitization. Verified in M7 acceptance tests. |
 | R24 | Accidental modification of user files | L | H | Open | Banned-API analyzer, read-only handles, corpus-integrity test in every test run. |
 | R25 | Sensitive data (IDs, credentials) in index/logs | M | H | Open | Optional DPAPI encryption, private folder exclusions, no document text in logs, redaction options. |
 | R26 | Private corpus leaked | L | H | Open | AGENTS.md rule 3, git-ignored `corpus/private/`, metrics-only reporting, no network in product. |

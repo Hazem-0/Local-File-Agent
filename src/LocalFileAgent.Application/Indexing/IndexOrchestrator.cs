@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LocalFileAgent.Domain.FileSystem;
+using LocalFileAgent.Domain.Models;
 using LocalFileAgent.Domain.Search;
 using LocalFileAgent.Domain.Storage;
 using LocalFileAgent.Domain.Text;
@@ -44,6 +46,10 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
     private readonly IChunker _chunker;
     private readonly IVectorIndex? _vectorIndex;
     private readonly IEmbeddingService? _embeddingService;
+    private readonly IVisualVectorIndex? _visualVectorIndex;
+    private readonly IVisualEmbeddingService? _visualEmbedding;
+    private readonly ITier2OcrService? _tier2Ocr;
+    private readonly IVisualDescriber? _visualDescriber;
 
     public IndexOrchestrator(
         IFileScanner scanner,
@@ -52,7 +58,11 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
         ITextNormalizer normalizer,
         IChunker chunker,
         IVectorIndex? vectorIndex = null,
-        IEmbeddingService? embeddingService = null)
+        IEmbeddingService? embeddingService = null,
+        IVisualVectorIndex? visualVectorIndex = null,
+        IVisualEmbeddingService? visualEmbedding = null,
+        ITier2OcrService? tier2Ocr = null,
+        IVisualDescriber? visualDescriber = null)
     {
         _scanner = scanner ?? throw new ArgumentNullException(nameof(scanner));
         _worker = worker ?? throw new ArgumentNullException(nameof(worker));
@@ -61,6 +71,10 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
         _chunker = chunker ?? throw new ArgumentNullException(nameof(chunker));
         _vectorIndex = vectorIndex;
         _embeddingService = embeddingService;
+        _visualVectorIndex = visualVectorIndex;
+        _visualEmbedding = visualEmbedding;
+        _tier2Ocr = tier2Ocr;
+        _visualDescriber = visualDescriber;
     }
 
     public async Task<IndexProgressResult> IndexDirectoryAsync(
@@ -78,6 +92,10 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
         if (_vectorIndex != null)
         {
             await _vectorIndex.InitializeAsync(cancellationToken).ConfigureAwait(false);
+        }
+        if (_visualVectorIndex != null)
+        {
+            await _visualVectorIndex.InitializeAsync(cancellationToken).ConfigureAwait(false);
         }
         await _worker.StartAsync(cancellationToken).ConfigureAwait(false);
 
@@ -169,6 +187,101 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
                     }
                 }
 
+                if (IsImageFile(file.Extension))
+                {
+                    // Fast Lane: Dual-space Visual Embedding (1152-dim)
+                    if (_visualVectorIndex != null && _visualEmbedding != null)
+                    {
+                        try
+                        {
+                            var visualVec = await _visualEmbedding.GenerateImageEmbeddingAsync(file.Path, cancellationToken).ConfigureAwait(false);
+                            if (visualVec.Length > 0)
+                            {
+                                await _visualVectorIndex.AddAsync(new[] { (fileId, visualVec) }, cancellationToken).ConfigureAwait(false);
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
+                        }
+                        catch
+                        {
+                            // Non-fatal
+                        }
+                    }
+
+                    // Tier 2 OCR Escalation: Escalate if Tier 1 returned empty or low-confidence (<0.60) text
+                    var hasAdequateOcr = parseResp.Pages.Any(p => !string.IsNullOrWhiteSpace(p.Text) && p.Confidence >= 0.60f);
+                    if (!hasAdequateOcr && _tier2Ocr != null)
+                    {
+                        try
+                        {
+                            var ocr2 = await _tier2Ocr.RecognizeAsync(file.Path, cancellationToken).ConfigureAwait(false);
+                            if (ocr2 != null && !string.IsNullOrWhiteSpace(ocr2.Text))
+                            {
+                                var ocrChunks = _chunker.Chunk(ocr2.Text, chunkingOptions, 1, ocr2.Engine, ocr2.Confidence);
+                                foreach (var rc in ocrChunks)
+                                {
+                                    var norm = _normalizer.Normalize(rc.Text, NormalizationProfile.Search);
+                                    chunksList.Add(new IndexedChunk(
+                                        Id: 0,
+                                        FileId: fileId,
+                                        PageNumber: rc.PageNumber,
+                                        Ordinal: chunksList.Count + rc.Ordinal,
+                                        TextRaw: rc.Text,
+                                        TextNormalized: norm.ProcessedText,
+                                        SourceKind: rc.SourceKind,
+                                        Confidence: rc.Confidence
+                                    ));
+                                }
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
+                        }
+                        catch
+                        {
+                            // Non-fatal
+                        }
+                    }
+
+                    // Slow Lane: Visual Describer (Arabic VLM document/scene captioning)
+                    if (_visualDescriber != null)
+                    {
+                        try
+                        {
+                            var vlmDesc = await _visualDescriber.DescribeImageAsync(file.Path, cancellationToken).ConfigureAwait(false);
+                            if (vlmDesc != null && !string.IsNullOrWhiteSpace(vlmDesc.Summary))
+                            {
+                                var descChunks = _chunker.Chunk(vlmDesc.Summary, chunkingOptions, 1, "vlm", vlmDesc.Confidence);
+                                foreach (var rc in descChunks)
+                                {
+                                    var norm = _normalizer.Normalize(rc.Text, NormalizationProfile.Search);
+                                    chunksList.Add(new IndexedChunk(
+                                        Id: 0,
+                                        FileId: fileId,
+                                        PageNumber: rc.PageNumber,
+                                        Ordinal: chunksList.Count + rc.Ordinal,
+                                        TextRaw: rc.Text,
+                                        TextNormalized: norm.ProcessedText,
+                                        SourceKind: "vlm",
+                                        Confidence: rc.Confidence
+                                    ));
+                                }
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
+                        }
+                        catch
+                        {
+                            // Non-fatal
+                        }
+                    }
+                }
+
                 var chunkIds = await _indexStore.InsertChunksAsync(fileId, chunksList, cancellationToken).ConfigureAwait(false);
 
                 if (_vectorIndex != null && _embeddingService != null && chunkIds.Count > 0)
@@ -225,4 +338,11 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
 
         return new IndexProgressResult(indexedCount, skippedCount, failedCount, DateTime.UtcNow - start);
     }
+
+    private static bool IsImageFile(string extension) =>
+        extension.Equals(".png", StringComparison.OrdinalIgnoreCase) ||
+        extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
+        extension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase) ||
+        extension.Equals(".bmp", StringComparison.OrdinalIgnoreCase) ||
+        extension.Equals(".tiff", StringComparison.OrdinalIgnoreCase);
 }

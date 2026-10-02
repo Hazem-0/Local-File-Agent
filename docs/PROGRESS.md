@@ -1,5 +1,46 @@
 # Progress Tracking
 
+## M7 — Visual pipeline (2026-10-02)
+**Status:** done
+**Tasks done:**
+- T7.1 Two-tier OCR quality gate escalation (`LocalFileAgent.Infrastructure/Ollama/Tier2OcrService.cs`, `IndexOrchestrator.cs`):
+  - Tier 1 Windows Media OCR (`ar-SA`) runs during worker file parsing.
+  - If Tier 1 produces empty or low-confidence text (<0.60 score from `TextQualityGate`), `IndexOrchestrator` escalates to `Tier2OcrService` on local Ollama loopback (`gemma4:e2b` / `glm-ocr`).
+  - Integrated `RepetitionDetector` to detect and trim hallucinated runaway token loops from small VLMs, and `ArabicOrderFixer` to reverse visual-order Arabic streams.
+  - Provable attribution: escalated OCR chunks are tagged with `ocr_glm` / `ocr_vlm` provenance and confidence.
+- T7.2 Fast Lane visual embeddings & perceptual deduplication (`LocalFileAgent.Infrastructure/Vision`, `SqliteVisualVectorIndex.cs`):
+  - `ImageHasher`: 64-bit perceptual difference hash (`dHash` 9x8) with single-cycle hardware `POPCNT` (`BitOperations.PopCount(h1 ^ h2)`) Hamming distance calculation. Detects exact copies and near-duplicate document layouts with zero model inference latency.
+  - `VisualEmbeddingService`: generates unit L2-normalized 1152-dimensional dual-space visual embeddings (SigLIP 2 feature space) for images and text queries.
+  - `SqliteVisualVectorIndex`: manages SQLite table `file_visual_vectors (file_id, dimensions, vector BLOB)` with IEEE 754 zero-copy span casting and hardware SIMD `TensorPrimitives.CosineSimilarity`.
+- T7.3 Slow Lane background visual describer / captioner (`LocalFileAgent.Infrastructure/Ollama/VisualDescriber.cs`):
+  - Background VLM Arabic document and scene captioner generating structured first-sentence captions and detailed summaries.
+  - Protected against repetition loops; indexed into SQLite chunks with `SourceKind = "vlm"`.
+  - VLM caption chunks are immediately indexed in FTS5 (`unicode61` and `trigram`) and vector spaces, enabling rich visual scene search in Arabic.
+- T7.4 Multi-modal 3-way RRF hybrid search (`HybridSearchService.cs`, `App.xaml.cs`):
+  - Extended `HybridSearchService` with 3-way Reciprocal Rank Fusion fusing Lexical ($w_{\text{lex}} = 0.5$), Semantic ($w_{\text{sem}} = 0.5$), and Visual ($w_{\text{vis}} = 0.3$) candidates.
+  - DI registration in `App.xaml.cs` for `IImageHasher`, `IVisualEmbeddingService`, `IVisualVectorIndex`, `ITier2OcrService`, and `IVisualDescriber`.
+- T7.5 Unit & Acceptance verification:
+  - Unit tests in `LocalFileAgent.Infrastructure.Tests/ImageHasherTests.cs`, `SqliteVisualVectorIndexTests.cs`, and `Tier2OcrAndVisualDescriberTests.cs`.
+  - Acceptance tests in `LocalFileAgent.Acceptance.Tests/M7VisualPipelineAcceptanceTests.cs`:
+    - Verified near-duplicate image detection on synthetic invoices.
+    - Verified Tier 2 OCR escalation for degraded scan images with FTS5 searchability.
+    - Verified Arabic scene description retrieval for VLM chunks.
+    - Verified 1152-dimensional visual vector search.
+
+**Evidence:**
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 143 tests passing across 4 test projects).
+- Zero banned-API analyzer violations.
+- Corpus integrity verified.
+- Mitigated risks **R02** and **R17** in `docs/risks.md`.
+
+**Next:**
+- Begin **Milestone M8 — Local Agent & Incremental Indexing**:
+  - T8.1 Agent loop (Call A: Search Planning / Query Translation -> Tools Execution -> Call B: Grounded Answer Synthesis).
+  - T8.2 Grounding & hallucination validator (evidence citations, path and page provenance).
+  - T8.3 Incremental indexing watcher (`FileSystemWatcher` + USN change journal journal integration).
+
+---
+
 ## M6 — Embeddings & hybrid search (2026-10-02)
 **Status:** done
 **Tasks done:**

@@ -211,6 +211,47 @@ public sealed class SqliteIndexStore : IIndexStore
         }
     }
 
+    public async Task<IndexedFile?> GetFileByIdAsync(long id, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            using var cmd = _connection!.CreateCommand();
+            cmd.CommandText = @"
+                SELECT id, path, name, extension, size_bytes, created_at, modified_at, indexed_at, etag, status, error_message
+                FROM files
+                WHERE id = @id;
+            ";
+            cmd.Parameters.AddWithValue("@id", id);
+
+            using var reader = await cmd.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+            if (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+            {
+                return new IndexedFile(
+                    Id: reader.GetInt64(0),
+                    Path: reader.GetString(1),
+                    Name: reader.GetString(2),
+                    Extension: reader.GetString(3),
+                    SizeBytes: reader.GetInt64(4),
+                    CreatedAt: DateTimeOffset.Parse(reader.GetString(5), System.Globalization.CultureInfo.InvariantCulture),
+                    ModifiedAt: DateTimeOffset.Parse(reader.GetString(6), System.Globalization.CultureInfo.InvariantCulture),
+                    IndexedAt: DateTimeOffset.Parse(reader.GetString(7), System.Globalization.CultureInfo.InvariantCulture),
+                    ETag: reader.GetString(8),
+                    Status: reader.GetString(9),
+                    ErrorMessage: reader.IsDBNull(10) ? null : reader.GetString(10)
+                );
+            }
+
+            return null;
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
     public async Task<IReadOnlyList<long>> InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(chunks);

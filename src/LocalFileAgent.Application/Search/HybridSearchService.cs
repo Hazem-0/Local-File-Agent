@@ -14,6 +14,8 @@ public sealed class HybridSearchService : ISearchService
     private readonly IIndexStore _indexStore;
     private readonly IVectorIndex? _vectorIndex;
     private readonly IEmbeddingService? _embeddingService;
+    private readonly IVisualVectorIndex? _visualVectorIndex;
+    private readonly IVisualEmbeddingService? _visualEmbedding;
     private readonly ITextNormalizer _normalizer;
     private readonly HybridSearchOptions _options;
 
@@ -22,12 +24,16 @@ public sealed class HybridSearchService : ISearchService
         ITextNormalizer normalizer,
         IVectorIndex? vectorIndex = null,
         IEmbeddingService? embeddingService = null,
+        IVisualVectorIndex? visualVectorIndex = null,
+        IVisualEmbeddingService? visualEmbedding = null,
         HybridSearchOptions? options = null)
     {
         _indexStore = indexStore ?? throw new ArgumentNullException(nameof(indexStore));
         _normalizer = normalizer ?? throw new ArgumentNullException(nameof(normalizer));
         _vectorIndex = vectorIndex;
         _embeddingService = embeddingService;
+        _visualVectorIndex = visualVectorIndex;
+        _visualEmbedding = visualEmbedding;
         _options = options ?? new HybridSearchOptions();
     }
 
@@ -114,8 +120,64 @@ public sealed class HybridSearchService : ISearchService
             }
         }
 
-        // Step 3: Reciprocal Rank Fusion (RRF)
-        var fusedResults = PerformReciprocalRankFusion(lexicalCandidates, vectorCandidates, _options);
+        // Step 3: Visual Search (Dual-space SigLIP 2 query)
+        IReadOnlyList<SearchResultItem> visualCandidates = Array.Empty<SearchResultItem>();
+        if (_visualVectorIndex != null && _visualEmbedding != null)
+        {
+            try
+            {
+                var visualQuery = await _visualEmbedding.GenerateTextEmbeddingAsync(request.Query, cancellationToken).ConfigureAwait(false);
+                if (visualQuery.Length > 0)
+                {
+                    var visualHits = await _visualVectorIndex.SearchAsync(
+                        visualQuery,
+                        k: _options.VisualCandidateLimit,
+                        filter: null,
+                        cancellationToken: cancellationToken
+                    ).ConfigureAwait(false);
+
+                    if (visualHits.Count > 0)
+                    {
+                        var visualList = new List<SearchResultItem>(visualHits.Count);
+                        foreach (var hit in visualHits)
+                        {
+                            var file = await _indexStore.GetFileByIdAsync(hit.FileId, cancellationToken).ConfigureAwait(false);
+                            if (file != null)
+                            {
+                                if (request.ScopePaths != null && request.ScopePaths.Count > 0 &&
+                                    !request.ScopePaths.Any(sp => file.Path.StartsWith(sp, StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    continue;
+                                }
+
+                                visualList.Add(new SearchResultItem(
+                                    FilePath: file.Path,
+                                    FileName: file.Name,
+                                    PageNumber: 1,
+                                    SourceKind: "visual_siglip",
+                                    Score: hit.Score,
+                                    Snippet: file.Name,
+                                    ChunkId: hit.FileId,
+                                    MatchKind: "visual"
+                                ));
+                            }
+                        }
+                        visualCandidates = visualList;
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch
+            {
+                // Graceful degradation: visual search failure does not disrupt lexical/semantic results
+            }
+        }
+
+        // Step 4: Reciprocal Rank Fusion (RRF: Lexical + Semantic + Visual)
+        var fusedResults = PerformReciprocalRankFusion(lexicalCandidates, vectorCandidates, visualCandidates, _options);
 
         if (fusedResults.Count > request.Limit)
         {
@@ -128,9 +190,10 @@ public sealed class HybridSearchService : ISearchService
     private static List<SearchResultItem> PerformReciprocalRankFusion(
         IReadOnlyList<SearchResultItem> lexical,
         IReadOnlyList<SearchResultItem> semantic,
+        IReadOnlyList<SearchResultItem> visual,
         HybridSearchOptions options)
     {
-        var fusedMap = new Dictionary<string, (SearchResultItem Item, bool InLex, bool InSem, double RrfScore)>(StringComparer.OrdinalIgnoreCase);
+        var fusedMap = new Dictionary<string, (SearchResultItem Item, bool InLex, bool InSem, bool InVis, double RrfScore)>(StringComparer.OrdinalIgnoreCase);
 
         // Lexical ranking pass
         for (var i = 0; i < lexical.Count; i++)
@@ -140,7 +203,7 @@ public sealed class HybridSearchService : ISearchService
             var key = GetCandidateKey(item);
             var term = options.LexicalWeight / (options.RrfK + rank);
 
-            fusedMap[key] = (item, InLex: true, InSem: false, RrfScore: term);
+            fusedMap[key] = (item, InLex: true, InSem: false, InVis: false, RrfScore: term);
         }
 
         // Semantic ranking pass
@@ -153,22 +216,43 @@ public sealed class HybridSearchService : ISearchService
 
             if (fusedMap.TryGetValue(key, out var existing))
             {
-                fusedMap[key] = (existing.Item, InLex: true, InSem: true, RrfScore: existing.RrfScore + term);
+                fusedMap[key] = (existing.Item, InLex: true, InSem: true, InVis: existing.InVis, RrfScore: existing.RrfScore + term);
             }
             else
             {
-                fusedMap[key] = (item, InLex: false, InSem: true, RrfScore: term);
+                fusedMap[key] = (item, InLex: false, InSem: true, InVis: false, RrfScore: term);
+            }
+        }
+
+        // Visual ranking pass
+        for (var i = 0; i < visual.Count; i++)
+        {
+            var item = visual[i];
+            var rank = i + 1;
+            var key = GetCandidateKey(item);
+            var term = options.VisualWeight / (options.RrfK + rank);
+
+            if (fusedMap.TryGetValue(key, out var existing))
+            {
+                fusedMap[key] = (existing.Item, InLex: existing.InLex, InSem: existing.InSem, InVis: true, RrfScore: existing.RrfScore + term);
+            }
+            else
+            {
+                fusedMap[key] = (item, InLex: false, InSem: false, InVis: true, RrfScore: term);
             }
         }
 
         var results = new List<SearchResultItem>(fusedMap.Count);
         foreach (var entry in fusedMap.Values)
         {
-            var matchKind = (entry.InLex, entry.InSem) switch
+            var matchKind = (entry.InLex, entry.InSem, entry.InVis) switch
             {
-                (true, true) => "hybrid",
-                (true, false) => "fts",
-                (false, true) => "vector",
+                (true, true, _) => "hybrid",
+                (true, false, true) => "hybrid",
+                (false, true, true) => "hybrid",
+                (true, false, false) => "fts",
+                (false, true, false) => "vector",
+                (false, false, true) => "visual",
                 _ => "fts"
             };
 

@@ -36,6 +36,7 @@ public interface IIndexStore : IAsyncDisposable
     Task InitializeAsync(CancellationToken cancellationToken = default);
     Task<long> UpsertFileAsync(IndexedFile file, CancellationToken cancellationToken = default);
     Task<IndexedFile?> GetFileByPathAsync(string path, CancellationToken cancellationToken = default);
+    Task<IndexedFile?> GetFileByIdAsync(long id, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<long>> InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default);
     Task DeleteFileAsync(long fileId, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<SearchResultItem>> GetChunksByIdsAsync(

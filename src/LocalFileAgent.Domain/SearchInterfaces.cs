@@ -25,9 +25,11 @@ public sealed record SearchResultItem(
 public sealed record HybridSearchOptions(
     float LexicalWeight = 0.5f,
     float SemanticWeight = 0.5f,
+    float VisualWeight = 0.3f,
     int RrfK = 60,
     int LexicalCandidateLimit = 50,
-    int SemanticCandidateLimit = 50
+    int SemanticCandidateLimit = 50,
+    int VisualCandidateLimit = 20
 );
 
 public interface ISearchService
@@ -50,3 +52,19 @@ public interface IVectorIndex : IAsyncDisposable
     Task DeleteAsync(IReadOnlyList<long> ids, CancellationToken cancellationToken = default);
     Task<int> GetCountAsync(CancellationToken cancellationToken = default);
 }
+
+public interface IVisualEmbeddingService
+{
+    Task<float[]> GenerateImageEmbeddingAsync(string imagePath, CancellationToken cancellationToken = default);
+    Task<float[]> GenerateTextEmbeddingAsync(string text, CancellationToken cancellationToken = default);
+}
+
+public interface IVisualVectorIndex : IAsyncDisposable
+{
+    Task InitializeAsync(CancellationToken cancellationToken = default);
+    Task AddAsync(IReadOnlyList<(long FileId, float[] Vector)> items, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<(long FileId, float Score)>> SearchAsync(float[] query, int k, Func<long, bool>? filter = null, CancellationToken cancellationToken = default);
+    Task DeleteAsync(IReadOnlyList<long> fileIds, CancellationToken cancellationToken = default);
+    Task<int> GetCountAsync(CancellationToken cancellationToken = default);
+}
+

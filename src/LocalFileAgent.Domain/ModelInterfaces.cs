@@ -72,3 +72,28 @@ public interface IOllamaClient
     Task<GenerateResponse> GenerateAsync(GenerateRequest request, CancellationToken cancellationToken = default);
     Task<EmbeddingResponse> EmbedAsync(EmbeddingRequest request, CancellationToken cancellationToken = default);
 }
+
+public sealed record VisualDescriptionResult(
+    string Caption,
+    string Summary,
+    float Confidence
+);
+
+public interface IVisualDescriber
+{
+    Task<VisualDescriptionResult?> DescribeImageAsync(string imagePath, CancellationToken cancellationToken = default);
+    Task<VisualDescriptionResult?> DescribeImageBase64Async(string base64Image, CancellationToken cancellationToken = default);
+}
+
+public sealed record OcrExtractionResult(
+    string Text,
+    float Confidence,
+    string Engine
+);
+
+public interface ITier2OcrService
+{
+    Task<OcrExtractionResult?> RecognizeAsync(string imagePath, CancellationToken cancellationToken = default);
+    Task<OcrExtractionResult?> RecognizeBase64Async(string base64Image, CancellationToken cancellationToken = default);
+}
+
