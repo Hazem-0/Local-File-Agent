@@ -84,7 +84,24 @@ public partial class App : System.Windows.Application
         mainWindow.DataContext = viewModel;
         mainWindow.Show();
 
-        _ = viewModel.RefreshStatsCommand.ExecuteAsync(null);
+        var indexStore = _host.Services.GetRequiredService<IIndexStore>();
+        var vectorIndex = _host.Services.GetService<IVectorIndex>();
+        var visualVectorIndex = _host.Services.GetService<IVisualVectorIndex>();
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await indexStore.InitializeAsync().ConfigureAwait(false);
+                if (vectorIndex != null) await vectorIndex.InitializeAsync().ConfigureAwait(false);
+                if (visualVectorIndex != null) await visualVectorIndex.InitializeAsync().ConfigureAwait(false);
+                await viewModel.RefreshStatsAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                // Non-fatal
+            }
+        });
     }
 
     protected override async void OnExit(ExitEventArgs e)

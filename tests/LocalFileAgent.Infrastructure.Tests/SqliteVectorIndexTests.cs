@@ -180,4 +180,27 @@ public class SqliteVectorIndexTests : IDisposable
         hits.Should().HaveCount(1);
         hits[0].Id.Should().Be(2L);
     }
+
+    [Fact]
+    public async Task UninitializedVectorIndex_AutoInitializesLazilyOnFirstAccess()
+    {
+        var tempPath = Path.Combine(Path.GetTempPath(), $"lfa_uninit_vec_{Guid.NewGuid():N}.db");
+        await using var index = new SqliteVectorIndex(tempPath);
+        try
+        {
+            var count = await index.GetCountAsync();
+            count.Should().Be(0);
+
+            var hits = await index.SearchAsync(new float[] { 1.0f, 0.0f }, k: 5);
+            hits.Should().BeEmpty();
+        }
+        finally
+        {
+            await index.DisposeAsync();
+            if (File.Exists(tempPath))
+            {
+                try { File.Delete(tempPath); } catch { }
+            }
+        }
+    }
 }

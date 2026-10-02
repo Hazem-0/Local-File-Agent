@@ -1,5 +1,20 @@
 # Progress Tracking
 
+## Post-Release Maintenance — Storage Lazy Auto-Initialization Fix (2026-10-02)
+**Status:** done
+**Tasks done:**
+- Fixed uninitialized SQLite error (`SqliteIndexStore is not initialized. Call InitializeAsync first.`) occurring when a user immediately executes an Agent or Hybrid search before running a folder index pass.
+- Implemented lazy, thread-safe `EnsureInitializedAsync()` in `SqliteIndexStore`, `SqliteVectorIndex`, and `SqliteVisualVectorIndex`.
+- Added eager background initialization in `App.xaml.cs` (`OnStartup`) and pre-emptive initialization check in `HybridSearchService.SearchAsync`.
+- Added unit tests in `SqliteIndexStoreTests.cs`, `SqliteVectorIndexTests.cs`, and `SqliteVisualVectorIndexTests.cs` verifying querying uninitialized stores auto-initializes without throwing.
+- Re-packaged distribution binaries in `dist/LocalFileAgent/` via `tools/publish.ps1`.
+
+**Evidence:**
+- `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 171 tests passing across 4 test projects).
+- `tools/publish.ps1` successfully built Release self-contained binaries to `dist/LocalFileAgent/`.
+
+---
+
 ## M9 — Hardening, performance tuning & offline release (2026-10-02)
 **Status:** done (Gate G7 Passed)
 **Tasks done:**

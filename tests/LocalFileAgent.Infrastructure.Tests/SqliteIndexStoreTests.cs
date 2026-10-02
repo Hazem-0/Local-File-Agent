@@ -269,4 +269,31 @@ public class SqliteIndexStoreTests : IAsyncLifetime, IDisposable
         var searchResults = await _store.SearchFtsAsync("مؤقت", limit: 10, cancellationToken: CancellationToken.None);
         searchResults.Should().BeEmpty();
     }
+
+    [Fact]
+    public async Task UninitializedStore_AutoInitializesLazilyOnFirstAccess()
+    {
+        var uninitializedDbPath = Path.Combine(Path.GetTempPath(), $"lfa_uninit_test_{Guid.NewGuid():N}.db");
+        await using var store = new SqliteIndexStore(uninitializedDbPath);
+        try
+        {
+            // Call methods without calling InitializeAsync first
+            var fileCount = await store.GetIndexedFileCountAsync(CancellationToken.None);
+            fileCount.Should().Be(0);
+
+            var chunkCount = await store.GetChunkCountAsync(CancellationToken.None);
+            chunkCount.Should().Be(0);
+
+            var searchResults = await store.SearchFtsAsync("عايز", limit: 10, cancellationToken: CancellationToken.None);
+            searchResults.Should().BeEmpty();
+        }
+        finally
+        {
+            await store.DisposeAsync();
+            if (File.Exists(uninitializedDbPath))
+            {
+                try { File.Delete(uninitializedDbPath); } catch { }
+            }
+        }
+    }
 }

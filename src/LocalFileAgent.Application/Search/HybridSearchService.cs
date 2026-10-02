@@ -51,6 +51,10 @@ public sealed class HybridSearchService : ISearchService
             ? request.Query.Trim()
             : normResult.ProcessedText;
 
+        await _indexStore.InitializeAsync(cancellationToken).ConfigureAwait(false);
+        if (_vectorIndex != null) await _vectorIndex.InitializeAsync(cancellationToken).ConfigureAwait(false);
+        if (_visualVectorIndex != null) await _visualVectorIndex.InitializeAsync(cancellationToken).ConfigureAwait(false);
+
         // Step 1: Lexical Search (FTS5)
         var lexicalCandidates = await _indexStore.SearchFtsAsync(
             normalizedQuery,

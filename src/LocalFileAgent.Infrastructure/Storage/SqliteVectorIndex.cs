@@ -87,7 +87,7 @@ public sealed class SqliteVectorIndex : IVectorIndex
         ArgumentNullException.ThrowIfNull(items);
         if (items.Count == 0) return;
 
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -231,7 +231,7 @@ public sealed class SqliteVectorIndex : IVectorIndex
         ArgumentNullException.ThrowIfNull(ids);
         if (ids.Count == 0) return;
 
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -272,6 +272,14 @@ public sealed class SqliteVectorIndex : IVectorIndex
 
         _vectors.Clear();
         _lock.Dispose();
+    }
+
+    private async Task EnsureInitializedAsync(CancellationToken cancellationToken = default)
+    {
+        if (_connection == null)
+        {
+            await InitializeAsync(cancellationToken).ConfigureAwait(false);
+        }
     }
 
     private void EnsureInitialized()

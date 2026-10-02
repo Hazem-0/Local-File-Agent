@@ -112,4 +112,27 @@ public class SqliteVisualVectorIndexTests : IDisposable
         var results = await index.SearchAsync(vec1, k: 5);
         results.Should().BeEmpty();
     }
+
+    [Fact]
+    public async Task UninitializedVisualVectorIndex_AutoInitializesLazilyOnFirstAccess()
+    {
+        var tempPath = Path.Combine(Path.GetTempPath(), $"lfa_uninit_visvec_{Guid.NewGuid():N}.db");
+        await using var index = new SqliteVisualVectorIndex(tempPath);
+        try
+        {
+            var count = await index.GetCountAsync();
+            count.Should().Be(0);
+
+            var results = await index.SearchAsync(new float[] { 1.0f, 0.0f }, k: 5);
+            results.Should().BeEmpty();
+        }
+        finally
+        {
+            await index.DisposeAsync();
+            if (File.Exists(tempPath))
+            {
+                try { File.Delete(tempPath); } catch { }
+            }
+        }
+    }
 }

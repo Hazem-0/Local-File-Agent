@@ -127,7 +127,7 @@ public sealed class SqliteIndexStore : IIndexStore
     public async Task<long> UpsertFileAsync(IndexedFile file, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(file);
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -172,7 +172,7 @@ public sealed class SqliteIndexStore : IIndexStore
     public async Task<IndexedFile?> GetFileByPathAsync(string path, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -213,7 +213,7 @@ public sealed class SqliteIndexStore : IIndexStore
 
     public async Task<IndexedFile?> GetFileByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -255,7 +255,7 @@ public sealed class SqliteIndexStore : IIndexStore
     public async Task<IReadOnlyList<long>> InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(chunks);
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         if (chunks.Count == 0)
         {
@@ -310,7 +310,7 @@ public sealed class SqliteIndexStore : IIndexStore
         IReadOnlyList<string>? scopePaths = null,
         CancellationToken cancellationToken = default)
     {
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         if (chunkIds == null || chunkIds.Count == 0)
         {
@@ -397,7 +397,7 @@ public sealed class SqliteIndexStore : IIndexStore
 
     public async Task DeleteFileAsync(long fileId, CancellationToken cancellationToken = default)
     {
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -420,7 +420,7 @@ public sealed class SqliteIndexStore : IIndexStore
         bool useTrigram = false,
         CancellationToken cancellationToken = default)
     {
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(normalizedQuery))
         {
@@ -508,7 +508,7 @@ public sealed class SqliteIndexStore : IIndexStore
 
     public async Task<long> GetIndexedFileCountAsync(CancellationToken cancellationToken = default)
     {
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
@@ -525,7 +525,7 @@ public sealed class SqliteIndexStore : IIndexStore
 
     public async Task<long> GetChunkCountAsync(CancellationToken cancellationToken = default)
     {
-        EnsureInitialized();
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
@@ -548,6 +548,14 @@ public sealed class SqliteIndexStore : IIndexStore
             _connection = null;
         }
         _lock.Dispose();
+    }
+
+    private async Task EnsureInitializedAsync(CancellationToken cancellationToken = default)
+    {
+        if (_connection == null)
+        {
+            await InitializeAsync(cancellationToken).ConfigureAwait(false);
+        }
     }
 
     private void EnsureInitialized()
