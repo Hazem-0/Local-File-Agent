@@ -143,6 +143,63 @@ public sealed class OllamaClient : IOllamaClient
         );
     }
 
+    public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        var targetUri = new Uri(_baseUri, "/api/generate");
+        ValidateLoopback(targetUri);
+
+        var payload = new Dictionary<string, object>
+        {
+            ["model"] = request.Model,
+            ["prompt"] = request.Prompt,
+            ["stream"] = false,
+            ["options"] = new Dictionary<string, object>
+            {
+                ["temperature"] = request.Temperature
+            }
+        };
+
+        if (request.ImagesBase64 is { Count: > 0 })
+        {
+            payload["images"] = request.ImagesBase64;
+        }
+
+        if (request.KeepAlive is not null)
+        {
+            payload["keep_alive"] = request.KeepAlive;
+        }
+
+        if (request.FormatSchema.HasValue)
+        {
+            payload["format"] = request.FormatSchema.Value;
+        }
+
+        var json = JsonSerializer.Serialize(payload, JsonOptions);
+        using var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        using var response = await _httpClient.PostAsync(targetUri, content, cancellationToken).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+
+        var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        var root = doc.RootElement;
+        var model = root.TryGetProperty("model", out var mProp) ? mProp.GetString() ?? request.Model : request.Model;
+        var responseText = root.TryGetProperty("response", out var rProp) ? rProp.GetString() ?? string.Empty : string.Empty;
+        var promptTokens = root.TryGetProperty("prompt_eval_count", out var peProp) ? peProp.GetInt64() : 0L;
+        var completionTokens = root.TryGetProperty("eval_count", out var eProp) ? eProp.GetInt64() : 0L;
+        var totalDurationNanos = root.TryGetProperty("total_duration", out var tdProp) ? tdProp.GetInt64() : 0L;
+
+        return new GenerateResponse(
+            Model: model,
+            Response: responseText,
+            PromptTokens: promptTokens,
+            CompletionTokens: completionTokens,
+            TotalDurationMs: totalDurationNanos / 1_000_000.0
+        );
+    }
+
     public async Task<EmbeddingResponse> EmbedAsync(EmbeddingRequest request, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);

@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvalHarness", "tools\EvalHarness\EvalHarness.csproj", "{A7AA2ABD-E346-4C9D-99CA-2DA540DF3E4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelBakeOff", "tools\ModelBakeOff\ModelBakeOff.csproj", "{B094793E-0570-4EC2-A531-2814A1C713EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -185,6 +187,18 @@ Global
 		{A7AA2ABD-E346-4C9D-99CA-2DA540DF3E4F}.Release|x64.Build.0 = Release|Any CPU
 		{A7AA2ABD-E346-4C9D-99CA-2DA540DF3E4F}.Release|x86.ActiveCfg = Release|Any CPU
 		{A7AA2ABD-E346-4C9D-99CA-2DA540DF3E4F}.Release|x86.Build.0 = Release|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Debug|x64.Build.0 = Debug|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Debug|x86.Build.0 = Debug|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Release|x64.ActiveCfg = Release|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Release|x64.Build.0 = Release|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Release|x86.ActiveCfg = Release|Any CPU
+		{B094793E-0570-4EC2-A531-2814A1C713EA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -192,5 +206,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0492E1D7-026F-45E1-BA4B-DD84976350C9} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 		{A7AA2ABD-E346-4C9D-99CA-2DA540DF3E4F} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
+		{B094793E-0570-4EC2-A531-2814A1C713EA} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 	EndGlobalSection
 EndGlobal

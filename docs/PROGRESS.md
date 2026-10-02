@@ -1,5 +1,48 @@
 # Progress Tracking
 
+## M3 — Ollama gateway and Arabic model bake-offs (2026-10-02)
+**Status:** done (Gate G3 reached)
+**Tasks done:**
+- T3.1 Ollama typed gateway (`LocalFileAgent.Infrastructure.Ollama`):
+  - Typed `IOllamaClient` and `OllamaClient` supporting `/api/version`, `/api/tags`, `/api/chat`, `/api/generate`, and `/api/embed`.
+  - Strict loopback security guard enforcing `127.0.0.1`, `::1`, and `localhost` only (throws `InvalidOperationException` on external URIs).
+  - 16 unit & contract tests in `LocalFileAgent.Infrastructure.Tests` with mock HTTP handlers.
+- T3.2 Bake-off A — Text Embeddings:
+  - Model candidate: `bge-m3` downloaded and verified on local Ollama loopback.
+  - Vector dimensionality: 1024 dense dimensions.
+  - Evaluation results: Positive pair cosine similarity: 0.784, Negative pair cosine similarity: 0.478, Contrastive margin: +0.306, Mean latency: 60.0 ms per inference on GPU.
+- T3.3 Bake-off B — Agent LLM:
+  - Candidate: `gemma4:e2b` evaluated for Lite Profile on 4 GB VRAM.
+  - Confirmed 100% path-scope confinement (0 violations) and JSON plan adherence.
+- T3.4 Bake-off C — Arabic OCR:
+  - Benchmarked native Windows Media OCR (`ar-SA`) on 20 synthetic scanned invoice PNGs.
+  - Fast execution: ~89 ms per page on CPU with zero VRAM overhead.
+  - Confirmed Two-Tier OCR design with `TextQualityGate` escalation to Tier 2 GLM-OCR.
+- T3.5 Bake-off D — Captions & Visual Search:
+  - Fast Lane (SigLIP 2 ONNX, ~28.5 ms) and Slow Lane (VLM captioning) evaluated.
+- T3.6 Decision ADRs and Gate G3 Review:
+  - Generated `docs/benchmarks/m3_bakeoff_report.md`.
+  - Documented in `docs/adr/0002-model-bakeoff-selections.md`.
+
+**Evidence:**
+- Bake-off harness output: `docs/benchmarks/m3_bakeoff_report.md`.
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 82 tests passing).
+- Zero file-mutation analyzer violations.
+- Zero corpus modifications verified.
+
+**Decisions:**
+- [ADR 0002: Model Bake-off Selections and Gate G3 Review](adr/0002-model-bakeoff-selections.md)
+
+**Next:**
+- Begin **Milestone M4 — Deterministic Arabic Finder**:
+  - T4.1 Read-only file scanner (depth-limited, attribute filters, path-length safe).
+  - T4.2 SQLite database schema & migrations (FTS5 `unicode61` + `trigram` tables in WAL mode).
+  - T4.3 Worker process IPC protocol.
+  - T4.4 WPF shell with native RTL layout and `ar-EG` localization.
+  - T4.5 Instant substring search & highlight ViewModel.
+
+---
+
 ## M2 — Arabic corpus and evaluation harness (2026-10-02)
 **Status:** done
 **Tasks done:**

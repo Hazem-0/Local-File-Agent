@@ -139,6 +139,36 @@ public class OllamaClientTests
         response.Embeddings[0].Length.Should().Be(4);
     }
 
+    [Fact]
+    public async Task GenerateAsync_SendsPromptAndParsesResponse()
+    {
+        var json = @"
+        {
+          ""model"": ""glm-ocr"",
+          ""response"": ""نص الفاتورة المستخرج"",
+          ""prompt_eval_count"": 30,
+          ""eval_count"": 15,
+          ""total_duration"": 90000000
+        }";
+
+        var mockHandler = new MockHttpMessageHandler(new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(json)
+        });
+
+        var client = new OllamaClient(new HttpClient(mockHandler), "http://127.0.0.1:11434");
+        var response = await client.GenerateAsync(new GenerateRequest(
+            Model: "glm-ocr",
+            Prompt: "OCR this image",
+            ImagesBase64: new[] { "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" }
+        ), CancellationToken.None);
+
+        response.Model.Should().Be("glm-ocr");
+        response.Response.Should().Be("نص الفاتورة المستخرج");
+        response.PromptTokens.Should().Be(30);
+        response.CompletionTokens.Should().Be(15);
+    }
+
     private sealed class MockHttpMessageHandler : HttpMessageHandler
     {
         private readonly HttpResponseMessage _response;

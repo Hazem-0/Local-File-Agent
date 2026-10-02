@@ -31,7 +31,7 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | R24 | Accidental modification of user files | L | H | Open | Banned-API analyzer, read-only handles, corpus-integrity test in every test run. |
 | R25 | Sensitive data (IDs, credentials) in index/logs | M | H | Open | Optional DPAPI encryption, private folder exclusions, no document text in logs, redaction options. |
 | R26 | Private corpus leaked | L | H | Open | AGENTS.md rule 3, git-ignored `corpus/private/`, metrics-only reporting, no network in product. |
-| R27 | Ollama exposed beyond loopback or port hijacked | L | H | Open | Loopback guard in code, verify 127.0.0.1 at startup and per request. |
+| R27 | Ollama exposed beyond loopback or port hijacked | L | H | Mitigated | Strict loopback validation in `OllamaClient` rejects non-loopback endpoints; verified by 5 unit tests. |
 | R28 | Index corruption or crash inconsistency | M | M | Open | WAL mode, vector generations, rollback to previous valid generation. |
 | R39 | OneDrive/cloud placeholders trigger network downloads | M | H | Open | Skip files with recall-on-data-access/offline attributes; counter + UI note. |
 
