@@ -18,6 +18,14 @@ public sealed partial class SearchResultViewModel : ObservableObject
     public string PageDisplay => PageNumber > 0 ? $"صفحة {PageNumber}" : string.Empty;
     public string SourceKind { get; }
     public string SourceKindDisplay { get; }
+    public string MatchKind { get; }
+    public string MatchKindDisplay => MatchKind switch
+    {
+        "hybrid" => "هجين (نصي + دلالي)",
+        "vector" => "دلالي (معنى)",
+        "fts" => "نصي (مطابقة)",
+        _ => MatchKind
+    };
     public float Score { get; }
     public string FormattedScore => Score.ToString("F2", CultureInfo.InvariantCulture);
     public string RawSnippet { get; }
@@ -36,6 +44,7 @@ public sealed partial class SearchResultViewModel : ObservableObject
         PageNumber = item.PageNumber;
         SourceKind = item.SourceKind;
         SourceKindDisplay = FormatSourceKind(item.SourceKind);
+        MatchKind = item.MatchKind;
         Score = item.Score;
         RawSnippet = item.Snippet;
         SnippetRuns = SnippetHighlighter.Highlight(item.Snippet, query, normalizer);

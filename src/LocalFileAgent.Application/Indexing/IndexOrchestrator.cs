@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using LocalFileAgent.Domain.FileSystem;
+using LocalFileAgent.Domain.Search;
 using LocalFileAgent.Domain.Storage;
 using LocalFileAgent.Domain.Text;
 using LocalFileAgent.Domain.Worker;
@@ -41,19 +42,25 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
     private readonly IIndexStore _indexStore;
     private readonly ITextNormalizer _normalizer;
     private readonly IChunker _chunker;
+    private readonly IVectorIndex? _vectorIndex;
+    private readonly IEmbeddingService? _embeddingService;
 
     public IndexOrchestrator(
         IFileScanner scanner,
         IWorkerClient worker,
         IIndexStore indexStore,
         ITextNormalizer normalizer,
-        IChunker chunker)
+        IChunker chunker,
+        IVectorIndex? vectorIndex = null,
+        IEmbeddingService? embeddingService = null)
     {
         _scanner = scanner ?? throw new ArgumentNullException(nameof(scanner));
         _worker = worker ?? throw new ArgumentNullException(nameof(worker));
         _indexStore = indexStore ?? throw new ArgumentNullException(nameof(indexStore));
         _normalizer = normalizer ?? throw new ArgumentNullException(nameof(normalizer));
         _chunker = chunker ?? throw new ArgumentNullException(nameof(chunker));
+        _vectorIndex = vectorIndex;
+        _embeddingService = embeddingService;
     }
 
     public async Task<IndexProgressResult> IndexDirectoryAsync(
@@ -68,6 +75,10 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
         options ??= new ScanOptions();
 
         await _indexStore.InitializeAsync(cancellationToken).ConfigureAwait(false);
+        if (_vectorIndex != null)
+        {
+            await _vectorIndex.InitializeAsync(cancellationToken).ConfigureAwait(false);
+        }
         await _worker.StartAsync(cancellationToken).ConfigureAwait(false);
 
         var totalDiscovered = 0;
@@ -158,7 +169,36 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
                     }
                 }
 
-                await _indexStore.InsertChunksAsync(fileId, chunksList, cancellationToken).ConfigureAwait(false);
+                var chunkIds = await _indexStore.InsertChunksAsync(fileId, chunksList, cancellationToken).ConfigureAwait(false);
+
+                if (_vectorIndex != null && _embeddingService != null && chunkIds.Count > 0)
+                {
+                    try
+                    {
+                        var textsToEmbed = new List<string>(chunksList.Count);
+                        for (var i = 0; i < chunksList.Count; i++)
+                        {
+                            textsToEmbed.Add(chunksList[i].TextNormalized);
+                        }
+
+                        var vectors = await _embeddingService.GenerateEmbeddingsAsync(textsToEmbed, cancellationToken).ConfigureAwait(false);
+                        var vectorItems = new List<(long Id, float[] Vector)>(chunksList.Count);
+                        for (var i = 0; i < chunksList.Count && i < vectors.Count && i < chunkIds.Count; i++)
+                        {
+                            vectorItems.Add((chunkIds[i], vectors[i]));
+                        }
+                        await _vectorIndex.AddAsync(vectorItems, cancellationToken).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
+                    catch
+                    {
+                        // Non-fatal: FTS5 indexing succeeded, vector generation failure does not block file indexing
+                    }
+                }
+
                 indexedCount++;
             }
             catch (Exception ex)

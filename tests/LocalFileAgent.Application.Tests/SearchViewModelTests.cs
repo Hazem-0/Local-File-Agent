@@ -28,8 +28,9 @@ public class SearchViewModelTests
         public Task InitializeAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
         public Task<long> UpsertFileAsync(IndexedFile file, CancellationToken cancellationToken = default) => Task.FromResult(1L);
         public Task<IndexedFile?> GetFileByPathAsync(string path, CancellationToken cancellationToken = default) => Task.FromResult<IndexedFile?>(null);
-        public Task InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default) => Task.CompletedTask;
+        public Task<IReadOnlyList<long>> InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default) => Task.FromResult<IReadOnlyList<long>>(Array.Empty<long>());
         public Task DeleteFileAsync(long fileId, CancellationToken cancellationToken = default) => Task.CompletedTask;
+        public Task<IReadOnlyList<SearchResultItem>> GetChunksByIdsAsync(IReadOnlyList<long> chunkIds, IReadOnlyList<string>? scopePaths = null, CancellationToken cancellationToken = default) => Task.FromResult<IReadOnlyList<SearchResultItem>>(Array.Empty<SearchResultItem>());
 
         public Task<IReadOnlyList<SearchResultItem>> SearchFtsAsync(
             string normalizedQuery,

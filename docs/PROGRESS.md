@@ -1,5 +1,46 @@
 # Progress Tracking
 
+## M6 — Embeddings & hybrid search (2026-10-02)
+**Status:** done
+**Tasks done:**
+- T6.1 Dense text embedding generator (`LocalFileAgent.Infrastructure/Ollama/EmbeddingService.cs`):
+  - Batching & caching embedding service using `IOllamaClient.EmbedAsync` with `bge-m3` (1024-dim, local loopback `127.0.0.1:11434`).
+  - Automatic batching (defaults to 16 chunks per batch) for bulk embedding during indexing.
+  - In-memory bounded text-hash cache (`ConcurrentDictionary<string, float[]>`) to eliminate redundant model calls on duplicate phrases or repeated queries.
+  - Unit tests in `LocalFileAgent.Infrastructure.Tests/EmbeddingServiceTests.cs`.
+- T6.2 Vector storage and candidate search (`LocalFileAgent.Infrastructure/Storage/SqliteVectorIndex.cs`):
+  - Implements `IVectorIndex` with persistent SQLite table `chunk_vectors (chunk_id, dimensions, vector BLOB)`.
+  - Zero-copy IEEE 754 float32 vector serialization via `MemoryMarshal.AsBytes<float>` and `MemoryMarshal.Cast<byte, float>`.
+  - Hardware-accelerated SIMD cosine similarity search using .NET 10's `System.Numerics.Tensors.TensorPrimitives.CosineSimilarity`.
+  - Supports scoped candidate filtering (`filter` predicate and `candidateIds` set).
+  - Re-initialization persistence and delete cascading verified in `LocalFileAgent.Infrastructure.Tests/SqliteVectorIndexTests.cs`.
+- T6.3 Hybrid search fusion via Reciprocal Rank Fusion (`LocalFileAgent.Application/Search/HybridSearchService.cs`):
+  - Fuses lexical FTS5 BM25 candidate ranks and dense vector cosine similarity ranks using Reciprocal Rank Fusion ($RRF(d) = \frac{w_{\text{lex}}}{60 + \text{rank}_{\text{lex}}} + \frac{w_{\text{sem}}}{60 + \text{rank}_{\text{sem}}}$).
+  - Graceful degradation: falls back to pure lexical search if Ollama is unreachable.
+  - Transparent match kind labelling: classifies hits as `"hybrid"`, `"fts"`, or `"vector"`.
+  - Unit tests in `LocalFileAgent.Application.Tests/HybridSearchServiceTests.cs`.
+- T6.4 Search & UI Integration (`SearchViewModel.cs`, `SearchResultViewModel.cs`, `MainWindow.xaml`, `App.xaml.cs`):
+  - Wired `ISearchService` (`HybridSearchService`) into `SearchViewModel` and DI container.
+  - Added `MatchKindDisplay` badge (`هجين (نصي + دلالي)`, `دلالي (معنى)`, `نصي (مطابقة)`) in WPF search results list alongside `SourceKindDisplay`.
+  - Vector indexing integrated into `IndexOrchestrator` when indexing files.
+- T6.5 Acceptance verification (`LocalFileAgent.Acceptance.Tests/M6HybridSearchAcceptanceTests.cs`):
+  - Verified cross-dialect and synonym Arabic retrieval where query and document share meaning but have 0 exact token overlap (e.g., "اتفاقية سكن" finding "عقد إيجار شقة سكنية").
+  - Verified hybrid match combination scoring higher than single-mode matches.
+
+**Evidence:**
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 127 tests passing across 4 test projects).
+- Zero banned-API analyzer violations.
+- Corpus integrity verified.
+- Mitigated risk **R23** in `docs/risks.md`.
+
+**Next:**
+- Begin **Milestone M7 — Visual Pipeline**:
+  - T7.1 Two-tier OCR quality gate escalation to GLM-OCR / PaddleOCR-VL.
+  - T7.2 SigLIP 2 ONNX Runtime visual embeddings (Fast Lane image-to-text / image-to-image).
+  - T7.3 Slow Lane background visual describer / captioner.
+
+---
+
 ## M5 — Office & PDF extractors (2026-10-02)
 **Status:** done
 **Tasks done:**

@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LocalFileAgent.Application.Indexing;
 using LocalFileAgent.Domain.FileSystem;
+using LocalFileAgent.Domain.Search;
 using LocalFileAgent.Domain.Storage;
 using LocalFileAgent.Domain.Text;
 
@@ -19,6 +20,7 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     private readonly ITextNormalizer _normalizer;
     private readonly IIndexOrchestrator? _orchestrator;
     private readonly IDispatcherService _dispatcher;
+    private readonly ISearchService? _searchService;
 
     private CancellationTokenSource? _searchCts;
     private CancellationTokenSource? _indexingCts;
@@ -74,12 +76,14 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         IIndexStore indexStore,
         ITextNormalizer normalizer,
         IIndexOrchestrator? orchestrator = null,
-        IDispatcherService? dispatcher = null)
+        IDispatcherService? dispatcher = null,
+        ISearchService? searchService = null)
     {
         _indexStore = indexStore ?? throw new ArgumentNullException(nameof(indexStore));
         _normalizer = normalizer ?? throw new ArgumentNullException(nameof(normalizer));
         _orchestrator = orchestrator;
         _dispatcher = dispatcher ?? new ImmediateDispatcherService();
+        _searchService = searchService;
 
         SearchCommand = new AsyncRelayCommand(() => ExecuteSearchImmediateAsync(Query));
         ClearSearchCommand = new RelayCommand(ClearSearch);
@@ -135,35 +139,48 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
 
         try
         {
-            var normResult = _normalizer.Normalize(text, NormalizationProfile.Search);
-            var normalizedQuery = string.IsNullOrWhiteSpace(normResult.ProcessedText)
-                ? text.Trim()
-                : normResult.ProcessedText;
-
             var scopes = string.IsNullOrWhiteSpace(SelectedScope) ? null : new[] { SelectedScope };
+            IReadOnlyList<SearchResultItem> items;
 
-            var items = await _indexStore.SearchFtsAsync(
-                normalizedQuery,
-                scopePaths: scopes,
-                limit: 50,
-                useTrigram: UseTrigram,
-                cancellationToken: cancellationToken
-            ).ConfigureAwait(false);
-
-            // Automatic fallback to trigram substring search if 0 exact token matches found
-            if (items.Count == 0 && !UseTrigram)
+            if (_searchService != null)
             {
-                var trigramItems = await _indexStore.SearchFtsAsync(
+                var searchReq = new SearchRequest(
+                    Query: text,
+                    ScopePaths: scopes,
+                    Limit: 50
+                );
+                items = await _searchService.SearchAsync(searchReq, cancellationToken).ConfigureAwait(false);
+            }
+            else
+            {
+                var normResult = _normalizer.Normalize(text, NormalizationProfile.Search);
+                var normalizedQuery = string.IsNullOrWhiteSpace(normResult.ProcessedText)
+                    ? text.Trim()
+                    : normResult.ProcessedText;
+
+                items = await _indexStore.SearchFtsAsync(
                     normalizedQuery,
                     scopePaths: scopes,
                     limit: 50,
-                    useTrigram: true,
+                    useTrigram: UseTrigram,
                     cancellationToken: cancellationToken
                 ).ConfigureAwait(false);
 
-                if (trigramItems.Count > 0)
+                // Automatic fallback to trigram substring search if 0 exact token matches found
+                if (items.Count == 0 && !UseTrigram)
                 {
-                    items = trigramItems;
+                    var trigramItems = await _indexStore.SearchFtsAsync(
+                        normalizedQuery,
+                        scopePaths: scopes,
+                        limit: 50,
+                        useTrigram: true,
+                        cancellationToken: cancellationToken
+                    ).ConfigureAwait(false);
+
+                    if (trigramItems.Count > 0)
+                    {
+                        items = trigramItems;
+                    }
                 }
             }
 

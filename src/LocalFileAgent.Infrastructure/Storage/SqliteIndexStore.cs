@@ -211,10 +211,15 @@ public sealed class SqliteIndexStore : IIndexStore
         }
     }
 
-    public async Task InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<long>> InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(chunks);
         EnsureInitialized();
+
+        if (chunks.Count == 0)
+        {
+            return Array.Empty<long>();
+        }
 
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -228,13 +233,15 @@ public sealed class SqliteIndexStore : IIndexStore
             deleteCmd.Parameters.AddWithValue("@file_id", fileId);
             await deleteCmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 
+            var chunkIds = new List<long>(chunks.Count);
             foreach (var chunk in chunks)
             {
                 using var insertCmd = _connection.CreateCommand();
                 insertCmd.Transaction = transaction;
                 insertCmd.CommandText = @"
                     INSERT INTO chunks (file_id, page_number, ordinal, text_raw, text_normalized, source_kind, confidence)
-                    VALUES (@file_id, @page_number, @ordinal, @text_raw, @text_normalized, @source_kind, @confidence);
+                    VALUES (@file_id, @page_number, @ordinal, @text_raw, @text_normalized, @source_kind, @confidence)
+                    RETURNING id;
                 ";
                 insertCmd.Parameters.AddWithValue("@file_id", fileId);
                 insertCmd.Parameters.AddWithValue("@page_number", chunk.PageNumber);
@@ -244,10 +251,102 @@ public sealed class SqliteIndexStore : IIndexStore
                 insertCmd.Parameters.AddWithValue("@source_kind", chunk.SourceKind);
                 insertCmd.Parameters.AddWithValue("@confidence", chunk.Confidence);
 
-                await insertCmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+                var insertedId = await insertCmd.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+                chunkIds.Add(Convert.ToInt64(insertedId, System.Globalization.CultureInfo.InvariantCulture));
             }
 
             transaction.Commit();
+            return chunkIds;
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
+    public async Task<IReadOnlyList<SearchResultItem>> GetChunksByIdsAsync(
+        IReadOnlyList<long> chunkIds,
+        IReadOnlyList<string>? scopePaths = null,
+        CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+
+        if (chunkIds == null || chunkIds.Count == 0)
+        {
+            return Array.Empty<SearchResultItem>();
+        }
+
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            var sb = new StringBuilder();
+            sb.Append(@"
+                SELECT c.id, f.path, f.name, c.page_number, c.source_kind, c.text_raw
+                FROM chunks c
+                JOIN files f ON f.id = c.file_id
+                WHERE c.id IN (
+            ");
+
+            for (var i = 0; i < chunkIds.Count; i++)
+            {
+                if (i > 0) sb.Append(", ");
+                sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"@id_{i}");
+            }
+            sb.Append(')');
+
+            if (scopePaths is { Count: > 0 })
+            {
+                sb.Append(" AND (");
+                for (var i = 0; i < scopePaths.Count; i++)
+                {
+                    if (i > 0) sb.Append(" OR ");
+                    sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"f.path LIKE @scope_{i} || '%'");
+                }
+                sb.Append(')');
+            }
+
+            using var cmd = _connection!.CreateCommand();
+            cmd.CommandText = sb.ToString();
+
+            for (var i = 0; i < chunkIds.Count; i++)
+            {
+                cmd.Parameters.AddWithValue($"@id_{i}", chunkIds[i]);
+            }
+
+            if (scopePaths is { Count: > 0 })
+            {
+                for (var i = 0; i < scopePaths.Count; i++)
+                {
+                    cmd.Parameters.AddWithValue($"@scope_{i}", scopePaths[i]);
+                }
+            }
+
+            var results = new List<SearchResultItem>();
+            using var reader = await cmd.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+            while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+            {
+                var chunkId = reader.GetInt64(0);
+                var filePath = reader.GetString(1);
+                var fileName = reader.GetString(2);
+                var pageNumber = reader.GetInt32(3);
+                var sourceKind = reader.GetString(4);
+                var textRaw = reader.GetString(5);
+
+                var snippet = textRaw.Length > 200 ? string.Concat(textRaw.AsSpan(0, 200), "...") : textRaw;
+
+                results.Add(new SearchResultItem(
+                    FilePath: filePath,
+                    FileName: fileName,
+                    PageNumber: pageNumber,
+                    SourceKind: sourceKind,
+                    Score: 0f,
+                    Snippet: snippet,
+                    ChunkId: chunkId,
+                    MatchKind: "vector"
+                ));
+            }
+
+            return results;
         }
         finally
         {
@@ -294,7 +393,7 @@ public sealed class SqliteIndexStore : IIndexStore
 
             var sb = new StringBuilder();
             sb.Append(System.Globalization.CultureInfo.InvariantCulture, $@"
-                SELECT f.path, f.name, c.page_number, c.source_kind, c.text_raw, bm25({ftsTable}) AS rank
+                SELECT f.path, f.name, c.page_number, c.source_kind, c.text_raw, bm25({ftsTable}) AS rank, c.id AS chunk_id
                 FROM {ftsTable}
                 JOIN chunks c ON c.id = {ftsTable}.rowid
                 JOIN files f ON f.id = c.file_id
@@ -340,6 +439,7 @@ public sealed class SqliteIndexStore : IIndexStore
                 var sourceKind = reader.GetString(3);
                 var textRaw = reader.GetString(4);
                 var rank = reader.GetDouble(5);
+                var chunkId = reader.GetInt64(6);
 
                 // Create a brief snippet from raw text
                 var snippet = textRaw.Length > 200 ? string.Concat(textRaw.AsSpan(0, 200), "...") : textRaw;
@@ -351,7 +451,9 @@ public sealed class SqliteIndexStore : IIndexStore
                     PageNumber: pageNumber,
                     SourceKind: sourceKind,
                     Score: score,
-                    Snippet: snippet
+                    Snippet: snippet,
+                    ChunkId: chunkId,
+                    MatchKind: "fts"
                 ));
             }
 

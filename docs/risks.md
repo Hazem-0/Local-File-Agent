@@ -44,7 +44,7 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | R20 | Model/library licenses restrict redistribution | M | M | Open | Review model cards before bundling; Ollama-managed install for MVP. |
 | R21 | Invalid or unsafe plan JSON | M | M | Open | JSON schema format parameter, C# schema validator, single retry, deterministic fallback. |
 | R22 | Embedding model change forces full re-embed | M | M | Open | Vector generations, background rebuild, UI notification. |
-| R23 | ANN with restrictive scope filters returns few results | M | M | Open | Exact brute-force for scopes <50,000 chunks, over-fetch for large scopes. |
+| R23 | ANN with restrictive scope filters returns few results | M | M | Mitigated | SqliteVectorIndex uses exact hardware SIMD TensorPrimitives.CosineSimilarity with candidate pre-filtering; verified in M6 tests. |
 | R37 | Index size growth | M | M | Open | Capacity report in UI, trigram only for OCR chunks, LRU thumbnail cache. |
 | R38 | Antivirus/Defender scanning slows or locks files | M | L-M | Open | Backoff and retry on sharing violations; measure; document exclusions as user choice. |
 | R41 | Laptop battery/thermal impact of background OCR | M | M | Open | Pause on battery, CPU throttling, quiet hours. |

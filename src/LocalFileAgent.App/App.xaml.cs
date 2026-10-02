@@ -6,9 +6,12 @@ using LocalFileAgent.Application.FileSystem;
 using LocalFileAgent.Application.Indexing;
 using LocalFileAgent.Application.Search;
 using LocalFileAgent.Domain.FileSystem;
+using LocalFileAgent.Domain.Models;
+using LocalFileAgent.Domain.Search;
 using LocalFileAgent.Domain.Storage;
 using LocalFileAgent.Domain.Text;
 using LocalFileAgent.Domain.Worker;
+using LocalFileAgent.Infrastructure.Ollama;
 using LocalFileAgent.Infrastructure.Storage;
 using LocalFileAgent.Infrastructure.Worker;
 using LocalFileAgent.Text;
@@ -36,11 +39,15 @@ public partial class App : System.Windows.Application
             // File system scanner
             services.AddSingleton<IFileScanner, FileScanner>();
 
-            // Storage and background worker
+            // Storage, background worker, vector index, and embeddings
             var dbPath = AppDataPaths.GetDatabasePath();
             services.AddSingleton<IIndexStore>(_ => new SqliteIndexStore(dbPath));
+            services.AddSingleton<IVectorIndex>(_ => new SqliteVectorIndex(dbPath));
+            services.AddSingleton<IOllamaClient>(_ => new OllamaClient(new System.Net.Http.HttpClient { BaseAddress = new Uri("http://127.0.0.1:11434") }));
+            services.AddSingleton<IEmbeddingService, EmbeddingService>();
             services.AddSingleton<IWorkerClient, WorkerClient>();
             services.AddSingleton<IIndexOrchestrator, IndexOrchestrator>();
+            services.AddSingleton<ISearchService, HybridSearchService>();
 
             // UI and ViewModel
             services.AddSingleton<IDispatcherService, WpfDispatcherService>();
