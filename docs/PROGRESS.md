@@ -1,5 +1,36 @@
 # Progress Tracking
 
+## M5 — Office & PDF extractors (2026-10-02)
+**Status:** done
+**Tasks done:**
+- T5.1 PDF triage and extraction (`LocalFileAgent.Worker/Extractors/PdfExtractor.cs`):
+  - Per-page triage: extracts digital text using `UglyToad.PdfPig`.
+  - Routes blank/scanned pages to native `Windows.Data.Pdf` rendering and `Windows.Media.Ocr` (`ar-SA`), returning `ocr_win`.
+  - Integrates `TextQualityGate` and `ArabicOrderFixer`: defective digital text layers (isolated single letters, `(cid:N)` codes, PUA glyphs) are rejected and escalated to OCR.
+  - Inverted or visual-order Arabic character streams from OCR or broken digital layers are restored to logical order.
+- T5.2 Office document extractors (`LocalFileAgent.Worker/Extractors/DocxExtractor.cs`, `PptxExtractor.cs`, `XlsxExtractor.cs`):
+  - `DocxExtractor`: extracts paragraphs, headings, formatted tables with row/column alignment, shape alt-text / descriptions, and headers/footers via `DocumentFormat.OpenXml`.
+  - `PptxExtractor`: extracts slide texts, tables, presenter notes (`NotesSlidePart`), and shape alt-text per slide.
+  - `XlsxExtractor`: extracts worksheet tables and resolves shared strings via `SharedStringTablePart`.
+- T5.3 Worker process routing & provenance (`LocalFileAgent.Worker/Program.cs`):
+  - Centralized IPC dispatch for `.pdf`, `.docx`, `.docm`, `.pptx`, `.pptm`, `.xlsx`, `.xlsm`, `.txt`, `.md`, `.csv`, `.json`, `.xml`, and images (`.png`, `.jpg`).
+  - Rigorous provenance tracking on every chunk/page (`text_layer`, `ocr_win`, `confidence`).
+  - Verified in `LocalFileAgent.Infrastructure.Tests/WorkerClientTests.cs` and `LocalFileAgent.Acceptance.Tests/M5MultimodalExtractorTests.cs`.
+
+**Evidence:**
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 113 tests passing across 4 test projects).
+- Zero banned-API analyzer violations.
+- Corpus integrity verified.
+- Mitigated risks **R01** and **R16** in `docs/risks.md`.
+
+**Next:**
+- Begin **Milestone M6 — Embeddings & Hybrid Search**:
+  - T6.1 Dense text embedding generation with `bge-m3` on local Ollama loopback.
+  - T6.2 Vector storage and candidate search (`IVectorIndex`).
+  - T6.3 Hybrid search fusion (RRF) combining FTS5 BM25 with vector similarity.
+
+---
+
 ## M4 — Deterministic Arabic finder (2026-10-02)
 **Status:** done
 **Tasks done:**

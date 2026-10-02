@@ -210,6 +210,66 @@ public static class Program
         }
 
         // ==========================================
+        // 5b. Synthetic PDF Documents (Digital and Scanned PDFs)
+        // ==========================================
+        for (var i = 1; i <= 5; i++)
+        {
+            var pdfId = fileIndex++;
+            var fileName = $"عقد_رسمي_رقمي_{pdfId}.pdf";
+            var filePath = Path.Combine(OutDir, fileName);
+            var marker = $"MARKER_DIGITAL_PDF_{pdfId}";
+
+            CreateDigitalPdf(filePath, $"عقد رسمي مسجل - رقم {pdfId}", $"عقد توريد وتجهيز مكاتب إدارية.\nالمعرف الفريد: {marker}\nالمبلغ الإجمالي: خمسون ألف جنيه مصري.\nالتاريخ: ٢٠٢٥/١٠/٠٥");
+
+            groundTruthItems.Add(new GroundTruthEntry(
+                FileName: fileName,
+                Category: "DigitalPdf",
+                Encoding: "application/pdf",
+                Marker: marker,
+                PageCount: 1,
+                ExpectedQuery: $"عقد رسمي مسجل رقم {pdfId}"
+            ));
+        }
+
+        for (var i = 1; i <= 3; i++)
+        {
+            var pdfId = fileIndex++;
+            var fileName = $"فاتورة_ممسوحة_ضوئيا_{pdfId}.pdf";
+            var filePath = Path.Combine(OutDir, fileName);
+            var marker = $"MARKER_SCANNED_PDF_{pdfId}";
+
+            CreateScannedPdf(filePath, $"فاتورة ضريبية ممسوحة - رقم {pdfId}", $"شركة الدلتا للتجارة والتوزيع\nالمبلغ المستحق: ٧,٨٠٠ جم\nكود الفاتورة: {marker}");
+
+            groundTruthItems.Add(new GroundTruthEntry(
+                FileName: fileName,
+                Category: "ScannedPdf",
+                Encoding: "application/pdf",
+                Marker: marker,
+                PageCount: 1,
+                ExpectedQuery: $"فاتورة ضريبية ممسوحة رقم {pdfId}"
+            ));
+        }
+
+        for (var i = 1; i <= 2; i++)
+        {
+            var pdfId = fileIndex++;
+            var fileName = $"مستند_معطوب_طبقة_{pdfId}.pdf";
+            var filePath = Path.Combine(OutDir, fileName);
+            var marker = $"MARKER_BROKEN_PDF_{pdfId}";
+
+            CreateDigitalPdf(filePath, $"م س ت ن د   م ع ط و ب   {pdfId}", $"ف ا ت و ر ة   ض ر ي ب ي ة   ر ق م   {pdfId}   (cid:101) (cid:102)\nالمعرف الفريد: {marker}\n\uE001 \uE002 \uE003");
+
+            groundTruthItems.Add(new GroundTruthEntry(
+                FileName: fileName,
+                Category: "BrokenLayerPdf",
+                Encoding: "application/pdf",
+                Marker: marker,
+                PageCount: 1,
+                ExpectedQuery: $"مستند معطوب رقم {pdfId}"
+            ));
+        }
+
+        // ==========================================
         // 6. Security Injection Fixtures (Arabic & English Prompt Injections)
         // ==========================================
         var injectionDocs = new[]
@@ -312,6 +372,74 @@ public static class Program
         using var data = image.Encode(SKEncodedImageFormat.Png, 90);
         using var stream = File.OpenWrite(path);
         data.SaveTo(stream);
+    }
+
+    private static void CreateDigitalPdf(string path, string title, string body)
+    {
+        using var stream = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.None);
+        using var doc = SKDocument.CreatePdf(stream);
+        using var canvas = doc.BeginPage(600, 800);
+
+        using var paint = new SKPaint
+        {
+            Color = SKColors.Black,
+            TextSize = 22,
+            IsAntialias = true
+        };
+
+        canvas.DrawText(title, 50, 70, paint);
+
+        paint.TextSize = 16;
+        var lines = body.Split('\n');
+        var y = 120;
+        foreach (var line in lines)
+        {
+            canvas.DrawText(line, 50, y, paint);
+            y += 35;
+        }
+
+        doc.EndPage();
+        doc.Close();
+    }
+
+    private static void CreateScannedPdf(string path, string title, string body)
+    {
+        using var bitmap = new SKBitmap(600, 800);
+        using var imgCanvas = new SKCanvas(bitmap);
+        imgCanvas.Clear(SKColors.FloralWhite);
+
+        using var paint = new SKPaint
+        {
+            Color = SKColors.Black,
+            TextSize = 22,
+            IsAntialias = true
+        };
+        imgCanvas.DrawText(title, 50, 70, paint);
+
+        paint.TextSize = 16;
+        var y = 120;
+        foreach (var line in body.Split('\n'))
+        {
+            imgCanvas.DrawText(line, 50, y, paint);
+            y += 35;
+        }
+
+        using var borderPaint = new SKPaint
+        {
+            Color = SKColors.DimGray,
+            StrokeWidth = 2,
+            Style = SKPaintStyle.Stroke
+        };
+        imgCanvas.DrawRect(20, 20, 560, 760, borderPaint);
+
+        using var img = SKImage.FromBitmap(bitmap);
+
+        using var stream = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.None);
+        using var doc = SKDocument.CreatePdf(stream);
+        using var pdfCanvas = doc.BeginPage(600, 800);
+        pdfCanvas.DrawImage(img, 0, 0);
+        doc.EndPage();
+        doc.Close();
     }
 
     private static void GenerateBenchmarkQueries(List<QueryEntry> queries, List<GroundTruthEntry> items)

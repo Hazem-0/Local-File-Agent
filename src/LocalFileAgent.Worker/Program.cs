@@ -14,6 +14,7 @@ using Windows.Storage;
 using LocalFileAgent.Domain.Text;
 using LocalFileAgent.Domain.Worker;
 using LocalFileAgent.Text;
+using LocalFileAgent.Worker.Extractors;
 
 namespace LocalFileAgent.Worker;
 
@@ -21,7 +22,11 @@ public static class Program
 {
     private static readonly EncodingDetector EncodingDet = new();
     private static readonly ArabicOrderFixer OrderFix = new();
-    private static readonly ArabicTextNormalizer Normalizer = new();
+    private static readonly TextQualityGate QualityGate = new();
+
+    private static readonly DocxExtractor DocxParser = new(OrderFix);
+    private static readonly PptxExtractor PptxParser = new(OrderFix);
+    private static readonly PdfExtractor PdfParser = new(QualityGate, OrderFix);
 
     public static async Task<int> Main(string[] args)
     {
@@ -107,14 +112,45 @@ public static class Program
 
         try
         {
-            // Text and CSV files
-            if (ext is ".txt" or ".md" or ".csv" or ".json" or ".xml")
+            // 1. PDF files (PdfPig digital triage + Windows.Data.Pdf OCR fallback)
+            if (ext == ".pdf")
+            {
+                var pages = await PdfParser.ExtractAsync(req.FilePath).ConfigureAwait(false);
+                sw.Stop();
+                return new WorkerParseResponse(req.RequestId, true, pages, null, sw.Elapsed.TotalMilliseconds);
+            }
+
+            // 2. Word documents
+            if (ext is ".docx" or ".docm")
+            {
+                var pages = DocxParser.Extract(req.FilePath);
+                sw.Stop();
+                return new WorkerParseResponse(req.RequestId, true, pages, null, sw.Elapsed.TotalMilliseconds);
+            }
+
+            // 3. PowerPoint presentations
+            if (ext is ".pptx" or ".pptm")
+            {
+                var pages = PptxParser.Extract(req.FilePath);
+                sw.Stop();
+                return new WorkerParseResponse(req.RequestId, true, pages, null, sw.Elapsed.TotalMilliseconds);
+            }
+
+            // 4. Excel spreadsheets
+            if (ext is ".xlsx" or ".xlsm")
+            {
+                var pages = XlsxExtractor.Extract(req.FilePath);
+                sw.Stop();
+                return new WorkerParseResponse(req.RequestId, true, pages, null, sw.Elapsed.TotalMilliseconds);
+            }
+
+            // 5. Text, Markdown, CSV, JSON, XML files
+            if (ext is ".txt" or ".md" or ".csv" or ".json" or ".xml" or ".html" or ".htm")
             {
                 var bytes = await File.ReadAllBytesAsync(req.FilePath).ConfigureAwait(false);
                 var detected = EncodingDet.Decode(bytes);
                 var text = detected.Text;
 
-                // Fix reversed Arabic text if detected
                 var order = OrderFix.Analyze(text);
                 if (order.IsReversed)
                 {
@@ -126,7 +162,7 @@ public static class Program
                 return new WorkerParseResponse(req.RequestId, true, new[] { page }, null, sw.Elapsed.TotalMilliseconds);
             }
 
-            // Image files (Windows OCR Tier 1)
+            // 6. Image files (Windows OCR Tier 1)
             if (ext is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".tiff")
             {
                 var ocrEngine = OcrEngine.TryCreateFromLanguage(new Windows.Globalization.Language("ar-SA"))
@@ -144,13 +180,19 @@ public static class Program
                 using var softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
                 var result = await ocrEngine.RecognizeAsync(softwareBitmap);
-                var page = new ExtractedPage(1, result.Text, "ocr_win", 0.90f);
+                var ocrText = result.Text;
+                var ocrOrder = OrderFix.Analyze(ocrText);
+                if (ocrOrder.IsReversed)
+                {
+                    ocrText = OrderFix.Fix(ocrText, ocrOrder);
+                }
+                var page = new ExtractedPage(1, ocrText, "ocr_win", 0.90f);
 
                 sw.Stop();
                 return new WorkerParseResponse(req.RequestId, true, new[] { page }, null, sw.Elapsed.TotalMilliseconds);
             }
 
-            // Fallback for other formats (will be expanded in M5/M5b)
+            // Fallback for unsupported formats
             sw.Stop();
             return new WorkerParseResponse(req.RequestId, true, Array.Empty<ExtractedPage>(), null, sw.Elapsed.TotalMilliseconds);
         }
