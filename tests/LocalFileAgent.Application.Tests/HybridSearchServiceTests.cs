@@ -18,11 +18,19 @@ public class HybridSearchServiceTests
     {
         public List<SearchResultItem> FtsResults { get; set; } = new();
         public Dictionary<long, SearchResultItem> ChunksById { get; set; } = new();
+        public Dictionary<long, IndexedFile> FilesById { get; set; } = new();
 
         public Task InitializeAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
         public Task<long> UpsertFileAsync(IndexedFile file, CancellationToken cancellationToken = default) => Task.FromResult(1L);
         public Task<IndexedFile?> GetFileByPathAsync(string path, CancellationToken cancellationToken = default) => Task.FromResult<IndexedFile?>(null);
-        public Task<IndexedFile?> GetFileByIdAsync(long id, CancellationToken cancellationToken = default) => Task.FromResult<IndexedFile?>(null);
+        public Task<IndexedFile?> GetFileByIdAsync(long id, CancellationToken cancellationToken = default)
+        {
+            if (FilesById.TryGetValue(id, out var file))
+            {
+                return Task.FromResult<IndexedFile?>(file);
+            }
+            return Task.FromResult<IndexedFile?>(null);
+        }
         public Task<IReadOnlyList<long>> InsertChunksAsync(long fileId, IReadOnlyList<IndexedChunk> chunks, CancellationToken cancellationToken = default) => Task.FromResult<IReadOnlyList<long>>(Array.Empty<long>());
         public Task DeleteFileAsync(long fileId, CancellationToken cancellationToken = default) => Task.CompletedTask;
 
@@ -101,6 +109,42 @@ public class HybridSearchServiceTests
             var list = new List<float[]>();
             for (var i = 0; i < texts.Count; i++) list.Add(VectorToReturn);
             return Task.FromResult<IReadOnlyList<float[]>>(list);
+        }
+    }
+
+    private sealed class FakeVisualVectorIndex : IVisualVectorIndex
+    {
+        public List<(long FileId, float Score)> VisualHits { get; set; } = new();
+
+        public Task InitializeAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+        public Task AddAsync(IReadOnlyList<(long FileId, float[] Vector)> items, CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+        public Task<IReadOnlyList<(long FileId, float Score)>> SearchAsync(
+            float[] query,
+            int k,
+            Func<long, bool>? filter = null,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult<IReadOnlyList<(long FileId, float Score)>>(VisualHits);
+        }
+
+        public Task DeleteAsync(IReadOnlyList<long> fileIds, CancellationToken cancellationToken = default) => Task.CompletedTask;
+        public Task<int> GetCountAsync(CancellationToken cancellationToken = default) => Task.FromResult(VisualHits.Count);
+        public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+    }
+
+    private sealed class FakeVisualEmbeddingService : IVisualEmbeddingService
+    {
+        public float[] VectorToReturn { get; set; } = new float[] { 1.0f, 0.0f };
+
+        public Task<float[]> GenerateImageEmbeddingAsync(string imagePath, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(VectorToReturn);
+        }
+
+        public Task<float[]> GenerateTextEmbeddingAsync(string text, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(VectorToReturn);
         }
     }
 
@@ -220,5 +264,110 @@ public class HybridSearchServiceTests
         // (0.5 / 61) + (0.5 / 61) = 1.0 / 61 ≈ 0.016393
         var expectedScore = (0.5f / 61f) + (0.5f / 61f);
         results[0].Score.Should().BeApproximately(expectedScore, 0.0001f);
+    }
+
+    [Fact]
+    public async Task SearchAsync_SemanticMatchBelowThreshold_IsExcluded()
+    {
+        var store = new FakeIndexStore();
+        store.ChunksById[404L] = new SearchResultItem(
+            FilePath: "D:\\docs\\irrelevant.docx",
+            FileName: "irrelevant.docx",
+            PageNumber: 1,
+            SourceKind: "text_layer",
+            Score: 0.20f,
+            Snippet: "نص غير ذي صلة",
+            ChunkId: 404L,
+            MatchKind: "vector"
+        );
+
+        var vectorIndex = new FakeVectorIndex();
+        // Similarity score is 0.20f, below default MinSemanticSimilarity (0.35f)
+        vectorIndex.VectorHits.Add((404L, 0.20f));
+
+        var embeddingService = new FakeEmbeddingService();
+        var normalizer = new ArabicTextNormalizer();
+
+        var service = new HybridSearchService(store, normalizer, vectorIndex, embeddingService);
+
+        var results = await service.SearchAsync(new SearchRequest("ابن"));
+
+        // Low similarity vector noise should be discarded, resulting in 0 false positives
+        results.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task SearchAsync_VisualMatchBelowThreshold_IsExcluded()
+    {
+        var store = new FakeIndexStore();
+        store.FilesById[505L] = new IndexedFile(
+            Id: 505L,
+            Path: "D:\\images\\unrelated_gauge.png",
+            Name: "unrelated_gauge.png",
+            Extension: ".png",
+            SizeBytes: 1024,
+            CreatedAt: DateTimeOffset.UtcNow,
+            ModifiedAt: DateTimeOffset.UtcNow,
+            IndexedAt: DateTimeOffset.UtcNow,
+            ETag: "tag",
+            Status: "indexed"
+        );
+
+        var visualIndex = new FakeVisualVectorIndex();
+        // Similarity score is 0.15f, below default MinVisualSimilarity (0.25f)
+        visualIndex.VisualHits.Add((505L, 0.15f));
+
+        var visualEmbedding = new FakeVisualEmbeddingService();
+        var normalizer = new ArabicTextNormalizer();
+
+        var service = new HybridSearchService(
+            store,
+            normalizer,
+            visualVectorIndex: visualIndex,
+            visualEmbedding: visualEmbedding
+        );
+
+        var results = await service.SearchAsync(new SearchRequest("ابن"));
+
+        // Low similarity visual noise should be discarded, resulting in 0 false positives
+        results.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task SearchAsync_VisualMatchAboveThreshold_ReturnsVisualMatchKind()
+    {
+        var store = new FakeIndexStore();
+        store.FilesById[606L] = new IndexedFile(
+            Id: 606L,
+            Path: "D:\\images\\family_son.png",
+            Name: "family_son.png",
+            Extension: ".png",
+            SizeBytes: 2048,
+            CreatedAt: DateTimeOffset.UtcNow,
+            ModifiedAt: DateTimeOffset.UtcNow,
+            IndexedAt: DateTimeOffset.UtcNow,
+            ETag: "tag",
+            Status: "indexed"
+        );
+
+        var visualIndex = new FakeVisualVectorIndex();
+        // Similarity score is 0.35f, above default MinVisualSimilarity (0.25f)
+        visualIndex.VisualHits.Add((606L, 0.35f));
+
+        var visualEmbedding = new FakeVisualEmbeddingService();
+        var normalizer = new ArabicTextNormalizer();
+
+        var service = new HybridSearchService(
+            store,
+            normalizer,
+            visualVectorIndex: visualIndex,
+            visualEmbedding: visualEmbedding
+        );
+
+        var results = await service.SearchAsync(new SearchRequest("ابن"));
+
+        results.Should().HaveCount(1);
+        results[0].MatchKind.Should().Be("visual");
+        results[0].FileName.Should().Be("family_son.png");
     }
 }

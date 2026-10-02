@@ -188,16 +188,10 @@
                     <TextBlock Text="⚡" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <StackPanel VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="LocalFileAgent" 
-                                   FontSize="22" 
-                                   FontWeight="Bold" 
-                                   Foreground="#0F172A" 
-                                   Margin="0,0,8,0" />
-                        <Border Background="#EEF2FF" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
-                            <TextBlock Text="v2 Multimodal" FontSize="11" FontWeight="Bold" Foreground="#4F46E5" />
-                        </Border>
-                    </StackPanel>
+                    <TextBlock Text="LocalFileAgent" 
+                               FontSize="22" 
+                               FontWeight="Bold" 
+                               Foreground="#0F172A" />
                 </StackPanel>
             </StackPanel>
 

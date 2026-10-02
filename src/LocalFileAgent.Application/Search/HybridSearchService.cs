@@ -94,23 +94,30 @@ public sealed class HybridSearchService : ISearchService
 
                     if (vectorHits.Count > 0)
                     {
-                        var chunkIds = vectorHits.Select(h => h.Id).ToList();
-                        var chunkDetails = await _indexStore.GetChunksByIdsAsync(
-                            chunkIds,
-                            request.ScopePaths,
-                            cancellationToken
-                        ).ConfigureAwait(false);
-
-                        var hitScores = vectorHits.ToDictionary(h => h.Id, h => h.Score);
-
-                        // Order chunk details by vector similarity score
-                        var orderedDetails = chunkDetails
-                            .Where(c => hitScores.ContainsKey(c.ChunkId))
-                            .Select(c => c with { Score = hitScores[c.ChunkId], MatchKind = "vector" })
-                            .OrderByDescending(c => c.Score)
+                        var filteredHits = vectorHits
+                            .Where(h => h.Score >= _options.MinSemanticSimilarity)
                             .ToList();
 
-                        vectorCandidates = orderedDetails;
+                        if (filteredHits.Count > 0)
+                        {
+                            var chunkIds = filteredHits.Select(h => h.Id).ToList();
+                            var chunkDetails = await _indexStore.GetChunksByIdsAsync(
+                                chunkIds,
+                                request.ScopePaths,
+                                cancellationToken
+                            ).ConfigureAwait(false);
+
+                            var hitScores = filteredHits.ToDictionary(h => h.Id, h => h.Score);
+
+                            // Order chunk details by vector similarity score
+                            var orderedDetails = chunkDetails
+                                .Where(c => hitScores.ContainsKey(c.ChunkId))
+                                .Select(c => c with { Score = hitScores[c.ChunkId], MatchKind = "vector" })
+                                .OrderByDescending(c => c.Score)
+                                .ToList();
+
+                            vectorCandidates = orderedDetails;
+                        }
                     }
                 }
             }
@@ -142,31 +149,38 @@ public sealed class HybridSearchService : ISearchService
 
                     if (visualHits.Count > 0)
                     {
-                        var visualList = new List<SearchResultItem>(visualHits.Count);
-                        foreach (var hit in visualHits)
-                        {
-                            var file = await _indexStore.GetFileByIdAsync(hit.FileId, cancellationToken).ConfigureAwait(false);
-                            if (file != null)
-                            {
-                                if (request.ScopePaths != null && request.ScopePaths.Count > 0 &&
-                                    !request.ScopePaths.Any(sp => file.Path.StartsWith(sp, StringComparison.OrdinalIgnoreCase)))
-                                {
-                                    continue;
-                                }
+                        var filteredHits = visualHits
+                            .Where(h => h.Score >= _options.MinVisualSimilarity)
+                            .ToList();
 
-                                visualList.Add(new SearchResultItem(
-                                    FilePath: file.Path,
-                                    FileName: file.Name,
-                                    PageNumber: 1,
-                                    SourceKind: "visual_siglip",
-                                    Score: hit.Score,
-                                    Snippet: file.Name,
-                                    ChunkId: hit.FileId,
-                                    MatchKind: "visual"
-                                ));
+                        if (filteredHits.Count > 0)
+                        {
+                            var visualList = new List<SearchResultItem>(filteredHits.Count);
+                            foreach (var hit in filteredHits)
+                            {
+                                var file = await _indexStore.GetFileByIdAsync(hit.FileId, cancellationToken).ConfigureAwait(false);
+                                if (file != null)
+                                {
+                                    if (request.ScopePaths != null && request.ScopePaths.Count > 0 &&
+                                        !request.ScopePaths.Any(sp => file.Path.StartsWith(sp, StringComparison.OrdinalIgnoreCase)))
+                                    {
+                                        continue;
+                                    }
+
+                                    visualList.Add(new SearchResultItem(
+                                        FilePath: file.Path,
+                                        FileName: file.Name,
+                                        PageNumber: 1,
+                                        SourceKind: "visual_siglip",
+                                        Score: hit.Score,
+                                        Snippet: file.Name,
+                                        ChunkId: hit.FileId,
+                                        MatchKind: "visual"
+                                    ));
+                                }
                             }
+                            visualCandidates = visualList;
                         }
-                        visualCandidates = visualList;
                     }
                 }
             }

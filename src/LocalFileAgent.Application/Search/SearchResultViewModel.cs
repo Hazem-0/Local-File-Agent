@@ -33,7 +33,21 @@ public sealed partial class SearchResultViewModel : ObservableObject
     };
     public float Score { get; }
     public string FormattedScore => Score.ToString("F2", CultureInfo.InvariantCulture);
-    public string ScorePercentDisplay => $"{(int)Math.Clamp(Math.Round(Score * 100), 1, 100)}% صلة";
+    public string ScorePercentDisplay
+    {
+        get
+        {
+            if (Score > 0.05f)
+            {
+                var pct = (int)Math.Clamp(Math.Round(Score * 100), 1, 100);
+                return $"{pct}% صلة";
+            }
+
+            var scaled = (Score / 0.0082f) * 75f;
+            var rrfPct = (int)Math.Clamp(Math.Round(scaled), 1, 99);
+            return $"{rrfPct}% صلة";
+        }
+    }
     public string RawSnippet { get; }
     public bool HasSnippet => !string.IsNullOrWhiteSpace(RawSnippet);
     public IReadOnlyList<SnippetRun> SnippetRuns { get; }
