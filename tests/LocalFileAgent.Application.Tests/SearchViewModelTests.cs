@@ -241,4 +241,48 @@ public class SearchViewModelTests
         vm.IndexedFilesCount.Should().Be(42);
         vm.IndexedChunksCount.Should().Be(128);
     }
+
+    [Fact]
+    public async Task DeleteFromIndexCommand_RemovesItemFromResultsAndDatabase()
+    {
+        var fakeStore = new FakeIndexStore();
+        var normalizer = new ArabicTextNormalizer();
+
+        fakeStore.SearchHandler = (q, tri) => new[]
+        {
+            new SearchResultItem("D:\\docs\\file1.txt", "file1.txt", 1, "text_layer", 0.9f, "نص أول")
+        };
+
+        using var vm = new SearchViewModel(fakeStore, normalizer) { DebounceDelayMs = 0 };
+        await vm.ExecuteSearchImmediateAsync("نص");
+        vm.Results.Should().HaveCount(1);
+
+        var item = vm.Results[0];
+        await vm.DeleteFromIndexCommand.ExecuteAsync(item);
+
+        vm.Results.Should().BeEmpty();
+        vm.StatusMessage.Should().Contain("تمت إزالة الملف");
+    }
+
+    [Fact]
+    public async Task ClearIndexCommand_ClearsAllResultsAndResetsCounts()
+    {
+        var fakeStore = new FakeIndexStore();
+        var normalizer = new ArabicTextNormalizer();
+
+        using var vm = new SearchViewModel(fakeStore, normalizer) { DebounceDelayMs = 0 };
+        vm.Results.Add(new SearchResultViewModel(
+            new SearchResultItem("D:\\doc.pdf", "doc.pdf", 1, "text_layer", 0.9f, "تجربة"),
+            "تجربة",
+            normalizer
+        ));
+
+        await vm.ClearIndexCommand.ExecuteAsync(null);
+
+        vm.Results.Should().BeEmpty();
+        vm.TotalCount.Should().Be(0);
+        vm.IndexedFilesCount.Should().Be(0);
+        vm.IndexedChunksCount.Should().Be(0);
+        vm.StatusMessage.Should().Contain("تم مسح كافة الملفات والمقاطع");
+    }
 }

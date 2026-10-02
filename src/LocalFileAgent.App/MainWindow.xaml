@@ -237,6 +237,20 @@
                         <TextBlock Text="{DynamicResource IndexFolder}" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
+
+                <!-- Clear Index Button -->
+                <Button Click="OnClearIndexClick"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Background="#FEF2F2"
+                        BorderBrush="#FECACA"
+                        Foreground="#DC2626"
+                        ToolTip="مسح كافة الملفات والمقاطع المفهرسة من قاعدة بيانات التطبيق"
+                        Margin="6,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🗑️" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
+                        <TextBlock Text="مسح الفهرس..." FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -567,6 +581,18 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="📂" FontSize="11" Margin="0,0,4,0" VerticalAlignment="Center" />
                                                     <TextBlock Text="في المجلد" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </Button>
+
+                                            <!-- Delete from Index Button -->
+                                            <Button Style="{StaticResource CardActionButtonStyle}"
+                                                    Command="{Binding DataContext.DeleteFromIndexCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                    CommandParameter="{Binding}"
+                                                    ToolTip="إلغاء فهرسة هذا الملف وإزالته من قاعدة بيانات التطبيق"
+                                                    Margin="6,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="🗑️" FontSize="11" Margin="0,0,4,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="حذف من الفهرس" Foreground="#DC2626" VerticalAlignment="Center" />
                                                 </StackPanel>
                                             </Button>
                                         </StackPanel>

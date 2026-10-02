@@ -296,4 +296,22 @@ public class SqliteIndexStoreTests : IAsyncLifetime, IDisposable
             }
         }
     }
+
+    [Fact]
+    public async Task ClearAllAsync_DeletesAllFilesChunksAndFts()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var file = new IndexedFile(0, "D:\\docs\\clear.txt", "clear.txt", ".txt", 100, now, now, now, "e", "indexed");
+        var fileId = await _store.UpsertFileAsync(file);
+        await _store.InsertChunksAsync(fileId, new[] { new IndexedChunk(0, fileId, 1, 0, "نص للتجربة", "نص للتجربة", "text_layer") });
+
+        (await _store.GetIndexedFileCountAsync()).Should().Be(1);
+        (await _store.GetChunkCountAsync()).Should().Be(1);
+
+        await _store.ClearAllAsync();
+
+        (await _store.GetIndexedFileCountAsync()).Should().Be(0);
+        (await _store.GetChunkCountAsync()).Should().Be(0);
+        (await _store.SearchFtsAsync("للتجربة")).Should().BeEmpty();
+    }
 }

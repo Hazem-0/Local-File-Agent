@@ -53,4 +53,5 @@ public interface IIndexStore : IAsyncDisposable
     );
     Task<long> GetIndexedFileCountAsync(CancellationToken cancellationToken = default);
     Task<long> GetChunkCountAsync(CancellationToken cancellationToken = default);
+    Task ClearAllAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 }

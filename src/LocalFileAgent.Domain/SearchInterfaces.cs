@@ -51,6 +51,7 @@ public interface IVectorIndex : IAsyncDisposable
     Task<IReadOnlyList<(long Id, float Score)>> SearchExactAsync(float[] query, int k, IReadOnlySet<long> candidateIds, CancellationToken cancellationToken = default);
     Task DeleteAsync(IReadOnlyList<long> ids, CancellationToken cancellationToken = default);
     Task<int> GetCountAsync(CancellationToken cancellationToken = default);
+    Task ClearAllAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 }
 
 public interface IVisualEmbeddingService
@@ -66,5 +67,6 @@ public interface IVisualVectorIndex : IAsyncDisposable
     Task<IReadOnlyList<(long FileId, float Score)>> SearchAsync(float[] query, int k, Func<long, bool>? filter = null, CancellationToken cancellationToken = default);
     Task DeleteAsync(IReadOnlyList<long> fileIds, CancellationToken cancellationToken = default);
     Task<int> GetCountAsync(CancellationToken cancellationToken = default);
+    Task ClearAllAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 }
 

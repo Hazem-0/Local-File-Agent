@@ -40,4 +40,23 @@ public partial class MainWindow : Window
             item.OpenFileCommand.Execute(null);
         }
     }
+
+    private void OnClearIndexClick(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is SearchViewModel vm)
+        {
+            var result = MessageBox.Show(
+                this,
+                "هل تريد بالتأكيد مسح كافة الملفات والمقاطع المفهرسة من قاعدة بيانات التطبيق؟\n\n(ملاحظة: هذا الإجراء يلغي الفهرسة فقط، ولن يقوم بحذف أو تعديل أي ملفات أصلية على جهازك).",
+                "تأكيد مسح الفهرس",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question,
+                MessageBoxResult.No);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _ = vm.ClearIndexCommand.ExecuteAsync(null);
+            }
+        }
+    }
 }

@@ -1,5 +1,21 @@
 # Progress Tracking
 
+## Index Deletion & Database Clear Management (2026-10-02)
+**Status:** done
+**Tasks done:**
+- Added per-result `[🗑️ حذف من الفهرس]` button on each search result card to un-index and remove any saved file, its chunks, FTS entries, and visual vectors from `%LOCALAPPDATA%\LocalFileAgent\` without touching the original file on disk.
+- Added `[🗑️ مسح الفهرس...]` button in the top header with a safety confirmation dialog to clear the entire index database and reset indexed file/chunk counts to 0.
+- Implemented `ClearAllAsync` in `IIndexStore`, `SqliteIndexStore`, `IVectorIndex`, `SqliteVectorIndex`, `IVisualVectorIndex`, and `SqliteVisualVectorIndex`.
+- Added `DeleteFromIndexCommand` and `ClearIndexCommand` in `SearchViewModel`.
+- Added unit tests in `SqliteIndexStoreTests.cs` and `SearchViewModelTests.cs` (178 passing tests total).
+- Re-packaged self-contained desktop release to `dist/LocalFileAgent/`.
+
+**Evidence:**
+- `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 178 tests passing across 4 test projects).
+- `tools/publish.ps1` successfully updated `dist/LocalFileAgent/`.
+
+---
+
 ## UI/UX Modernization & Interactive File Launching (2026-10-02)
 **Status:** done
 **Tasks done:**

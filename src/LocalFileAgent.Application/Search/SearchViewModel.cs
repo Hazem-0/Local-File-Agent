@@ -23,6 +23,8 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     private readonly IDispatcherService _dispatcher;
     private readonly ISearchService? _searchService;
     private readonly LocalFileAgent.Domain.Agent.IAgentService? _agentService;
+    private readonly IVectorIndex? _vectorIndex;
+    private readonly IVisualVectorIndex? _visualVectorIndex;
 
     private CancellationTokenSource? _searchCts;
     private CancellationTokenSource? _indexingCts;
@@ -86,6 +88,8 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     public IRelayCommand<object?> OpenFileCommand { get; }
     public IRelayCommand<object?> OpenFolderCommand { get; }
     public IRelayCommand CloseAgentAnswerCommand { get; }
+    public IAsyncRelayCommand<SearchResultViewModel?> DeleteFromIndexCommand { get; }
+    public IAsyncRelayCommand ClearIndexCommand { get; }
 
     public SearchViewModel(
         IIndexStore indexStore,
@@ -93,7 +97,9 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         IIndexOrchestrator? orchestrator = null,
         IDispatcherService? dispatcher = null,
         ISearchService? searchService = null,
-        LocalFileAgent.Domain.Agent.IAgentService? agentService = null)
+        LocalFileAgent.Domain.Agent.IAgentService? agentService = null,
+        IVectorIndex? vectorIndex = null,
+        IVisualVectorIndex? visualVectorIndex = null)
     {
         _indexStore = indexStore ?? throw new ArgumentNullException(nameof(indexStore));
         _normalizer = normalizer ?? throw new ArgumentNullException(nameof(normalizer));
@@ -101,6 +107,8 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         _dispatcher = dispatcher ?? new ImmediateDispatcherService();
         _searchService = searchService;
         _agentService = agentService;
+        _vectorIndex = vectorIndex;
+        _visualVectorIndex = visualVectorIndex;
 
         SearchCommand = new AsyncRelayCommand(() => ExecuteSearchImmediateAsync(Query));
         AskAgentCommand = new AsyncRelayCommand(AskAgentAsync);
@@ -142,6 +150,80 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
             IsAgentMode = false;
             AgentAnswerText = string.Empty;
         });
+
+        DeleteFromIndexCommand = new AsyncRelayCommand<SearchResultViewModel?>(DeleteFromIndexAsync);
+        ClearIndexCommand = new AsyncRelayCommand(ClearIndexAsync);
+    }
+
+    private async Task DeleteFromIndexAsync(SearchResultViewModel? item)
+    {
+        if (item == null) return;
+
+        try
+        {
+            var file = await _indexStore.GetFileByPathAsync(item.FilePath).ConfigureAwait(false);
+            if (file != null)
+            {
+                await _indexStore.DeleteFileAsync(file.Id).ConfigureAwait(false);
+
+                if (_visualVectorIndex != null)
+                {
+                    await _visualVectorIndex.DeleteAsync(new[] { file.Id }).ConfigureAwait(false);
+                }
+            }
+
+            _dispatcher.Invoke(() =>
+            {
+                Results.Remove(item);
+                TotalCount = Results.Count;
+                StatusMessage = string.Format(CultureInfo.InvariantCulture, "تمت إزالة الملف '{0}' من فهرس التطبيق بنجاح", item.FileName);
+            });
+
+            await RefreshStatsAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _dispatcher.Invoke(() =>
+            {
+                StatusMessage = string.Format(CultureInfo.InvariantCulture, "خطأ أثناء إزالة الملف من الفهرس: {0}", ex.Message);
+            });
+        }
+    }
+
+    private async Task ClearIndexAsync()
+    {
+        try
+        {
+            await _indexStore.ClearAllAsync().ConfigureAwait(false);
+
+            if (_vectorIndex != null)
+            {
+                await _vectorIndex.ClearAllAsync().ConfigureAwait(false);
+            }
+
+            if (_visualVectorIndex != null)
+            {
+                await _visualVectorIndex.ClearAllAsync().ConfigureAwait(false);
+            }
+
+            _dispatcher.Invoke(() =>
+            {
+                Results.Clear();
+                TotalCount = 0;
+                IndexedFilesCount = 0;
+                IndexedChunksCount = 0;
+                IsAgentMode = false;
+                AgentAnswerText = string.Empty;
+                StatusMessage = "تم مسح كافة الملفات والمقاطع من فهرس التطبيق بنجاح";
+            });
+        }
+        catch (Exception ex)
+        {
+            _dispatcher.Invoke(() =>
+            {
+                StatusMessage = string.Format(CultureInfo.InvariantCulture, "خطأ أثناء مسح الفهرس: {0}", ex.Message);
+            });
+        }
     }
 
     partial void OnQueryChanged(string value)

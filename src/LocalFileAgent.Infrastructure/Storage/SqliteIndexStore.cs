@@ -413,6 +413,28 @@ public sealed class SqliteIndexStore : IIndexStore
         }
     }
 
+    public async Task ClearAllAsync(CancellationToken cancellationToken = default)
+    {
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
+
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            using var cmd = _connection!.CreateCommand();
+            cmd.CommandText = @"
+                DELETE FROM files;
+                DELETE FROM chunks;
+                INSERT INTO fts_chunks_unicode61(fts_chunks_unicode61) VALUES('delete-all');
+                INSERT INTO fts_chunks_trigram(fts_chunks_trigram) VALUES('delete-all');
+            ";
+            await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
     public async Task<IReadOnlyList<SearchResultItem>> SearchFtsAsync(
         string normalizedQuery,
         IReadOnlyList<string>? scopePaths = null,

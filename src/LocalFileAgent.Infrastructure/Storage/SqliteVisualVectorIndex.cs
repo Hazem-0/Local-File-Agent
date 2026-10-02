@@ -209,6 +209,25 @@ public sealed class SqliteVisualVectorIndex : IVisualVectorIndex
         return Task.FromResult(_vectors.Count);
     }
 
+    public async Task ClearAllAsync(CancellationToken cancellationToken = default)
+    {
+        await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
+
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            using var cmd = _connection!.CreateCommand();
+            cmd.CommandText = "DELETE FROM file_visual_vectors;";
+            await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+
+            _vectors.Clear();
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
     public async ValueTask DisposeAsync()
     {
         if (_connection != null)
