@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LocalFileAgent.Infrastructure</RootNamespace>
+    <AssemblyName>LocalFileAgent.Infrastructure</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocalFileAgent.Domain\LocalFileAgent.Domain.csproj" />
+    <ProjectReference Include="..\LocalFileAgent.Text\LocalFileAgent.Text.csproj" />
+    <ProjectReference Include="..\LocalFileAgent.Application\LocalFileAgent.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.12" />
+  </ItemGroup>
+
+</Project>

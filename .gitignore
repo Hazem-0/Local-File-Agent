@@ -1,0 +1,27 @@
+# .NET build artifacts
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.db-shm
+*.db-wal
+
+# Local app data & cache
+index/
+cache/
+logs/
+
+# Private user data (Strict rule: never commit or share private documents)
+corpus/private/
+!corpus/private/.gitkeep
+
+# Models and runtimes
+models/
+*.gguf
+*.onnx
+
+# Test results
+TestResults/
+BenchmarkDotNet.Artifacts/

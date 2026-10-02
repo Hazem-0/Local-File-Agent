@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LocalFileAgent.Domain</RootNamespace>
+    <AssemblyName>LocalFileAgent.Domain</AssemblyName>
+  </PropertyGroup>
+
+</Project>

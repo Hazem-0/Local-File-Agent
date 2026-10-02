@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LocalFileAgent.Application</RootNamespace>
+    <AssemblyName>LocalFileAgent.Application</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocalFileAgent.Domain\LocalFileAgent.Domain.csproj" />
+    <ProjectReference Include="..\LocalFileAgent.Text\LocalFileAgent.Text.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
+  </ItemGroup>
+
+</Project>

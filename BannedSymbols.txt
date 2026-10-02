@@ -1,0 +1,31 @@
+# Microsoft.CodeAnalysis.BannedApiAnalyzers banned symbols list
+# Format: <DocumentationId>;<Description>
+
+# File deletion and movement
+M:System.IO.File.Delete(System.String);Banned: LocalFileAgent is strictly read-only on user files.
+M:System.IO.File.Move(System.String,System.String);Banned: LocalFileAgent is strictly read-only on user files.
+M:System.IO.File.Move(System.String,System.String,System.Boolean);Banned: LocalFileAgent is strictly read-only on user files.
+M:System.IO.File.Replace(System.String,System.String,System.String);Banned: LocalFileAgent is strictly read-only on user files.
+M:System.IO.File.Replace(System.String,System.String,System.String,System.Boolean);Banned: LocalFileAgent is strictly read-only on user files.
+
+# File writing (must only use internal DataDirectoryStore abstractions)
+M:System.IO.File.WriteAllText(System.String,System.String);Banned: Use DataDirectoryStore for internal application data.
+M:System.IO.File.WriteAllText(System.String,System.String,System.Text.Encoding);Banned: Use DataDirectoryStore for internal application data.
+M:System.IO.File.WriteAllLines(System.String,System.Collections.Generic.IEnumerable{System.String});Banned: Use DataDirectoryStore for internal application data.
+M:System.IO.File.WriteAllBytes(System.String,System.Byte[]);Banned: Use DataDirectoryStore for internal application data.
+M:System.IO.File.AppendAllText(System.String,System.String);Banned: Use DataDirectoryStore for internal application data.
+M:System.IO.File.AppendAllLines(System.String,System.Collections.Generic.IEnumerable{System.String});Banned: Use DataDirectoryStore for internal application data.
+
+# Directory mutation
+M:System.IO.Directory.Delete(System.String);Banned: LocalFileAgent is strictly read-only on user files.
+M:System.IO.Directory.Delete(System.String,System.Boolean);Banned: LocalFileAgent is strictly read-only on user files.
+M:System.IO.Directory.Move(System.String,System.String);Banned: LocalFileAgent is strictly read-only on user files.
+
+# Uncontrolled process launching
+M:System.Diagnostics.Process.Start(System.String);Banned: Use WorkerProcessLauncher or explicit safe launcher.
+M:System.Diagnostics.Process.Start(System.String,System.String);Banned: Use WorkerProcessLauncher or explicit safe launcher.
+
+# Non-controlled console writes (use ILogger instead)
+M:System.Console.WriteLine;Banned: Use ILogger for logging.
+M:System.Console.WriteLine(System.String);Banned: Use ILogger for logging.
+M:System.Console.Write(System.String);Banned: Use ILogger for logging.

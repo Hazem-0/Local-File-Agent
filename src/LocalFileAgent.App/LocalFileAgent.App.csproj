@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>LocalFileAgent.App</RootNamespace>
+    <AssemblyName>LocalFileAgent.App</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocalFileAgent.Domain\LocalFileAgent.Domain.csproj" />
+    <ProjectReference Include="..\LocalFileAgent.Text\LocalFileAgent.Text.csproj" />
+    <ProjectReference Include="..\LocalFileAgent.Application\LocalFileAgent.Application.csproj" />
+    <ProjectReference Include="..\LocalFileAgent.Infrastructure\LocalFileAgent.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+  </ItemGroup>
+
+</Project>

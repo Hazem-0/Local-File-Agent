@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LocalFileAgent.Text</RootNamespace>
+    <AssemblyName>LocalFileAgent.Text</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocalFileAgent.Domain\LocalFileAgent.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
