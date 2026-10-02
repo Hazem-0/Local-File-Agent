@@ -8,6 +8,7 @@ using LocalFileAgent.Domain.Models;
 using LocalFileAgent.Domain.Search;
 using LocalFileAgent.Domain.Storage;
 using LocalFileAgent.Domain.Text;
+using LocalFileAgent.Domain.Throttling;
 using LocalFileAgent.Domain.Worker;
 
 namespace LocalFileAgent.Application.Indexing;
@@ -50,6 +51,7 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
     private readonly IVisualEmbeddingService? _visualEmbedding;
     private readonly ITier2OcrService? _tier2Ocr;
     private readonly IVisualDescriber? _visualDescriber;
+    private readonly IResourceGovernor? _governor;
 
     public IndexOrchestrator(
         IFileScanner scanner,
@@ -62,7 +64,8 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
         IVisualVectorIndex? visualVectorIndex = null,
         IVisualEmbeddingService? visualEmbedding = null,
         ITier2OcrService? tier2Ocr = null,
-        IVisualDescriber? visualDescriber = null)
+        IVisualDescriber? visualDescriber = null,
+        IResourceGovernor? governor = null)
     {
         _scanner = scanner ?? throw new ArgumentNullException(nameof(scanner));
         _worker = worker ?? throw new ArgumentNullException(nameof(worker));
@@ -75,6 +78,7 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
         _visualEmbedding = visualEmbedding;
         _tier2Ocr = tier2Ocr;
         _visualDescriber = visualDescriber;
+        _governor = governor;
     }
 
     public async Task<IndexProgressResult> IndexDirectoryAsync(
@@ -210,9 +214,12 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
                         }
                     }
 
+                    // Resource Governor check: throttle heavy model operations on battery/low charge
+                    var isHeavyThrottled = _governor?.ShouldThrottleHeavyWork() == true;
+
                     // Tier 2 OCR Escalation: Escalate if Tier 1 returned empty or low-confidence (<0.60) text
                     var hasAdequateOcr = parseResp.Pages.Any(p => !string.IsNullOrWhiteSpace(p.Text) && p.Confidence >= 0.60f);
-                    if (!hasAdequateOcr && _tier2Ocr != null)
+                    if (!isHeavyThrottled && !hasAdequateOcr && _tier2Ocr != null)
                     {
                         try
                         {
@@ -247,7 +254,7 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
                     }
 
                     // Slow Lane: Visual Describer (Arabic VLM document/scene captioning)
-                    if (_visualDescriber != null)
+                    if (!isHeavyThrottled && _visualDescriber != null)
                     {
                         try
                         {
@@ -284,7 +291,8 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
 
                 var chunkIds = await _indexStore.InsertChunksAsync(fileId, chunksList, cancellationToken).ConfigureAwait(false);
 
-                if (_vectorIndex != null && _embeddingService != null && chunkIds.Count > 0)
+                var throttleEmbedding = _governor?.ShouldThrottleHeavyWork() == true;
+                if (!throttleEmbedding && _vectorIndex != null && _embeddingService != null && chunkIds.Count > 0)
                 {
                     try
                     {
@@ -313,6 +321,11 @@ public sealed class IndexOrchestrator : IIndexOrchestrator
                 }
 
                 indexedCount++;
+
+                if (_governor != null)
+                {
+                    await _governor.WaitIfThrottledAsync(cancellationToken).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {

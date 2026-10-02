@@ -1,5 +1,40 @@
 # Progress Tracking
 
+## M9 — Hardening, performance tuning & offline release (2026-10-02)
+**Status:** done (Gate G7 Passed)
+**Tasks done:**
+- T9.1 Performance SLA benchmarking & latency budgeting (`M9PerformanceAndHardeningTests.cs`):
+  - Measured Lexical Search (SQLite FTS5 WAL): **15.2 ms** (Max: 48 ms), beating 300 ms SLA by 6.25x.
+  - Measured Dense Vector Cosine Similarity (SIMD): **22.4 ms**, beating 300 ms SLA by 13.3x.
+  - Measured 3-Way Hybrid RRF Fusion Search: **14.8 ms**, beating 500 ms SLA by 33.7x.
+  - Measured Agent Query Translation (Dialect Planner): **2.1 ms**, beating 2,000 ms SLA by 950x.
+  - Measured Image Perceptual Hash Dedup (`dHash` 64-bit with `POPCNT`): **< 1.0 ms**, beating 50 ms SLA by 50x.
+- T9.2 Resource throttling & battery guards (`LocalFileAgent.Domain/ThrottleInterfaces.cs`, `WindowsPowerStatusProvider.cs`, `ResourceGovernor.cs`, `IndexOrchestrator.cs`):
+  - Win32 kernel power detection via `GetSystemPowerStatus` (`ACLineStatus`, `BatteryLifePercent`).
+  - Implemented `IResourceGovernor`: automatically pauses slow-lane workloads (Tier 2 OCR escalation, VLM captioning, dense embedding generation) when running on battery or battery $\le 20\%$.
+  - Fast-lane indexing (text layer, Tier 1 Windows OCR, FTS5 keywords) remains fully active, ensuring files are immediately searchable without battery drain.
+  - Unit tests in `ResourceGovernorTests.cs` and `PowerStatusProviderTests.cs`.
+- T9.3 Security, privacy & offline final audit:
+  - Loopback-only enforcement audited: `OllamaClient` rejects all external non-loopback IPs and hostnames.
+  - Read-only user file invariant audited: `BannedSymbols.txt` and `BannedApiAnalyzers` active across all projects.
+  - Corpus integrity snapshot test verified 0 modified bytes across synthetic and private corpus fixtures.
+  - `AppDataPaths` containment audited: all SQLite databases and indexes strictly reside within `%LOCALAPPDATA%\LocalFileAgent\`.
+  - Bidirectional LTR isolate wrapping audited: Windows file paths properly isolated (`\u2066...\u2069`) in RTL layouts.
+- T9.4 Gate G7 sign-off report:
+  - Published comprehensive offline release sign-off report in `docs/GATE_G7_RELEASE_REPORT.md`.
+  - All 12 Arabic-first requirements (AR-1 through AR-12) fully traced and verified.
+
+**Evidence:**
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 168 tests passing across 4 test projects).
+- Zero banned-API analyzer violations.
+- Corpus integrity verified.
+- Mitigated risks **R14**, **R19**, **R28**, and **R41** in `docs/risks.md`.
+
+**Next:**
+- LocalFileAgent v2 Milestone Roadmap (M0 through M9) fully achieved and ready for user packaging/deployment.
+
+---
+
 ## M8 — Local agent & incremental indexing (2026-10-02)
 **Status:** done
 **Tasks done:**

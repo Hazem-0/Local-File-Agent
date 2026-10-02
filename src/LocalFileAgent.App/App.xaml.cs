@@ -6,8 +6,11 @@ using LocalFileAgent.Application.Agent;
 using LocalFileAgent.Application.FileSystem;
 using LocalFileAgent.Application.Indexing;
 using LocalFileAgent.Application.Search;
+using LocalFileAgent.Application.Throttling;
 using LocalFileAgent.Domain.Agent;
 using LocalFileAgent.Domain.FileSystem;
+using LocalFileAgent.Domain.Throttling;
+using LocalFileAgent.Infrastructure.Throttling;
 using LocalFileAgent.Domain.Models;
 using LocalFileAgent.Domain.Search;
 using LocalFileAgent.Domain.Storage;
@@ -53,6 +56,10 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IImageHasher, ImageHasher>();
             services.AddSingleton<ITier2OcrService, Tier2OcrService>();
             services.AddSingleton<IVisualDescriber, VisualDescriber>();
+            // Power status, battery guard, and resource throttling
+            services.AddSingleton<IPowerStatusProvider, WindowsPowerStatusProvider>();
+            services.AddSingleton<IResourceGovernor, ResourceGovernor>();
+
             services.AddSingleton<IWorkerClient, WorkerClient>();
             services.AddSingleton<IIndexOrchestrator, IndexOrchestrator>();
             services.AddSingleton<ISearchService, HybridSearchService>();

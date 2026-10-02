@@ -19,7 +19,7 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | R11 | SigLIP 2 weak with direct Arabic queries | M | L | Open | Translate visual queries to English via planner; caption-based retrieval. |
 | R12 | Arabic file names: NFC/NFD, very long paths, mixed scripts | M | M | Open | Normalize names for search; long-path manifest; unit tests. |
 | R13 | Legacy .doc/.xls common and unsupported by Open XML | H | M | Open | M5b sandboxed LibreOffice conversion if installed, else metadata only with clear UI note. |
-| R14 | OCR/caption time for large archives is long | H | M | Open | Two-lane indexing, priorities, hash caching, page caps (50 default), visual budgets. |
+| R14 | OCR/caption time for large archives is long | H | M | Mitigated | Two-lane indexing architecture ensures fast-lane searchability in seconds; background slow-lane throttled by ResourceGovernor. |
 
 ## Security, Privacy, Safety Risks
 
@@ -32,7 +32,7 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | R25 | Sensitive data (IDs, credentials) in index/logs | M | H | Open | Optional DPAPI encryption, private folder exclusions, no document text in logs, redaction options. |
 | R26 | Private corpus leaked | L | H | Open | AGENTS.md rule 3, git-ignored `corpus/private/`, metrics-only reporting, no network in product. |
 | R27 | Ollama exposed beyond loopback or port hijacked | L | H | Mitigated | Strict loopback validation in `OllamaClient` rejects non-loopback endpoints; verified by 5 unit tests. |
-| R28 | Index corruption or crash inconsistency | M | M | Open | WAL mode, vector generations, rollback to previous valid generation. |
+| R28 | Index corruption or crash inconsistency | M | M | Mitigated | SQLite WAL mode, atomic chunk insertion transactions, out-of-process worker crash isolation. Verified in M9. |
 | R39 | OneDrive/cloud placeholders trigger network downloads | M | H | Mitigated | FileScanner filters out Offline, RecallOnDataAccess (0x00400000), and RecallOnOpen (0x00040000) attributes. |
 
 ## Models, Runtime, Performance Risks
@@ -40,11 +40,11 @@ Updated per milestone. Status: `Open` | `Mitigated` | `Accepted`.
 | ID | Risk | Likelihood | Impact | Status | Mitigation / Evidence |
 |---|---|---|---|---|---|
 | R18 | Ollama/llama.cpp updates break models | M | M | Open | Pin version; model smoke tests after updates; both candidates behind ILocalChatModel. |
-| R19 | RAM/VRAM exhaustion with multiple resident models | M | H | Open | Lite Profile (E2B), OLLAMA_MAX_LOADED_MODELS=1, short keep_alive, interactive vs indexing modes. |
+| R19 | RAM/VRAM exhaustion with multiple resident models | M | H | Mitigated | Lite Profile defaults (Gemma 4 E2B, BGE-M3), single-model keep_alive lifecycle, in-memory embedding hash cache. |
 | R20 | Model/library licenses restrict redistribution | M | M | Open | Review model cards before bundling; Ollama-managed install for MVP. |
 | R21 | Invalid or unsafe plan JSON | M | M | Mitigated | AgentPlanner uses JSON schema output with single retry and sub-millisecond deterministic fallback. Verified in M8 unit tests. |
 | R22 | Embedding model change forces full re-embed | M | M | Open | Vector generations, background rebuild, UI notification. |
 | R23 | ANN with restrictive scope filters returns few results | M | M | Mitigated | SqliteVectorIndex uses exact hardware SIMD TensorPrimitives.CosineSimilarity with candidate pre-filtering; verified in M6 tests. |
 | R37 | Index size growth | M | M | Open | Capacity report in UI, trigram only for OCR chunks, LRU thumbnail cache. |
 | R38 | Antivirus/Defender scanning slows or locks files | M | L-M | Open | Backoff and retry on sharing violations; measure; document exclusions as user choice. |
-| R41 | Laptop battery/thermal impact of background OCR | M | M | Open | Pause on battery, CPU throttling, quiet hours. |
+| R41 | Laptop battery/thermal impact of background OCR | M | M | Mitigated | WindowsPowerStatusProvider queries Win32 GetSystemPowerStatus; ResourceGovernor pauses heavy slow-lane tasks on battery/low charge. Verified in M9. |
