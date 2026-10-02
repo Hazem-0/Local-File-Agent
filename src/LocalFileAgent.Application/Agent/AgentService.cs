@@ -188,19 +188,53 @@ public sealed class AgentService : IAgentService
 
         // Deterministic answer synthesizer fallback
         var sb = new StringBuilder();
-        sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"تم العثور على {hits.Count} من الملفات المطابقة لبحثك:");
+        sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"تم العثور على {hits.Count} من الملفات والمستندات المطابقة لبحثك:");
         sb.AppendLine();
 
         for (var i = 0; i < topHits.Count; i++)
         {
             var h = topHits[i];
+            var pageInfo = h.PageNumber > 0 ? $" (صفحة {h.PageNumber})" : string.Empty;
             var safePath = BidiHelper.WrapLtrIsolate(h.FilePath);
-            sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"[{i + 1}] \"{h.FileName}\" (صفحة {h.PageNumber}):");
-            sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"    {h.Snippet}");
+            var cleanSnippet = CleanSnippetForAgentText(h.Snippet);
+
+            sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"[{i + 1}] \"{h.FileName}\"{pageInfo}:");
+            if (!string.IsNullOrWhiteSpace(cleanSnippet))
+            {
+                sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"    {cleanSnippet}");
+            }
             sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"    المسار: {safePath}");
             sb.AppendLine();
         }
 
+        sb.AppendLine("💡 جميع الملفات مدرجة أدناه كبطاقات تفاعلية — انقر على أي مسار أو زر فتح لتشغيل الملف فوراً.");
         return sb.ToString().TrimEnd();
+    }
+
+    private static string CleanSnippetForAgentText(string? snippet)
+    {
+        if (string.IsNullOrWhiteSpace(snippet)) return string.Empty;
+        var text = snippet
+            .Replace("**وصف محتوى الصورة:**", "وصف المحتوى: ")
+            .Replace("**نوع المستند:**", "نوع المستند: ")
+            .Replace("**العناصر البصرية والنصوص الرئيسية:**", "العناصر الرئيسية: ")
+            .Replace("**", string.Empty)
+            .Replace("###", string.Empty)
+            .Replace("##", string.Empty)
+            .Replace("#", string.Empty)
+            .Trim();
+
+        // Collapse whitespace / multiple newlines
+        while (text.Contains("\n\n", StringComparison.Ordinal))
+        {
+            text = text.Replace("\n\n", " ", StringComparison.Ordinal);
+        }
+
+        if (text.Length > 250)
+        {
+            text = text[..250] + "...";
+        }
+
+        return text;
     }
 }

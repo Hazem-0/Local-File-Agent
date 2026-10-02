@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LocalFileAgent.Application.FileSystem;
 using LocalFileAgent.Application.Indexing;
 using LocalFileAgent.Domain.FileSystem;
 using LocalFileAgent.Domain.Search;
@@ -82,6 +83,9 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     public IAsyncRelayCommand<string?> StartIndexingCommand { get; }
     public IRelayCommand CancelIndexingCommand { get; }
     public IAsyncRelayCommand RefreshStatsCommand { get; }
+    public IRelayCommand<object?> OpenFileCommand { get; }
+    public IRelayCommand<object?> OpenFolderCommand { get; }
+    public IRelayCommand CloseAgentAnswerCommand { get; }
 
     public SearchViewModel(
         IIndexStore indexStore,
@@ -104,6 +108,40 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         StartIndexingCommand = new AsyncRelayCommand<string?>(StartIndexingAsync);
         CancelIndexingCommand = new RelayCommand(CancelIndexing);
         RefreshStatsCommand = new AsyncRelayCommand(RefreshStatsAsync);
+
+        OpenFileCommand = new RelayCommand<object?>(param =>
+        {
+            var path = param switch
+            {
+                SearchResultViewModel vm => vm.FilePath,
+                string p => p,
+                _ => SelectedResult?.FilePath
+            };
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                SafeFileLauncher.Instance.OpenFile(path);
+            }
+        });
+
+        OpenFolderCommand = new RelayCommand<object?>(param =>
+        {
+            var path = param switch
+            {
+                SearchResultViewModel vm => vm.FilePath,
+                string p => p,
+                _ => SelectedResult?.FilePath
+            };
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                SafeFileLauncher.Instance.OpenContainingFolder(path);
+            }
+        });
+
+        CloseAgentAnswerCommand = new RelayCommand(() =>
+        {
+            IsAgentMode = false;
+            AgentAnswerText = string.Empty;
+        });
     }
 
     partial void OnQueryChanged(string value)
@@ -240,6 +278,8 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         SearchLatencyMs = 0;
         StatusMessage = string.Empty;
         IsSearching = false;
+        IsAgentMode = false;
+        AgentAnswerText = string.Empty;
     }
 
     public async Task StartIndexingAsync(string? directoryPath, CancellationToken cancellationToken = default)
