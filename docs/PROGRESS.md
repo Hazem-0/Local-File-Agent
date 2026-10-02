@@ -1,5 +1,45 @@
 # Progress Tracking
 
+## M8 — Local agent & incremental indexing (2026-10-02)
+**Status:** done
+**Tasks done:**
+- T8.1 Agent loop (Call A planning, deterministic search execution, Call B synthesis):
+  - `SearchPlan`, `GroundingValidationResult`, `AgentAnswer`, `IAgentPlanner`, `IGroundingValidator`, `IAgentService`, and `IFileWatcherService` contracts in `LocalFileAgent.Domain/AgentInterfaces.cs`.
+  - `AgentPlanner` (`LocalFileAgent.Application/Agent/AgentPlanner.cs`):
+    - Call A query planner handles Egyptian dialect carrier words ("عايز", "دور لي على", "فين"), formats ("بي دي اف", "وورد", "اكسل", "صورة"), and broken plural & synonym mappings ("فواتير" <-> "فاتورة", "عقود" <-> "عقد").
+    - Supports structured JSON schema generation via Ollama local models with deterministic sub-millisecond fallback.
+  - `AgentService` (`LocalFileAgent.Application/Agent/AgentService.cs`):
+    - Orchestrates Call A planning -> deterministic `ISearchService` tool execution -> Call B grounded synthesis with strict citation format `[رقم]` and Arabic answer composition.
+- T8.2 Grounding & hallucination validator (`LocalFileAgent.Application/Agent/GroundingValidator.cs`):
+  - Analyzes LLM synthesis output for uncited file paths and out-of-range citations.
+  - Sanitizes hallucinated paths into `[مسار غير موثق محذوف]` to prevent prompt injection or fabricated system paths from reaching the user.
+  - Tags answer with `IsGrounded` status and extracts verified citations with file path, page number, and provenance.
+- T8.3 Incremental indexing watcher (`LocalFileAgent.Application/FileSystem/IncrementalIndexWatcher.cs`):
+  - Debounced (default 500ms) directory monitor using `FileSystemWatcher`.
+  - Aggregates rapid filesystem events (file created, modified, deleted, renamed) into batch queues for non-blocking background index updates.
+- T8.4 UI & App integration:
+  - Added "🤖 اسأل الوكيل" (`AskAgentCommand`), `AgentAnswerText`, `IsAgentMode`, and `IsAnswerGrounded` in `SearchViewModel.cs`.
+  - Added modern interactive agent query card and verified citation chip to `MainWindow.xaml`.
+  - Registered all agent services and file watcher in `App.xaml.cs`.
+- T8.5 Unit & Acceptance verification:
+  - Unit tests: `AgentPlannerTests.cs` (4 tests), `GroundingValidatorTests.cs` (3 tests), `AgentServiceTests.cs` (2 tests), `IncrementalIndexWatcherTests.cs` (2 tests).
+  - Acceptance tests: `M8LocalAgentAcceptanceTests.cs` (2 tests: end-to-end Arabic query grounding and hallucination neutralization).
+
+**Evidence:**
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 156 tests passing across 4 test projects).
+- Zero banned-API analyzer violations.
+- Corpus integrity verified.
+- Mitigated risks **R06**, **R15**, and **R21** in `docs/risks.md`.
+
+**Next:**
+- Begin **Milestone M9 — Hardening, Performance Tuning & Offline Release (Gate G7)**:
+  - T9.1 Performance & Latency Budgeting (lexical <300ms, hybrid <500ms, agent <2s).
+  - T9.2 Resource Throttling & Battery Guards (pause indexing on battery/high CPU).
+  - T9.3 Security, Privacy & Offline Release Audit.
+  - T9.4 Gate G7 Sign-Off Report.
+
+---
+
 ## M7 — Visual pipeline (2026-10-02)
 **Status:** done
 **Tasks done:**

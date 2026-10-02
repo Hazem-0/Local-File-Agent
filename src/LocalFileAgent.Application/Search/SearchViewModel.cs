@@ -21,6 +21,7 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     private readonly IIndexOrchestrator? _orchestrator;
     private readonly IDispatcherService _dispatcher;
     private readonly ISearchService? _searchService;
+    private readonly LocalFileAgent.Domain.Agent.IAgentService? _agentService;
 
     private CancellationTokenSource? _searchCts;
     private CancellationTokenSource? _indexingCts;
@@ -62,11 +63,21 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     private SearchResultViewModel? _selectedResult;
 
+    [ObservableProperty]
+    private string _agentAnswerText = string.Empty;
+
+    [ObservableProperty]
+    private bool _isAgentMode;
+
+    [ObservableProperty]
+    private bool _isAnswerGrounded = true;
+
     public int DebounceDelayMs { get; set; } = 250;
 
     public ObservableCollection<SearchResultViewModel> Results { get; } = [];
 
     public IAsyncRelayCommand SearchCommand { get; }
+    public IAsyncRelayCommand AskAgentCommand { get; }
     public IRelayCommand ClearSearchCommand { get; }
     public IAsyncRelayCommand<string?> StartIndexingCommand { get; }
     public IRelayCommand CancelIndexingCommand { get; }
@@ -77,15 +88,18 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         ITextNormalizer normalizer,
         IIndexOrchestrator? orchestrator = null,
         IDispatcherService? dispatcher = null,
-        ISearchService? searchService = null)
+        ISearchService? searchService = null,
+        LocalFileAgent.Domain.Agent.IAgentService? agentService = null)
     {
         _indexStore = indexStore ?? throw new ArgumentNullException(nameof(indexStore));
         _normalizer = normalizer ?? throw new ArgumentNullException(nameof(normalizer));
         _orchestrator = orchestrator;
         _dispatcher = dispatcher ?? new ImmediateDispatcherService();
         _searchService = searchService;
+        _agentService = agentService;
 
         SearchCommand = new AsyncRelayCommand(() => ExecuteSearchImmediateAsync(Query));
+        AskAgentCommand = new AsyncRelayCommand(AskAgentAsync);
         ClearSearchCommand = new RelayCommand(ClearSearch);
         StartIndexingCommand = new AsyncRelayCommand<string?>(StartIndexingAsync);
         CancelIndexingCommand = new RelayCommand(CancelIndexing);
@@ -324,6 +338,52 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         catch
         {
             // Ignore stats lookup errors during refresh
+        }
+    }
+
+    private async Task AskAgentAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Query) || _agentService == null)
+        {
+            return;
+        }
+
+        IsSearching = true;
+        IsAgentMode = true;
+        StatusMessage = "جارٍ تحليل السؤال والبحث وصياغة الإجابة الموثقة...";
+        AgentAnswerText = string.Empty;
+
+        try
+        {
+            var scopePaths = string.IsNullOrWhiteSpace(SelectedScope) ? null : new[] { SelectedScope };
+            var answer = await _agentService.AskAsync(Query, scopePaths).ConfigureAwait(false);
+
+            _dispatcher.Invoke(() =>
+            {
+                Results.Clear();
+                foreach (var h in answer.Hits)
+                {
+                    Results.Add(new SearchResultViewModel(h, Query, _normalizer));
+                }
+                TotalCount = Results.Count;
+                AgentAnswerText = answer.ResponseText;
+                IsAnswerGrounded = answer.IsGrounded;
+                SearchLatencyMs = (long)answer.Elapsed.TotalMilliseconds;
+                StatusMessage = answer.IsGrounded
+                    ? string.Format(CultureInfo.InvariantCulture, "تمت صياغة إجابة موثقة بالاعتماد على {0} نتائج ({1} مللي ثانية)", TotalCount, SearchLatencyMs)
+                    : string.Format(CultureInfo.InvariantCulture, "تمت صياغة إجابة مع تنبيه توثيق ({0} مللي ثانية)", SearchLatencyMs);
+            });
+        }
+        catch (Exception ex)
+        {
+            _dispatcher.Invoke(() =>
+            {
+                StatusMessage = string.Format(CultureInfo.InvariantCulture, "خطأ أثناء المعالجة: {0}", ex.Message);
+            });
+        }
+        finally
+        {
+            IsSearching = false;
         }
     }
 

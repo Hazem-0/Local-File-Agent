@@ -2,9 +2,11 @@ using System;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using LocalFileAgent.Application.Agent;
 using LocalFileAgent.Application.FileSystem;
 using LocalFileAgent.Application.Indexing;
 using LocalFileAgent.Application.Search;
+using LocalFileAgent.Domain.Agent;
 using LocalFileAgent.Domain.FileSystem;
 using LocalFileAgent.Domain.Models;
 using LocalFileAgent.Domain.Search;
@@ -54,6 +56,12 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IWorkerClient, WorkerClient>();
             services.AddSingleton<IIndexOrchestrator, IndexOrchestrator>();
             services.AddSingleton<ISearchService, HybridSearchService>();
+
+            // Agent, planning, grounding, and incremental watcher
+            services.AddSingleton<IAgentPlanner, AgentPlanner>();
+            services.AddSingleton<IGroundingValidator, GroundingValidator>();
+            services.AddSingleton<IAgentService, AgentService>();
+            services.AddSingleton<IFileWatcherService>(_ => new IncrementalIndexWatcher());
 
             // UI and ViewModel
             services.AddSingleton<IDispatcherService, WpfDispatcherService>();

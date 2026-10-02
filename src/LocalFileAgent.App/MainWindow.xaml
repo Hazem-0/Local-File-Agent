@@ -106,6 +106,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <TextBox x:Name="SearchBox"
@@ -117,8 +118,20 @@
                              Background="#FAFAFA"
                              VerticalContentAlignment="Center" />
 
-                    <!-- Clear button -->
+                    <!-- Ask Agent button -->
                     <Button Grid.Column="1"
+                            Command="{Binding AskAgentCommand}"
+                            Content="🤖 اسأل الوكيل"
+                            Margin="8,0,0,0"
+                            Padding="14,6"
+                            Background="#805AD5"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontWeight="SemiBold"
+                            Cursor="Hand" />
+
+                    <!-- Clear button -->
+                    <Button Grid.Column="2"
                             Command="{Binding ClearSearchCommand}"
                             Content="✕ مسح"
                             Margin="8,0,0,0"
@@ -129,6 +142,33 @@
                             FontWeight="SemiBold"
                             Cursor="Hand" />
                 </Grid>
+
+                <!-- Agent Grounded Answer Card -->
+                <Border Background="#FAF5FF"
+                        BorderBrush="#D6BCFA"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="14"
+                        Margin="0,12,0,0"
+                        Visibility="{Binding IsAgentMode, Converter={StaticResource BoolToVisConverter}}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                            <TextBlock Text="🤖 إجابة الوكيل الموثقة:" FontWeight="Bold" Foreground="#6B46C1" FontSize="14" />
+                            <Border Background="#C6F6D5" CornerRadius="4" Padding="6,2" Margin="8,0,0,0"
+                                    Visibility="{Binding IsAnswerGrounded, Converter={StaticResource BoolToVisConverter}}">
+                                <TextBlock Text="✓ موثقة بالكامل" Foreground="#22543D" FontSize="11" FontWeight="Bold" />
+                            </Border>
+                        </StackPanel>
+                        <TextBox Text="{Binding AgentAnswerText, Mode=OneWay}"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 Foreground="#2D3748"
+                                 FontSize="14"
+                                 FontFamily="Segoe UI, Arial" />
+                    </StackPanel>
+                </Border>
 
                 <!-- Search Options & Quick Status -->
                 <Grid Margin="0,10,0,0">
