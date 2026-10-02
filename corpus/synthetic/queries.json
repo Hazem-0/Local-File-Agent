@@ -1,0 +1,506 @@
+﻿[
+  {
+    "QueryText": "\u0639\u0627\u064A\u0632 \u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0628\u062A\u0627\u0639\u062A \u0627\u0644\u0634\u0647\u0631 \u0627\u0644\u0644\u064A \u0641\u0627\u062A",
+    "Language": "ar",
+    "Archetype": "EgyptianDialect",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0641\u064A\u0646 \u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u0627\u0644\u0623\u062C\u0647\u0632\u0629 \u0648\u0627\u0644\u0643\u0645\u0628\u064A\u0648\u062A\u0631\u0627\u062A\u061F",
+    "Language": "ar",
+    "Archetype": "EgyptianDialect",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0648\u0631\u064A\u0646\u064A \u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627",
+    "Language": "ar",
+    "Archetype": "EgyptianDialect",
+    "TargetKeywords": [
+      "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646"
+    ]
+  },
+  {
+    "QueryText": "\u0647\u0627\u062A \u0645\u062D\u0636\u0631 \u0627\u0644\u0627\u062C\u062A\u0645\u0627\u0639 \u0627\u0644\u0623\u062E\u064A\u0631 \u0628\u062A\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629",
+    "Language": "ar",
+    "Archetype": "EgyptianDialect",
+    "TargetKeywords": [
+      "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0641\u064A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629 \u0643\u0627\u0645\u061F",
+    "Language": "ar",
+    "Archetype": "EgyptianDialect",
+    "TargetKeywords": [
+      "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A"
+    ]
+  },
+  {
+    "QueryText": "\u062A\u0642\u0631\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0641\u0631\u0639 \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0644\u0634\u0647\u0631 \u0623\u0643\u062A\u0648\u0628\u0631",
+    "Language": "ar",
+    "Archetype": "MSA",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629 \u0648\u0634\u0628\u0643\u0627\u062A",
+    "Language": "ar",
+    "Archetype": "MSA",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0627\u0644\u0639\u0645\u0648\u0645\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "MSA",
+    "TargetKeywords": [
+      "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A",
+    "Language": "ar",
+    "Archetype": "MSA",
+    "TargetKeywords": [
+      "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A"
+    ]
+  },
+  {
+    "QueryText": "\u0625\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 \u062E\u0645\u0633\u0648\u0646 \u0623\u0644\u0641 \u062C\u0646\u064A\u0647",
+    "Language": "ar",
+    "Archetype": "MSA",
+    "TargetKeywords": [
+      "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629"
+    ]
+  },
+  {
+    "QueryText": "3ayez el fatoura bta3et el qahera",
+    "Language": "arabizi",
+    "Archetype": "Arabizi",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "fen 3a2d el tawreed bta3 el agheza?",
+    "Language": "arabizi",
+    "Archetype": "Arabizi",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629"
+    ]
+  },
+  {
+    "QueryText": "wareeny kashf el 7esab bta3 el mowared",
+    "Language": "arabizi",
+    "Archetype": "Arabizi",
+    "TargetKeywords": [
+      "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646"
+    ]
+  },
+  {
+    "QueryText": "kashf rawateb el mwazafeen",
+    "Language": "arabizi",
+    "Archetype": "Arabizi",
+    "TargetKeywords": [
+      "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628"
+    ]
+  },
+  {
+    "QueryText": "meezaneyet el mashro3at fel 3asema",
+    "Language": "arabizi",
+    "Archetype": "Arabizi",
+    "TargetKeywords": [
+      "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A"
+    ]
+  },
+  {
+    "QueryText": "find Cairo branch sales report for October",
+    "Language": "en",
+    "Archetype": "English",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "IT equipment supply agreement contract",
+    "Language": "en",
+    "Archetype": "English",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629"
+    ]
+  },
+  {
+    "QueryText": "board of directors minutes of meeting balance sheet",
+    "Language": "en",
+    "Archetype": "English",
+    "TargetKeywords": [
+      "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "information security and data protection policy document",
+    "Language": "en",
+    "Archetype": "English",
+    "TargetKeywords": [
+      "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A"
+    ]
+  },
+  {
+    "QueryText": "cash receipt fifty thousand Egyptian pounds",
+    "Language": "en",
+    "Archetype": "English",
+    "TargetKeywords": [
+      "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u062A\u0642\u0631\u064A\u0631 Sales \u0627\u0644\u062E\u0627\u0635 \u0628\u0641\u0631\u0639 Cairo",
+    "Language": "mixed",
+    "Archetype": "Mixed",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F Hardware \u0648\u0645\u0639\u062F\u0627\u062A IT",
+    "Language": "mixed",
+    "Archetype": "Mixed",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u0644\u0641 \u0627\u0644\u0640 Payroll \u0648\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0627\u0644\u0645\u0648\u0638\u0641\u064A\u0646",
+    "Language": "mixed",
+    "Archetype": "Mixed",
+    "TargetKeywords": [
+      "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628"
+    ]
+  },
+  {
+    "QueryText": "\u0648\u062B\u064A\u0642\u0629 \u0627\u0644\u0640 Security Policy \u0648\u0627\u0644\u0646\u0633\u062E \u0627\u0644\u0627\u062D\u062A\u064A\u0627\u0637\u064A",
+    "Language": "mixed",
+    "Archetype": "Mixed",
+    "TargetKeywords": [
+      "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A"
+    ]
+  },
+  {
+    "QueryText": "\u0625\u064A\u0635\u0627\u0644 Cash Receipt \u0627\u0644\u0645\u0639\u062A\u0645\u062F",
+    "Language": "mixed",
+    "Archetype": "Mixed",
+    "TargetKeywords": [
+      "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u062A\u0642\u0631\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0647 \u0634\u0647\u0631 \u0627\u0643\u062A\u0648\u0628\u0631",
+    "Language": "ar",
+    "Archetype": "TypoUnnormalized",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0646\u0647\u0627\u0626\u0649",
+    "Language": "ar",
+    "Archetype": "TypoUnnormalized",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A"
+    ]
+  },
+  {
+    "QueryText": "\u0641\u0627\u062A\u0648\u0631\u0647 \u0636\u0631\u064A\u0628\u064A\u0647 \u0631\u0633\u0645\u064A\u0647",
+    "Language": "ar",
+    "Archetype": "TypoUnnormalized",
+    "TargetKeywords": [
+      "\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u063A \u0645\u062C\u0644\u0633 \u0627\u0644\u0627\u062F\u0627\u0631\u0629",
+    "Language": "ar",
+    "Archetype": "TypoUnnormalized",
+    "TargetKeywords": [
+      "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u064A\u0632\u0627\u0646\u064A\u0647 \u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0641 \u0627\u0644\u0639\u0627\u0635\u0645\u0647 \u0627\u0644\u0627\u062F\u0627\u0631\u064A\u0647",
+    "Language": "ar",
+    "Archetype": "TypoUnnormalized",
+    "TargetKeywords": [
+      "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A"
+    ]
+  },
+  {
+    "QueryText": "\u062A\u0642\u0631\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0633\u0646\u0629 \u0662\u0660\u0662\u0665",
+    "Language": "ar",
+    "Archetype": "ArabicIndicDigits",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u0644\u0639\u0627\u0645 2025",
+    "Language": "ar",
+    "Archetype": "WesternDigits",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0639\u0627\u0645 \u0662\u0660\u0662\u0666",
+    "Language": "ar",
+    "Archetype": "ArabicIndicDigits",
+    "TargetKeywords": [
+      "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A"
+    ]
+  },
+  {
+    "QueryText": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_1.md"
+    ]
+  },
+  {
+    "QueryText": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_2.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_3.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_4.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_5.md"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_6.txt"
+    ]
+  },
+  {
+    "QueryText": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_7.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_8.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_9.md"
+    ]
+  },
+  {
+    "QueryText": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_10.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_11.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_12.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_13.md"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_14.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_15.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_16.txt"
+    ]
+  },
+  {
+    "QueryText": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_17.md"
+    ]
+  },
+  {
+    "QueryText": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_18.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_19.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_20.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_21.md"
+    ]
+  },
+  {
+    "QueryText": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_22.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_23.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_24.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_25.md"
+    ]
+  },
+  {
+    "QueryText": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_26.txt"
+    ]
+  },
+  {
+    "QueryText": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_27.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_28.txt"
+    ]
+  },
+  {
+    "QueryText": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_29.md"
+    ]
+  },
+  {
+    "QueryText": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627",
+    "Language": "ar",
+    "Archetype": "ExactItemQuery",
+    "TargetKeywords": [
+      "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_30.txt"
+    ]
+  }
+]

@@ -1,5 +1,41 @@
 # Progress Tracking
 
+## M2 — Arabic corpus and evaluation harness (2026-10-02)
+**Status:** done
+**Tasks done:**
+- T2.1 Synthetic Arabic corpus generator (`tools/CorpusGen`): Generates 228 files in `corpus/synthetic/` across 6 categories:
+  - 150 Text & Markdown files in UTF-8, UTF-8 BOM, CP1256 (Windows-1256), and UTF-16LE.
+  - 15 Spreadsheet CSV files in CP1256 and UTF-8.
+  - 25 Word DOCX documents with structured Arabic headings, body text, and tables via OpenXML SDK.
+  - 15 Broken text-layer fixtures (reversed order and isolated single-letter/cid replacement runs).
+  - 20 Scanned document images rendered via SkiaSharp with noise, border artifacts, and simulated typography.
+  - 3 Security prompt-injection test fixtures (Arabic & English).
+  - `ground_truth.json` mapping each file to its category, encoding, unique marker phrase, and expected query.
+- T2.2 Query set: `queries.json` containing 63 benchmark queries across Egyptian dialect, MSA, English, mixed Arabic/English, Arabizi, typo/unnormalized Arabic, and Arabic-Indic/Western digit variants.
+- T2.3 Evaluation harness (`tools/EvalHarness`): CLI tool computing CER/WER (raw vs normalized via Levenshtein), Recall@1/5/10, MRR, nDCG@10, and verifying path-scope containment (0 violations invariant). Produces `docs/benchmarks/baseline_m2_eval.md`.
+- T2.4 Private corpus protocol: `corpus/private/README.md` and `queries.csv.template` created to ensure user real Arabic documents remain 100% private with metrics-only reporting.
+
+**Evidence:**
+- Corpus generator output: `228 corpus files generated`.
+- Benchmark evaluation: `docs/benchmarks/baseline_m2_eval.md` (Raw CER: 9.48%, Normalized CER: 4.31%, Scope Violations: 0).
+- Build output: `0 Warning(s)`, `0 Error(s)`.
+- Full test suite: 70 tests executed, 70 passed (0 failed).
+- Automated check: `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`).
+
+**Decisions:**
+- [ADR 0001](adr/0001-lite-profile-and-two-tier-ocr.md)
+
+**Next:**
+- Begin **Milestone M3 — Ollama gateway and Arabic model bake-offs**:
+  - T3.1 Ollama typed gateway with loopback security guard and JSON-schema formatting.
+  - T3.2 Bake-off A: Text embeddings (`bge-m3`, `qwen3-embedding:0.6b`, `embeddinggemma`).
+  - T3.3 Bake-off B: Agent LLM (`gemma4:e2b`, `qwen3-vl:2b`, evaluated against `gemma4:e4b`).
+  - T3.4 Bake-off C: Arabic OCR (Windows OCR vs GLM-OCR 0.9B vs VLM).
+  - T3.5 Bake-off D: Captions & visual search (SigLIP 2 ONNX load test).
+  - T3.6 Decision ADRs and Gate G3 user review.
+
+---
+
 ## M1 — Arabic text core (2026-10-02)
 **Status:** done
 **Tasks done:**
@@ -9,22 +45,6 @@
 - T1.4 Light stemmer: `ArabicLightStemmer` implementing `IArabicStemmer` with Larkey light10 prefix/suffix stripping under minimum stem length guards.
 - T1.5 Chunker: `ArabicChunker` implementing `IChunker` with sentence boundary detection (Arabic punctuation `،`, `؟`, `!`, `؛`, `.`, newline) and overlap retention.
 - T1.6 Query analyzer: `QueryAnalyzer` implementing `IQueryAnalyzer` providing deterministic query understanding (Arabic, English, Mixed, Arabizi detection, digit normalization, stop word removal).
-
-**Evidence:**
-- Build output: `0 Warning(s)`, `0 Error(s)`.
-- Full test suite: 70 tests executed, 70 passed (0 failed).
-- Arabic requirements verified: AR-1, AR-2, AR-3, AR-6 unit checks all pass.
-- Verification script: `tools/check.ps1` exit code 0 (`ALL CHECKS PASSED`).
-
-**Decisions:**
-- [ADR 0001](adr/0001-lite-profile-and-two-tier-ocr.md)
-
-**Next:**
-- Begin **Milestone M2 — Arabic corpus and evaluation harness**:
-  - T2.1 Synthetic Arabic corpus generator (`tools/CorpusGen`)
-  - T2.2 Comprehensive Arabic query set (>= 60 queries across dialects & edge cases)
-  - T2.3 Evaluation harness (`tools/EvalHarness` computing CER/WER, recall@k, MRR, nDCG@10)
-  - T2.4 Private corpus protocol and safety verification
 
 ---
 

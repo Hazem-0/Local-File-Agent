@@ -1,0 +1,1826 @@
+﻿[
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_1.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_1",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_2.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_2",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_3.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_3",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_4.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_4",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_5.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_5",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_6.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_6",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_7.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_7",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_8.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_8",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_9.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_9",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_10.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_10",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_11.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_SALES_CAIRO_2025_11",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_12.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_12",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_13.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_13",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_14.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_14",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_15.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_HR_SALARY_SCALE_15",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_16.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_16",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_17.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_17",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_18.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_18",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_19.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_CASH_RECEIPT_50K_19",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_20.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_20",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_21.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_21",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_22.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_22",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_23.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_23",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_24.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_24",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_25.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_25",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_26.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_26",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_27.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_27",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_28.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_28",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_29.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_29",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_30.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_30",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_31.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_SALES_CAIRO_2025_31",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_32.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_32",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_33.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_33",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_34.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_34",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_35.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_HR_SALARY_SCALE_35",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_36.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_36",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_37.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_37",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_38.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_38",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_39.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_CASH_RECEIPT_50K_39",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_40.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_40",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_41.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_41",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_42.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_42",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_43.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_43",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_44.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_44",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_45.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_45",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_46.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_46",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_47.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_47",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_48.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_48",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_49.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_49",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_50.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_50",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_51.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_SALES_CAIRO_2025_51",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_52.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_52",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_53.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_53",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_54.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_54",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_55.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_HR_SALARY_SCALE_55",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_56.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_56",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_57.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_57",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_58.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_58",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_59.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_CASH_RECEIPT_50K_59",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_60.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_60",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_61.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_61",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_62.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_62",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_63.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_63",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_64.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_64",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_65.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_65",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_66.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_66",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_67.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_67",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_68.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_68",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_69.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_69",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_70.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_70",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_71.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_SALES_CAIRO_2025_71",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_72.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_72",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_73.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_73",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_74.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_74",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_75.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_HR_SALARY_SCALE_75",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_76.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_76",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_77.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_77",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_78.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_78",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_79.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_CASH_RECEIPT_50K_79",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_80.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_80",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_81.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_81",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_82.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_82",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_83.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_83",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_84.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_84",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_85.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_85",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_86.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_86",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_87.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_87",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_88.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_88",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_89.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_89",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_90.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_90",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_91.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_SALES_CAIRO_2025_91",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_92.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_92",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_93.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_93",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_94.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_94",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_95.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_HR_SALARY_SCALE_95",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_96.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_96",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_97.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_97",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_98.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_98",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_99.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_CASH_RECEIPT_50K_99",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_100.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_100",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_101.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_101",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_102.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_102",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_103.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_103",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_104.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_104",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_105.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_105",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_106.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_106",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_107.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_107",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_108.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_108",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_109.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_109",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_110.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_110",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_111.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_SALES_CAIRO_2025_111",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_112.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_112",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_113.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_113",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_114.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_114",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_115.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_HR_SALARY_SCALE_115",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_116.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_116",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_117.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_117",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_118.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_118",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_119.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_CASH_RECEIPT_50K_119",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_120.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_120",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_121.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_121",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_122.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_122",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_123.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_123",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_124.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_124",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_125.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_125",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_126.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_126",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_127.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_127",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_128.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_128",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_129.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_129",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_130.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_130",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_131.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_SALES_CAIRO_2025_131",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_132.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_132",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_133.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_133",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_134.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_134",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_135.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_HR_SALARY_SCALE_135",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_136.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_136",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_137.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_137",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_138.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_138",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_139.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_CASH_RECEIPT_50K_139",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_140.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_140",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0645\u0628\u064A\u0639\u0627\u062A_\u0627\u0644\u0642\u0627\u0647\u0631\u0629_141.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_SALES_CAIRO_2025_141",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0648\u0627\u062A\u064A\u0631 \u0645\u0628\u064A\u0639\u0627\u062A \u0627\u0644\u0642\u0627\u0647\u0631\u0629 \u0623\u0643\u062A\u0648\u0628\u0631"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u062A\u0648\u0631\u064A\u062F_\u0623\u062C\u0647\u0632\u0629_142.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_SUPPLY_CONTRACT_IT_142",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u062A\u0648\u0631\u064A\u062F \u062D\u0648\u0627\u0633\u0628 \u0622\u0644\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u062D\u0636\u0631_\u0627\u062C\u062A\u0645\u0627\u0639_\u0627\u0644\u0625\u062F\u0627\u0631\u0629_143.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_BOARD_MINUTES_Q3_143",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u062D\u0636\u0631 \u0627\u062C\u062A\u0645\u0627\u0639 \u0645\u062C\u0644\u0633 \u0627\u0644\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629_\u0627\u0644\u0645\u0634\u0631\u0648\u0639\u0627\u062A_144.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CAPITAL_BUDGET_2026_144",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0645\u0634\u0631\u0648\u0639\u0627\u062A \u0627\u0644\u0639\u0627\u0635\u0645\u0629 \u0627\u0644\u0625\u062F\u0627\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0634\u0631\u0648\u0637_\u0627\u0644\u062A\u0648\u0638\u064A\u0641_\u0648\u0627\u0644\u0631\u0648\u0627\u062A\u0628_145.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_HR_SALARY_SCALE_145",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0633\u0644\u0645 \u0627\u0644\u0631\u0648\u0627\u062A\u0628 \u0648\u0644\u0627\u0626\u062D\u0629 \u0627\u0644\u0645\u0648\u0627\u0631\u062F \u0627\u0644\u0628\u0634\u0631\u064A\u0629"
+  },
+  {
+    "FileName": "\u0645\u0630\u0643\u0631\u0629_\u062A\u0641\u0627\u0647\u0645_\u0642\u0627\u0646\u0648\u0646\u064A\u0629_146.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_MOU_NILE_REALESTATE_146",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0630\u0643\u0631\u0629 \u062A\u0641\u0627\u0647\u0645 \u0627\u0633\u062A\u062B\u0645\u0627\u0631 \u0639\u0642\u0627\u0631\u064A"
+  },
+  {
+    "FileName": "\u062A\u0642\u0631\u064A\u0631_\u0635\u064A\u0627\u0646\u0629_\u0627\u0644\u0645\u0639\u062F\u0627\u062A_147.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-16le",
+    "Marker": "MARKER_MAINTENANCE_LOG_104_147",
+    "PageCount": 1,
+    "ExpectedQuery": "\u062A\u0642\u0631\u064A\u0631 \u0635\u064A\u0627\u0646\u0629 \u0627\u0644\u0645\u0648\u0644\u062F\u0627\u062A \u0641\u064A \u0627\u0644\u0645\u062E\u0627\u0632\u0646"
+  },
+  {
+    "FileName": "\u0633\u064A\u0627\u0633\u0629_\u0623\u0645\u0646_\u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A_148.txt",
+    "Category": "TextDocument",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_SECURITY_POLICY_DOC_148",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0648\u062B\u064A\u0642\u0629 \u0633\u064A\u0627\u0633\u0629 \u0623\u0645\u0646 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A \u0648\u062D\u0645\u0627\u064A\u0629 \u0627\u0644\u0628\u064A\u0627\u0646\u0627\u062A"
+  },
+  {
+    "FileName": "\u0625\u064A\u0635\u0627\u0644_\u0627\u0633\u062A\u0644\u0627\u0645_\u0646\u0642\u062F\u064A\u0629_149.md",
+    "Category": "TextDocument",
+    "Encoding": "utf-8-bom",
+    "Marker": "MARKER_CASH_RECEIPT_50K_149",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u064A\u0635\u0627\u0644 \u0627\u0633\u062A\u0644\u0627\u0645 \u062F\u0641\u0639\u0629 \u0645\u0642\u062F\u0645\u0629 50 \u0627\u0644\u0641"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u062D\u0633\u0627\u0628_\u0645\u0648\u0631\u062F\u064A\u0646_150.txt",
+    "Category": "TextDocument",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_VENDOR_DELTA_RAW_150",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u062D\u0633\u0627\u0628 \u0645\u0648\u0631\u062F\u064A\u0646 \u0634\u0631\u0643\u0629 \u0627\u0644\u062F\u0644\u062A\u0627"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_151.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_151",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 151"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_152.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CSV_PAYROLL_152",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 152"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_153.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_153",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 153"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_154.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CSV_PAYROLL_154",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 154"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_155.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_155",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 155"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_156.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CSV_PAYROLL_156",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 156"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_157.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_157",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 157"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_158.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CSV_PAYROLL_158",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 158"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_159.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_159",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 159"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_160.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CSV_PAYROLL_160",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 160"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_161.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_161",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 161"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_162.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CSV_PAYROLL_162",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 162"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_163.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_163",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 163"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_164.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "windows-1256",
+    "Marker": "MARKER_CSV_PAYROLL_164",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 164"
+  },
+  {
+    "FileName": "\u0643\u0634\u0641_\u0631\u0648\u0627\u062A\u0628_165.csv",
+    "Category": "SpreadsheetCsv",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_CSV_PAYROLL_165",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0643\u0634\u0641 \u0631\u0648\u0627\u062A\u0628 \u0623\u062D\u0645\u062F \u0627\u0644\u0633\u064A\u062F 165"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_166.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_166",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 166"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_167.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_167",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 167"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_168.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_168",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 168"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_169.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_169",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 169"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_170.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_170",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 170"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_171.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_171",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 171"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_172.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_172",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 172"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_173.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_173",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 173"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_174.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_174",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 174"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_175.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_175",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 175"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_176.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_176",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 176"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_177.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_177",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 177"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_178.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_178",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 178"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_179.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_179",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 179"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_180.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_180",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 180"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_181.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_181",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 181"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_182.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_182",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 182"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_183.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_183",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 183"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_184.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_184",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 184"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_185.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_185",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 185"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_186.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_186",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 186"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_187.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_187",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 187"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_188.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_188",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 188"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_189.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_189",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 189"
+  },
+  {
+    "FileName": "\u0639\u0642\u062F_\u0631\u0633\u0645\u064A_190.docx",
+    "Category": "DocxDocument",
+    "Encoding": "openxml",
+    "Marker": "MARKER_DOCX_CONTRACT_190",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0639\u0642\u062F \u0628\u064A\u0639 \u0648\u062A\u0646\u0627\u0632\u0644 \u0631\u0642\u0645 190"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_191.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_191",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 191"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_192.txt",
+    "Category": "BrokenReversedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_192",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 192"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_193.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_193",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 193"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_194.txt",
+    "Category": "BrokenReversedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_194",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 194"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_195.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_195",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 195"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_196.txt",
+    "Category": "BrokenReversedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_196",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 196"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_197.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_197",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 197"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_198.txt",
+    "Category": "BrokenReversedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_198",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 198"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_199.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_199",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 199"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_200.txt",
+    "Category": "BrokenReversedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_200",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 200"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_201.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_201",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 201"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_202.txt",
+    "Category": "BrokenReversedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_202",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 202"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_203.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_203",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 203"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_204.txt",
+    "Category": "BrokenReversedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_204",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 204"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0637\u0628\u0642\u0629_\u0645\u0639\u0637\u0648\u0628\u0629_205.txt",
+    "Category": "BrokenCidOrIsolatedText",
+    "Encoding": "utf-8",
+    "Marker": "MARKER_BROKEN_LAYER_205",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0633\u062A\u0646\u062F \u0637\u0628\u0642\u0629 \u0645\u0639\u0637\u0648\u0628\u0629 205"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_206.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_206",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 206 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_207.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_207",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 207 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_208.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_208",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 208 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_209.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_209",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 209 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_210.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_210",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 210 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_211.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_211",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 211 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_212.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_212",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 212 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_213.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_213",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 213 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_214.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_214",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 214 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_215.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_215",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 215 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_216.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_216",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 216 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_217.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_217",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 217 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_218.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_218",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 218 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_219.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_219",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 219 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_220.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_220",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 220 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_221.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_221",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 221 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_222.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_222",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 222 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_223.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_223",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 223 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_224.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_224",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 224 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0635\u0648\u0631\u0629_\u0641\u0627\u062A\u0648\u0631\u0629_\u0645\u0645\u0633\u0648\u062D\u0629_225.png",
+    "Category": "ScannedImage",
+    "Encoding": "image/png",
+    "Marker": "MARKER_SCANNED_INVOICE_225",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0641\u0627\u062A\u0648\u0631\u0629 \u0636\u0631\u064A\u0628\u064A\u0629 \u0631\u0642\u0645 225 \u0634\u0631\u0643\u0629 \u0627\u0644\u0646\u064A\u0644"
+  },
+  {
+    "FileName": "\u0645\u0633\u062A\u0646\u062F_\u0623\u0645\u0646\u064A_\u062E\u0628\u064A\u062B_1.txt",
+    "Category": "InjectionSecurityTest",
+    "Encoding": "utf-8",
+    "Marker": "\u0645\u0633\u062A\u0646\u062F_\u0623\u0645\u0646\u064A_\u062E\u0628\u064A\u062B_1.txt",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0627\u062E\u062A\u0631\u0627\u0642 \u0623\u0645\u0646\u064A \u0645\u0635\u0631\u064A"
+  },
+  {
+    "FileName": "security_exploit_injection_2.txt",
+    "Category": "InjectionSecurityTest",
+    "Encoding": "utf-8",
+    "Marker": "security_exploit_injection_2.txt",
+    "PageCount": 1,
+    "ExpectedQuery": "bypass instructions exploit"
+  },
+  {
+    "FileName": "\u0645\u0644\u0627\u062D\u0638\u0627\u062A_\u0625\u062F\u0627\u0631\u064A\u0629_3.txt",
+    "Category": "InjectionSecurityTest",
+    "Encoding": "utf-8",
+    "Marker": "\u0645\u0644\u0627\u062D\u0638\u0627\u062A_\u0625\u062F\u0627\u0631\u064A\u0629_3.txt",
+    "PageCount": 1,
+    "ExpectedQuery": "\u0645\u0644\u0627\u062D\u0638\u0627\u062A \u0625\u062F\u0627\u0631\u064A\u0629 \u0628\u0631\u0645\u062C\u064A\u0629"
+  }
+]
