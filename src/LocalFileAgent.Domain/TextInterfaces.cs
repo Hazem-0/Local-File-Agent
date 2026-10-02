@@ -62,3 +62,47 @@ public interface ITextQualityGate
 {
     QualityScore Score(string text, LanguageHint hint);
 }
+
+public sealed record Chunk(
+    string Text,
+    int Ordinal,
+    int StartCharIndex,
+    int EndCharIndex,
+    int PageNumber = 1,
+    string SourceKind = "text_layer",
+    float Confidence = 1.0f
+);
+
+public sealed record ChunkingOptions(
+    int TargetChunkSize = 1200,
+    int MaxChunkSize = 1600,
+    int Overlap = 150
+);
+
+public interface IChunker
+{
+    IReadOnlyList<Chunk> Chunk(string text, ChunkingOptions options, int pageNumber = 1, string sourceKind = "text_layer", float confidence = 1.0f);
+}
+
+public enum DetectedLanguageKind
+{
+    Arabic,
+    English,
+    Mixed,
+    Arabizi
+}
+
+public sealed record QueryAnalysis(
+    string RawQuery,
+    string NormalizedQuery,
+    DetectedLanguageKind Language,
+    float ArabicScriptRatio,
+    float LatinScriptRatio,
+    bool ContainsDigits,
+    IReadOnlyList<string> KeyTerms
+);
+
+public interface IQueryAnalyzer
+{
+    QueryAnalysis Analyze(string query);
+}
