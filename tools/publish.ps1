@@ -24,6 +24,10 @@ if (-not (Test-Path $resolvedOutput)) {
     New-Item -ItemType Directory -Path $resolvedOutput -Force | Out-Null
 }
 
+# Stop any running instances to release file locks on dist
+Get-Process -Name "LocalFileAgent.App", "LocalFileAgent.Worker" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Start-Sleep -Milliseconds 500
+
 Write-Host ""
 Write-Host "[1/3] Publishing Out-of-Process Worker (LocalFileAgent.Worker)..." -ForegroundColor Yellow
 $workerProj = Join-Path $repoRoot "src\LocalFileAgent.Worker\LocalFileAgent.Worker.csproj"

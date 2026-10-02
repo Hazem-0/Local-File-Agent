@@ -4,7 +4,7 @@
 
     <system:String x:Key="AppTitle">LocalFileAgent — Local File Search</system:String>
     <system:String x:Key="SearchPlaceholder">Search files (invoices, contracts, reports, IDs, text)...</system:String>
-    <system:String x:Key="IndexFolder">Index Folder...</system:String>
+    <system:String x:Key="IndexFolder">Index Folder</system:String>
     <system:String x:Key="Indexing">Indexing...</system:String>
     <system:String x:Key="Cancel">Cancel</system:String>
     <system:String x:Key="Clear">Clear</system:String>

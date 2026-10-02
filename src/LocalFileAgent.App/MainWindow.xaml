@@ -198,10 +198,6 @@
                             <TextBlock Text="v2 Multimodal" FontSize="11" FontWeight="Bold" Foreground="#4F46E5" />
                         </Border>
                     </StackPanel>
-                    <TextBlock Text="باحث الملفات المحلي الذكي باللغة العربية • بحث بالنص، الصور، والـ OCR دون إنترنت" 
-                               FontSize="13" 
-                               Foreground="#64748B" 
-                               Margin="0,2,0,0" />
                 </StackPanel>
             </StackPanel>
 
@@ -248,7 +244,7 @@
                         Margin="6,0,0,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🗑️" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                        <TextBlock Text="مسح الفهرس..." FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="مسح الفهرس" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -373,32 +369,22 @@
                     </Grid>
                 </Border>
 
-                <!-- Search Options & Live Status Row -->
+                <!-- Search Live Status Row -->
                 <Grid Margin="0,12,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- Trigram toggle -->
-                    <CheckBox Content="{DynamicResource TrigramMatch}"
-                              IsChecked="{Binding UseTrigram}"
-                              VerticalAlignment="Center"
-                              Foreground="#475569" 
-                              FontSize="13"/>
-
                     <!-- Search status message -->
-                    <TextBlock Grid.Column="1" 
-                               Text="{Binding StatusMessage}" 
-                               Margin="16,0"
+                    <TextBlock Text="{Binding StatusMessage}" 
                                VerticalAlignment="Center" 
                                Foreground="#0284C7" 
                                FontWeight="Medium"
                                FontSize="13" />
 
                     <!-- Searching indicator -->
-                    <ProgressBar Grid.Column="2"
+                    <ProgressBar Grid.Column="1"
                                  Width="120" 
                                  Height="5" 
                                  IsIndeterminate="True"

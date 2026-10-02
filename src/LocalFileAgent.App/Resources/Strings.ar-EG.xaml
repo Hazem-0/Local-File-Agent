@@ -4,7 +4,7 @@
 
     <system:String x:Key="AppTitle">LocalFileAgent — باحث الملفات المحلي</system:String>
     <system:String x:Key="SearchPlaceholder">ابحث في الملفات (فواتير، عقود، تقارير، أرقام، نصوص)...</system:String>
-    <system:String x:Key="IndexFolder">فهرسة مجلد...</system:String>
+    <system:String x:Key="IndexFolder">فهرسة مجلد</system:String>
     <system:String x:Key="Indexing">جاري الفهرسة...</system:String>
     <system:String x:Key="Cancel">إلغاء</system:String>
     <system:String x:Key="Clear">مسح</system:String>
