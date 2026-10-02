@@ -30,8 +30,9 @@ public sealed record HybridSearchOptions(
     int LexicalCandidateLimit = 50,
     int SemanticCandidateLimit = 50,
     int VisualCandidateLimit = 20,
-    float MinSemanticSimilarity = 0.35f,
-    float MinVisualSimilarity = 0.25f
+    float MinSemanticSimilarity = 0.55f,
+    float MinVisualSimilarity = 0.28f,
+    int MinSemanticQueryLength = 3
 );
 
 public interface ISearchService

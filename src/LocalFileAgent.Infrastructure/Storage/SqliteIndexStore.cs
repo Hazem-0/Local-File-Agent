@@ -449,6 +449,11 @@ public sealed class SqliteIndexStore : IIndexStore
             return Array.Empty<SearchResultItem>();
         }
 
+        if (useTrigram && normalizedQuery.Trim().Length < 3)
+        {
+            return Array.Empty<SearchResultItem>();
+        }
+
         await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
@@ -605,7 +610,11 @@ public sealed class SqliteIndexStore : IIndexStore
                     trigramTokens.Add($"\"{clean}\"");
                 }
             }
-            return trigramTokens.Count > 0 ? string.Join(" AND ", trigramTokens) : $"\"{tokens[0].Replace("\"", "\"\"")}\"";
+            if (trigramTokens.Count == 0)
+            {
+                return "\"\"";
+            }
+            return string.Join(" AND ", trigramTokens);
         }
 
         var ftsTokens = new List<string>();

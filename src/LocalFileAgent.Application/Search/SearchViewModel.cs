@@ -300,8 +300,8 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
                     cancellationToken: cancellationToken
                 ).ConfigureAwait(false);
 
-                // Automatic fallback to trigram substring search if 0 exact token matches found
-                if (items.Count == 0 && !UseTrigram)
+                // Automatic fallback to trigram substring search if 0 exact token matches found and query is >= 3 chars
+                if (items.Count == 0 && !UseTrigram && normalizedQuery.Trim().Length >= 3)
                 {
                     var trigramItems = await _indexStore.SearchFtsAsync(
                         normalizedQuery,

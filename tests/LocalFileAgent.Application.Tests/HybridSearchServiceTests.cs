@@ -282,8 +282,8 @@ public class HybridSearchServiceTests
         );
 
         var vectorIndex = new FakeVectorIndex();
-        // Similarity score is 0.20f, below default MinSemanticSimilarity (0.35f)
-        vectorIndex.VectorHits.Add((404L, 0.20f));
+        // Similarity score is 0.50f, below default MinSemanticSimilarity (0.55f)
+        vectorIndex.VectorHits.Add((404L, 0.50f));
 
         var embeddingService = new FakeEmbeddingService();
         var normalizer = new ArabicTextNormalizer();
@@ -314,8 +314,8 @@ public class HybridSearchServiceTests
         );
 
         var visualIndex = new FakeVisualVectorIndex();
-        // Similarity score is 0.15f, below default MinVisualSimilarity (0.25f)
-        visualIndex.VisualHits.Add((505L, 0.15f));
+        // Similarity score is 0.20f, below default MinVisualSimilarity (0.28f)
+        visualIndex.VisualHits.Add((505L, 0.20f));
 
         var visualEmbedding = new FakeVisualEmbeddingService();
         var normalizer = new ArabicTextNormalizer();
@@ -351,7 +351,7 @@ public class HybridSearchServiceTests
         );
 
         var visualIndex = new FakeVisualVectorIndex();
-        // Similarity score is 0.35f, above default MinVisualSimilarity (0.25f)
+        // Similarity score is 0.35f, above default MinVisualSimilarity (0.28f)
         visualIndex.VisualHits.Add((606L, 0.35f));
 
         var visualEmbedding = new FakeVisualEmbeddingService();
@@ -369,5 +369,60 @@ public class HybridSearchServiceTests
         results.Should().HaveCount(1);
         results[0].MatchKind.Should().Be("visual");
         results[0].FileName.Should().Be("family_son.png");
+    }
+
+    [Fact]
+    public async Task SearchAsync_ShortQuerySingleCharacter_SkipsSemanticAndVisual_ReturnsEmpty()
+    {
+        var store = new FakeIndexStore();
+        // Store has zero lexical matches for "h"
+        store.ChunksById[707L] = new SearchResultItem(
+            FilePath: "D:\\images\\gauge.png",
+            FileName: "gauge.png",
+            PageNumber: 1,
+            SourceKind: "ocr_vlm",
+            Score: 1.0f,
+            Snippet: "BMI",
+            ChunkId: 707L,
+            MatchKind: "vector"
+        );
+        store.FilesById[707L] = new IndexedFile(
+            Id: 707L,
+            Path: "D:\\images\\gauge.png",
+            Name: "gauge.png",
+            Extension: ".png",
+            SizeBytes: 1024,
+            CreatedAt: DateTimeOffset.UtcNow,
+            ModifiedAt: DateTimeOffset.UtcNow,
+            IndexedAt: DateTimeOffset.UtcNow,
+            ETag: "tag",
+            Status: "indexed"
+        );
+
+        var vectorIndex = new FakeVectorIndex();
+        // Even if vector index has an entry with 1.0 similarity, single char query must not invoke semantic search
+        vectorIndex.VectorHits.Add((707L, 1.0f));
+
+        var visualIndex = new FakeVisualVectorIndex();
+        visualIndex.VisualHits.Add((707L, 1.0f));
+
+        var embeddingService = new FakeEmbeddingService();
+        var visualEmbedding = new FakeVisualEmbeddingService();
+        var normalizer = new ArabicTextNormalizer();
+
+        var service = new HybridSearchService(
+            store,
+            normalizer,
+            vectorIndex: vectorIndex,
+            embeddingService: embeddingService,
+            visualVectorIndex: visualIndex,
+            visualEmbedding: visualEmbedding
+        );
+
+        // Query "h" has length 1 (< MinSemanticQueryLength of 3)
+        var results = await service.SearchAsync(new SearchRequest("h"));
+
+        // Must be empty because "h" has no lexical matches and semantic/visual search is bypassed for short queries
+        results.Should().BeEmpty();
     }
 }

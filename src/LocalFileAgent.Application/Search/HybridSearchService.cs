@@ -55,6 +55,9 @@ public sealed class HybridSearchService : ISearchService
         if (_vectorIndex != null) await _vectorIndex.InitializeAsync(cancellationToken).ConfigureAwait(false);
         if (_visualVectorIndex != null) await _visualVectorIndex.InitializeAsync(cancellationToken).ConfigureAwait(false);
 
+        var queryTrimmed = request.Query.Trim();
+        var isSemanticEligible = queryTrimmed.Length >= _options.MinSemanticQueryLength;
+
         // Step 1: Lexical Search (FTS5)
         var lexicalCandidates = await _indexStore.SearchFtsAsync(
             normalizedQuery,
@@ -64,8 +67,8 @@ public sealed class HybridSearchService : ISearchService
             cancellationToken: cancellationToken
         ).ConfigureAwait(false);
 
-        // Fallback to trigram if 0 exact token matches
-        if (lexicalCandidates.Count == 0)
+        // Fallback to trigram if 0 exact token matches and query has at least 3 characters
+        if (lexicalCandidates.Count == 0 && normalizedQuery.Trim().Length >= 3)
         {
             lexicalCandidates = await _indexStore.SearchFtsAsync(
                 normalizedQuery,
@@ -78,7 +81,7 @@ public sealed class HybridSearchService : ISearchService
 
         // Step 2: Semantic Search (Dense Vector)
         IReadOnlyList<SearchResultItem> vectorCandidates = Array.Empty<SearchResultItem>();
-        if (_vectorIndex != null && _embeddingService != null)
+        if (isSemanticEligible && _vectorIndex != null && _embeddingService != null)
         {
             try
             {
@@ -133,7 +136,7 @@ public sealed class HybridSearchService : ISearchService
 
         // Step 3: Visual Search (Dual-space SigLIP 2 query)
         IReadOnlyList<SearchResultItem> visualCandidates = Array.Empty<SearchResultItem>();
-        if (_visualVectorIndex != null && _visualEmbedding != null)
+        if (isSemanticEligible && _visualVectorIndex != null && _visualEmbedding != null)
         {
             try
             {
