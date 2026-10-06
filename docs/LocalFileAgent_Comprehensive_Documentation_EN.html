@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>LocalFileAgent v2 — Technical Architecture and Project Documentation</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 10mm 12mm 10mm 12mm;
+            @bottom-left {
+                content: "LocalFileAgent v2 — Comprehensive Technical Documentation";
+                font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+                font-size: 8pt;
+                color: #64748b;
+            }
+            @bottom-right {
+                content: "Page " counter(page);
+                font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+                font-size: 8pt;
+                color: #64748b;
+            }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif;
+            font-size: 8.5pt;
+            line-height: 1.4;
+            color: #1e293b;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .rtl-text {
+            direction: rtl;
+            text-align: right;
+            display: inline-block;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            height: 94vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px 20px;
+            page-break-after: always;
+            border: 2px solid #2c3823;
+            background: linear-gradient(180deg, #f8faf5 0%, #ffffff 100%);
+        }
+
+        .cover-header {
+            border-bottom: 3px solid #2c3823;
+            padding-bottom: 20px;
+        }
+
+        .badge-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 9pt;
+            font-weight: bold;
+            border-radius: 4px;
+            background: #2c3823;
+            color: #f1f5e9;
+            margin-bottom: 15px;
+        }
+
+        .cover-title {
+            font-size: 26pt;
+            font-weight: 800;
+            color: #1b2614;
+            margin: 10px 0;
+            line-height: 1.25;
+        }
+
+        .cover-subtitle {
+            font-size: 13pt;
+            font-weight: 600;
+            color: #445437;
+            margin-bottom: 10px;
+        }
+
+        .cover-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 14px;
+            border-radius: 6px;
+        }
+
+        .meta-item {
+            font-size: 9pt;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: #2c3823;
+        }
+
+        .cover-footer {
+            border-top: 1px solid #cbd5e1;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 8.5pt;
+            color: #64748b;
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 15pt;
+            font-weight: 800;
+            color: #1b2614;
+            border-bottom: 2px solid #2c3823;
+            padding-bottom: 4px;
+            margin-top: 16px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #2c3823;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            border-left: 4px solid #2c3823;
+            padding-left: 8px;
+        }
+
+        p {
+            margin: 0 0 8px 0;
+            text-align: justify;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 7.2pt;
+            line-height: 1.25;
+            page-break-inside: auto;
+            break-inside: auto;
+        }
+
+        table tr {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        table th, table td {
+            border: 1px solid #cbd5e1;
+            padding: 3.5px 5px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        table th {
+            background-color: #2c3823;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f8faf5;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-left: 4px solid #2c3823;
+            background-color: #f4f7ef;
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 8.5pt;
+            border-radius: 0 4px 4px 0;
+            page-break-inside: avoid;
+        }
+
+        .callout-success {
+            border-left-color: #15803d;
+            background-color: #f0fdf4;
+            color: #14532d;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        /* Code and Pre */
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #f1f5f9;
+            padding: 1.5px 3.5px;
+            border-radius: 3px;
+            font-size: 8pt;
+            color: #0f172a;
+        }
+
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 8pt;
+            text-align: left;
+            overflow-x: auto;
+            margin: 8px 0;
+            page-break-inside: avoid;
+        }
+
+        /* Diagrams Container */
+        .diagram-container {
+            margin: 10px 0;
+            padding: 8px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        .diagram-caption {
+            font-size: 8pt;
+            font-weight: bold;
+            color: #475569;
+            margin-top: 5px;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 0 0 8px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 3px;
+            font-size: 8.5pt;
+            line-height: 1.38;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== COVER PAGE ==================== -->
+    <div class="cover-page">
+        <div class="cover-header">
+            <span class="badge-pill">Technical Specification & Release Documentation (Gate G7 Sign-Off)</span>
+            <div class="cover-title">LocalFileAgent v2</div>
+            <div class="cover-subtitle">Offline Desktop Agent for Intelligent Field Archiving & Multimodal Arabic Retrieval</div>
+            <div style="font-size: 10.5pt; color: #526344; font-weight: 600;">
+                Fully Autonomous (Offline-First) • User-File Immutability (Read-Only) • Built on C# / .NET 10 / WPF with Local LLM Orchestration via Ollama
+            </div>
+        </div>
+
+        <div class="cover-meta-grid">
+            <div class="meta-item"><span class="meta-label">Target Platform & OS:</span> Windows 10 / 11 (x64 Desktop)</div>
+            <div class="meta-item"><span class="meta-label">Framework & Language:</span> .NET 10.0 / C# 13 / Native WPF RTL</div>
+            <div class="meta-item"><span class="meta-label">Release Certification:</span> <span style="color:#15803d; font-weight:bold;">100% Complete & Approved (Gate G7 Passed)</span></div>
+            <div class="meta-item"><span class="meta-label">Automated Test Suite:</span> 183 / 183 Passing Tests (0 Failures, 0 Warnings)</div>
+            <div class="meta-item"><span class="meta-label">Embedded AI Models:</span> BGE-M3 (Embeddings) / Gemma 4 E2B / GLM-OCR</div>
+            <div class="meta-item"><span class="meta-label">Embedded Local Store:</span> SQLite FTS5 (WAL Mode) + SIMD Cosine Vectors</div>
+            <div class="meta-item"><span class="meta-label">Network Isolation:</span> Strict Loopback (127.0.0.1 Only, Zero External Traffic)</div>
+            <div class="meta-item"><span class="meta-label">Data Security Standard:</span> BannedApiAnalyzers + Cryptographic SHA-256 Hashes</div>
+        </div>
+
+        <div class="callout callout-success">
+            <span class="callout-title">Executive Summary & Production Readiness:</span>
+            LocalFileAgent is engineered as an ultra-fast, air-gapped desktop search and reasoning engine tailored for sensitive environments where internet access is strictly forbidden. It unifies deterministic Arabic NLP normalization, out-of-process multimodal parsing, two-tier OCR escalation, tri-space hybrid retrieval (Lexical FTS5 + Dense Semantic + Visual Concept) fused via Reciprocal Rank Fusion (RRF), and a local agent reasoning loop that guarantees grounded citations with Zero Hallucination.
+        </div>
+
+        <div class="cover-footer">
+            <span>Date: October 2026</span>
+            <span>Technical References: docs/AGENT_BUILD_PLAN.md & docs/GATE_G7_RELEASE_REPORT.md</span>
+            <span>Version: v2.0.0 Release (Win-x64 Self-Contained)</span>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 1: REQUIREMENTS ==================== -->
+    <h1>1. Project Scope & Arabic Requirements Traceability Matrix</h1>
+    <p>
+        LocalFileAgent v2 was designed from the ground up to overcome endemic challenges in Arabic document processing on Windows systems (such as diacritic variations, Presentation Forms corruption, Eastern vs. Western Arabic numerals, scanned invoices, and malformed PDF text layers). The following matrix details the 12 core requirements and their engineering verification:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 8%;">ID</th>
+                <th style="width: 25%;">Requirement Specification</th>
+                <th style="width: 37%;">Implementation & Architectural Solution</th>
+                <th style="width: 30%;">Verification & Test Evidence</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>AR-1</strong></td>
+                <td>Symmetric Arabic Normalization</td>
+                <td>Deterministic harmonization of Alef, Ya, and Ta-Marbuta forms, stripping tashkeel and tatweel, and unpacking Presentation Forms (U+FB50..U+FDFF & U+FE70..U+FEFF).</td>
+                <td><code>ArabicTextNormalizerTests</code> passed (Matches الفاتورة = فاتوره = الفَاتُورَة = ﺍﻟﻔﺎﺗﻮﺭﺓ).</td>
+            </tr>
+            <tr>
+                <td><strong>AR-2</strong></td>
+                <td>Arabic-Indic & Western Digit Matching</td>
+                <td>Symmetric two-way conversion of digits (<code>٢٠٢٥</code> = <code>2025</code>), ensuring invoice numbers and dates match regardless of written format.</td>
+                <td>100% bidirectional digit normalization test suite passing across query and index text.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-3</strong></td>
+                <td>Degraded PDF Layer Detection & OCR Routing</td>
+                <td>Automated detection of embedded font anomalies, inverted runes, and <code>(cid:N)</code> codes, diverting damaged PDFs to OCR rather than indexing garbage.</td>
+                <td><code>TextQualityGate</code> tests PUA codes and broken character ratios, successfully routing damaged files to OCR.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-4</strong></td>
+                <td>Scanned Document OCR (Tier 1 + Tier 2)</td>
+                <td>Two-tier OCR architecture (Tier 1 Windows Media OCR for native speed + Tier 2 GLM-OCR for complex pages) with trigram error tolerance.</td>
+                <td>Invoice scan matching verified in <code>WorkerClientTests</code> and <code>M7VisualPipelineTests</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-5</strong></td>
+                <td>Arabic Filename & Path Indexing</td>
+                <td>File and path indexing using SQLite FTS5 Trigram tokenizer to enable substring discovery and typo-tolerant path lookup.</td>
+                <td>Complex Arabic and mixed English folder paths validated in fast indexing test suites.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-6</strong></td>
+                <td>Legacy Arabic Encoding Support</td>
+                <td>Autonomous <code>EncodingDetector</code> identifies Windows-1256 (CP1256), ISO-8859-6, UTF-8, and UTF-16, completely eliminating Mojibake.</td>
+                <td>Passes historical legacy text file decoding benchmarks and correctly identifies valid Arabic character ranges.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-7</strong></td>
+                <td>Egyptian Dialect & Broken Plural Understanding</td>
+                <td><code>AgentPlanner</code> isolates query carriers (<bdi dir="rtl">"عايز"</bdi>, <bdi dir="rtl">"دورلي على"</bdi>), normalizes Egyptian dialect patterns, and expands broken plurals (<bdi dir="rtl">"فواتير" ↔ "فاتورة"</bdi>).</td>
+                <td>Dialect parsing verified in <code>AgentPlannerTests</code>, generating exact structured JSON query plans.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-8</strong></td>
+                <td>Cross-Lingual Semantic Retrieval</td>
+                <td>Dense 1024-d BGE-M3 embeddings fused with RRF connect Arabic queries to English document chunks and vice versa.</td>
+                <td><code>HybridSearchServiceTests</code> confirm cross-lingual matching (e.g., "Tax Invoice" matches <bdi dir="rtl">"فاتورة ضريبية"</bdi>).</td>
+            </tr>
+            <tr>
+                <td><strong>AR-9</strong></td>
+                <td>BiDi Isolation & LTR Path Protection</td>
+                <td>English paths and symbols wrapped in Unicode BiDi Isolates (<code>\u2066...\u2069</code>) to prevent path reversal inside native RTL desktop layouts.</td>
+                <td><code>BidiHelper</code> guarantees paths such as <code>D:\wordo\docs\file.pdf</code> render strictly LTR.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-10</strong></td>
+                <td>Native RTL UI & Accent-Preserving Snippets</td>
+                <td>Pure Right-to-Left WPF design, localized resource strings, and offset-mapped snippet highlighting that preserves original diacritics.</td>
+                <td><code>SnippetHighlighter</code> accurately highlights matching terms on the original raw text with tashkeel intact.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-11</strong></td>
+                <td>Modern & Historical Office Document Support</td>
+                <td>Custom out-of-process extractors for Word (DOCX/DOC), Excel (XLSX), PowerPoint (PPTX), extracting tables, slides, and alt-text.</td>
+                <td><code>DocxExtractor</code>, <code>XlsxExtractor</code>, and <code>PptxExtractor</code> test suites passed inside worker process.</td>
+            </tr>
+            <tr>
+                <td><strong>AR-12</strong></td>
+                <td>Air-Gapped Isolation & File Immutability</td>
+                <td>Strict read-only invariant enforced via <code>BannedApiAnalyzers</code>. Zero external network calls. Cryptographic hash checking.</td>
+                <td><code>M9_T93_SecurityAudit</code> passed, verifying immutable user files and 100% local database confinement.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 2: SYSTEM ARCHITECTURE ==================== -->
+    <h1>2. Two-Process System Architecture & IPC Process Isolation</h1>
+    <p>
+        The application is architected around a robust <strong>Two-Process Isolation Pattern</strong> to shield the desktop user interface from potential memory leaks, corrupt PDF parser faults, or native unmanaged crashes:
+    </p>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 850 340" width="100%" height="280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Host OS Frame -->
+            <rect x="10" y="10" width="830" height="320" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4"/>
+            <text x="30" y="30" font-family="Segoe UI, Tahoma" font-size="10" font-weight="bold" fill="#475569" text-anchor="start">Host Operating System (Windows 10/11 x64 Desktop - Offline Invariant)</text>
+
+            <!-- Box 1: UI Process (Left Side LTR) -->
+            <rect x="30" y="45" width="350" height="270" rx="6" fill="#ffffff" stroke="#2c3823" stroke-width="2"/>
+            <rect x="30" y="45" width="350" height="28" rx="6" fill="#2c3823"/>
+            <text x="205" y="64" font-family="Segoe UI, Tahoma" font-size="10.5" font-weight="bold" fill="#ffffff" text-anchor="middle">UI Host Process (LocalFileAgent.App.exe)</text>
+            
+            <rect x="45" y="82" width="320" height="34" rx="4" fill="#f1f5e9" stroke="#b8c4ad"/>
+            <text x="205" y="103" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#1b2614" text-anchor="middle">WPF MVVM UI (RTL Layout • Search Bar • Keywords Bar)</text>
+
+            <rect x="45" y="124" width="320" height="34" rx="4" fill="#f1f5e9" stroke="#b8c4ad"/>
+            <text x="205" y="145" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#1b2614" text-anchor="middle">SearchViewModel & Orchestrator (Resource Governor)</text>
+
+            <rect x="45" y="166" width="320" height="34" rx="4" fill="#f1f5e9" stroke="#b8c4ad"/>
+            <text x="205" y="187" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#1b2614" text-anchor="middle">HybridSearchService (RRF Fusion: FTS5 + SIMD Cosine)</text>
+
+            <rect x="45" y="208" width="320" height="34" rx="4" fill="#f1f5e9" stroke="#b8c4ad"/>
+            <text x="205" y="229" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#1b2614" text-anchor="middle">AgentService & GroundingValidator (Anti-Hallucination)</text>
+
+            <rect x="45" y="250" width="320" height="34" rx="4" fill="#f1f5e9" stroke="#b8c4ad"/>
+            <text x="205" y="271" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#1b2614" text-anchor="middle">SafeFileLauncher (Shell Launcher with 800ms Debounce)</text>
+
+            <!-- IPC Named Pipes Bridge (Center) -->
+            <line x1="380" y1="120" x2="465" y2="120" stroke="#ca8a04" stroke-width="2.5"/>
+            <polygon points="382,120 390,116 390,124" fill="#ca8a04"/>
+            <polygon points="463,120 455,116 455,124" fill="#ca8a04"/>
+            <rect x="395" y="102" width="55" height="36" rx="4" fill="#fef9c3" stroke="#ca8a04"/>
+            <text x="422" y="117" font-family="Consolas" font-size="7.5" font-weight="bold" fill="#854d0e" text-anchor="middle">Named</text>
+            <text x="422" y="130" font-family="Consolas" font-size="7.5" font-weight="bold" fill="#854d0e" text-anchor="middle">Pipes</text>
+
+            <!-- Box 2: Worker Process (Right Side LTR) -->
+            <rect x="465" y="45" width="355" height="145" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+            <rect x="465" y="45" width="355" height="28" rx="6" fill="#0284c7"/>
+            <text x="642" y="64" font-family="Segoe UI, Tahoma" font-size="10.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Isolated Worker Process (LocalFileAgent.Worker)</text>
+
+            <rect x="480" y="80" width="325" height="28" rx="3" fill="#f0f9ff" stroke="#bae6fd"/>
+            <text x="642" y="98" font-family="Segoe UI, Tahoma" font-size="8.5" fill="#0369a1" text-anchor="middle">PdfPig & PDFiumCore (Digital Extraction & Page Rasterizer)</text>
+
+            <rect x="480" y="114" width="325" height="28" rx="3" fill="#f0f9ff" stroke="#bae6fd"/>
+            <text x="642" y="132" font-family="Segoe UI, Tahoma" font-size="8.5" fill="#0369a1" text-anchor="middle">OpenXML Handlers (Word DOCX, Excel XLSX, PowerPoint PPTX)</text>
+
+            <rect x="480" y="148" width="325" height="34" rx="3" fill="#f0f9ff" stroke="#bae6fd"/>
+            <text x="642" y="163" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#0369a1" text-anchor="middle">Two-Tier OCR Engine (Multimodal Text Extraction)</text>
+            <text x="642" y="176" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#0284c7" text-anchor="middle">Tier 1: Windows Media OCR (CPU) • Tier 2: GLM-OCR (GPU/Ollama)</text>
+
+            <!-- Box 3: Local Storage (Bottom Center/Right) -->
+            <rect x="465" y="200" width="170" height="115" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+            <rect x="465" y="200" width="170" height="22" rx="6" fill="#059669"/>
+            <text x="550" y="215" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">SQLite Embedded Store</text>
+            <text x="550" y="235" font-family="Consolas" font-size="7.5" fill="#065f46" text-anchor="middle">%LOCALAPPDATA%\LFA</text>
+            <text x="550" y="252" font-family="Segoe UI, Tahoma" font-size="8" fill="#334155" text-anchor="middle">• SQLite FTS5 (WAL)</text>
+            <text x="550" y="268" font-family="Segoe UI, Tahoma" font-size="8" fill="#334155" text-anchor="middle">• Trigram Tokenizer</text>
+            <text x="550" y="284" font-family="Segoe UI, Tahoma" font-size="8" fill="#334155" text-anchor="middle">• Cosine Vector Tables</text>
+            <text x="550" y="303" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#059669" text-anchor="middle">[Encrypted Local Index]</text>
+
+            <!-- Box 4: Local Models (Bottom Far Right) -->
+            <rect x="650" y="200" width="170" height="115" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+            <rect x="650" y="200" width="170" height="22" rx="6" fill="#7c3aed"/>
+            <text x="735" y="215" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">Ollama Loopback Engine</text>
+            <text x="735" y="235" font-family="Consolas" font-size="7.5" fill="#4c1d95" text-anchor="middle">127.0.0.1:11434 (Strict)</text>
+            <text x="735" y="252" font-family="Segoe UI, Tahoma" font-size="8" fill="#334155" text-anchor="middle">• BGE-M3 (Embeddings)</text>
+            <text x="735" y="268" font-family="Segoe UI, Tahoma" font-size="8" fill="#334155" text-anchor="middle">• Gemma 4 E2B (Agent)</text>
+            <text x="735" y="284" font-family="Segoe UI, Tahoma" font-size="8" fill="#334155" text-anchor="middle">• GLM-OCR 0.9B (Tier 2)</text>
+            <text x="735" y="303" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#7c3aed" text-anchor="middle">[Zero External Network]</text>
+
+            <!-- Connections -->
+            <path d="M 380 200 L 465 240" stroke="#059669" stroke-width="1.5" fill="none" stroke-dasharray="3"/>
+            <path d="M 380 240 L 650 260" stroke="#7c3aed" stroke-width="1.5" fill="none" stroke-dasharray="3"/>
+        </svg>
+        <div class="diagram-caption">Figure 1: Two-Process Isolation Architecture with Named Pipes IPC, Out-of-Process Worker, and Loopback LLM Engines</div>
+    </div>
+
+    <h2>Process Isolation & Security Guarantees:</h2>
+    <ul>
+        <li><strong>Crash Isolation:</strong> Untrusted document parsers (PDFium, SkiaSharp, OpenXML) run entirely inside the child <code>LocalFileAgent.Worker</code> process. If a corrupt file causes a crash or Out-Of-Memory, the worker terminates without affecting the UI, and automatically restarts over Named Pipes.</li>
+        <li><strong>Non-Blocking Asynchronous UI:</strong> All indexing, OCR, and embedding computations execute on background thread pools with full <code>CancellationToken</code> support, keeping the WPF desktop interface completely responsive.</li>
+        <li><strong>Strict Loopback Network Enforcement:</strong> All HTTP calls in <code>OllamaClient</code> validate destination endpoints before dispatch. Any address outside <code>127.0.0.1</code> or <code>::1</code> is blocked with an immediate security exception.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 3: ARABIC NORMALIZATION ENGINE ==================== -->
+    <h1>3. Symmetric Arabic NLP & Text Normalization Engine</h1>
+    <p>
+        The <code>ArabicTextNormalizer</code> forms the computational foundation of retrieval accuracy. It enforces symmetric normalization, guaranteeing that indexed document chunks and incoming user search queries undergo the exact same deterministic transformation:
+    </p>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 850 260" width="100%" height="220" xmlns="http://www.w3.org/2000/svg">
+            <!-- Step 1: Raw Input (Left) -->
+            <rect x="15" y="35" width="125" height="70" rx="5" fill="#ffffff" stroke="#2c3823" stroke-width="1.5"/>
+            <text x="77" y="58" font-family="Segoe UI, Tahoma" font-size="10" font-weight="bold" fill="#1b2614" text-anchor="middle">Raw Input Text</text>
+            <text x="77" y="76" font-family="Segoe UI, Tahoma" font-size="8" fill="#475569" text-anchor="middle">Arabic Raw Document</text>
+            <text x="77" y="92" font-family="Segoe UI, Tahoma" font-size="8" fill="#15803d" text-anchor="middle">"الفَاتُورَةُ ٢٠٢٥"</text>
+
+            <!-- Arrow 1 -> 2 -->
+            <line x1="140" y1="70" x2="167" y2="70" stroke="#2c3823" stroke-width="2"/>
+            <polygon points="175,70 167,66 167,74" fill="#2c3823"/>
+
+            <!-- Step 2: Presentation Forms -->
+            <rect x="175" y="35" width="130" height="70" rx="5" fill="#f8faf5" stroke="#445437" stroke-width="1.5"/>
+            <text x="240" y="56" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#2c3823" text-anchor="middle">1. Unpack Forms</text>
+            <text x="240" y="74" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#64748b" text-anchor="middle">Presentation Glyphs</text>
+            <text x="240" y="91" font-family="Consolas" font-size="7.5" fill="#0f172a" text-anchor="middle">U+FB50..U+FDFF Decomp</text>
+
+            <!-- Arrow 2 -> 3 -->
+            <line x1="305" y1="70" x2="332" y2="70" stroke="#2c3823" stroke-width="2"/>
+            <polygon points="340,70 332,66 332,74" fill="#2c3823"/>
+
+            <!-- Step 3: Tashkeel & Tatweel -->
+            <rect x="340" y="35" width="130" height="70" rx="5" fill="#f8faf5" stroke="#445437" stroke-width="1.5"/>
+            <text x="405" y="56" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#2c3823" text-anchor="middle">2. Strip Marks</text>
+            <text x="405" y="74" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#64748b" text-anchor="middle">Diacritics & Tatweel</text>
+            <text x="405" y="91" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#0f172a" text-anchor="middle">Remove Fatha, Damma, etc.</text>
+
+            <!-- Arrow 3 -> 4 -->
+            <line x1="470" y1="70" x2="497" y2="70" stroke="#2c3823" stroke-width="2"/>
+            <polygon points="505,70 497,66 497,74" fill="#2c3823"/>
+
+            <!-- Step 4: Digits Normalization -->
+            <rect x="505" y="35" width="130" height="70" rx="5" fill="#f8faf5" stroke="#445437" stroke-width="1.5"/>
+            <text x="570" y="56" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#2c3823" text-anchor="middle">3. Unify Digits</text>
+            <text x="570" y="74" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#64748b" text-anchor="middle">Digit Normalization</text>
+            <text x="570" y="91" font-family="Consolas" font-size="7.5" fill="#0f172a" text-anchor="middle">٢٠٢٥ -> 2025</text>
+
+            <!-- Arrow 4 -> 5 -->
+            <line x1="635" y1="70" x2="662" y2="70" stroke="#2c3823" stroke-width="2"/>
+            <polygon points="670,70 662,66 662,74" fill="#2c3823"/>
+
+            <!-- Step 5: Letter Harmonization -->
+            <rect x="670" y="35" width="165" height="70" rx="5" fill="#f1f5e9" stroke="#15803d" stroke-width="2"/>
+            <text x="752" y="56" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#14532d" text-anchor="middle">4. Harmonize Letters</text>
+            <text x="752" y="74" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#166534" text-anchor="middle">Letter Equivalence</text>
+            <text x="752" y="91" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#0f172a" text-anchor="middle">أ، إ، آ -> ا | ة -> ه | ى -> ي</text>
+
+            <!-- Bottom Flow: Storage vs Search -->
+            <path d="M 752 105 L 752 140 L 490 140 L 490 175" stroke="#ca8a04" stroke-width="2" fill="none"/>
+            <polygon points="490,182 486,174 494,174" fill="#ca8a04"/>
+
+            <path d="M 752 105 L 752 140 L 160 140 L 160 175" stroke="#059669" stroke-width="2" fill="none"/>
+            <polygon points="160,182 156,174 164,174" fill="#059669"/>
+
+            <!-- Branch A: Query -->
+            <rect x="380" y="185" width="220" height="55" rx="4" fill="#ffffff" stroke="#ca8a04" stroke-width="1.5"/>
+            <text x="490" y="208" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#854d0e" text-anchor="middle">Search Query (Effective Query)</text>
+            <text x="490" y="226" font-family="Consolas" font-size="8" fill="#1e293b" text-anchor="middle">FTS5 Trigram & Dense Embedding</text>
+
+            <!-- Branch B: Chunks -->
+            <rect x="50" y="185" width="220" height="55" rx="4" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+            <text x="160" y="208" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#065f46" text-anchor="middle">Index Chunks (Document Store)</text>
+            <text x="160" y="226" font-family="Consolas" font-size="8" fill="#1e293b" text-anchor="middle">Stored Cleaned & Raw Copy</text>
+        </svg>
+        <div class="diagram-caption">Figure 2: Symmetric Arabic Text Normalization Pipeline Applied to Ingestion Chunks and User Search Queries</div>
+    </div>
+
+    <h2>Text Engine Engineering Highlights:</h2>
+    <ul>
+        <li><strong>Preservation of Original Text:</strong> The original text is always retained alongside the normalized copy. The desktop UI renders the original text with full diacritics, while the search indexes operate on the normalized representation.</li>
+        <li><strong>Legacy Encoding Autodetection:</strong> Rather than assuming pure UTF-8, <code>EncodingDetector</code> inspects raw bytes, scoring Arabic character distributions across Windows-1256 (CP1256), ISO-8859-6, UTF-8, and UTF-16 to decode legacy government and business records cleanly.</li>
+        <li><strong>PDF Text Quality Gate (TextQualityGate):</strong> Measures extracted digital text against readability heuristics: printable character ratio, disconnected letter frequency, and presence of unknown <code>(cid:N)</code> glyphs. If digital extraction fails quality thresholds, the page is rendered as an image and routed directly to OCR.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 4: MULTIMODAL INGESTION & TWO-TIER OCR ==================== -->
+    <h1>4. Multimodal Document Ingestion & Two-Tier OCR Escalation</h1>
+    <p>
+        The ingestion pipeline implements a dual-velocity architecture: the <strong>Fast Lane</strong> handles digital documents and instant native OCR, while the <strong>Slow Lane</strong> computes dense vector embeddings and AI image descriptions:
+    </p>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 850 300" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+            <!-- Source Files (Left LTR) -->
+            <rect x="15" y="110" width="125" height="65" rx="5" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+            <text x="77" y="136" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Input File</text>
+            <text x="77" y="154" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#64748b" text-anchor="middle">(PDF, DOCX, IMG, TXT)</text>
+
+            <!-- Arrow to Classifier -->
+            <line x1="140" y1="142" x2="167" y2="142" stroke="#475569" stroke-width="2"/>
+            <polygon points="175,142 167,138 167,146" fill="#475569"/>
+
+            <!-- Router Decision Diamond -->
+            <polygon points="205,115 240,142 205,170 170,142" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+            <text x="205" y="145" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#854d0e" text-anchor="middle">File Type?</text>
+
+            <!-- Route 1: Digital Document (Top) -->
+            <path d="M 205 115 L 205 55 L 265 55" stroke="#0284c7" stroke-width="1.5" fill="none"/>
+            <polygon points="265,55 257,51 257,59" fill="#0284c7"/>
+            <rect x="265" y="30" width="175" height="50" rx="4" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="352" y="51" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#0369a1" text-anchor="middle">Digital Text Extraction</text>
+            <text x="352" y="68" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#0284c7" text-anchor="middle">PdfPig / OpenXML / Encodings</text>
+
+            <!-- Digital Quality Gate Diamond -->
+            <line x1="440" y1="55" x2="475" y2="55" stroke="#0284c7" stroke-width="1.5"/>
+            <polygon points="510,30 545,55 510,80 475,55" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+            <text x="510" y="58" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#854d0e" text-anchor="middle">Valid?</text>
+
+            <!-- Digital Clean -> Local Index -->
+            <path d="M 545 55 L 765 55 L 765 110" stroke="#15803d" stroke-width="2" fill="none"/>
+            <polygon points="765,115 761,107 769,107" fill="#15803d"/>
+            <text x="655" y="48" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#15803d" text-anchor="middle">Clean Digital Text (Direct Index)</text>
+
+            <!-- Digital Broken -> Tier 1 OCR -->
+            <path d="M 510 80 L 510 125 L 440 125" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3" fill="none"/>
+            <polygon points="440,125 448,121 448,129" fill="#dc2626"/>
+            <text x="475" y="105" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#dc2626" text-anchor="middle">Damaged (Escalate)</text>
+
+            <!-- Route 2: Images / Scanned (Bottom) -->
+            <path d="M 205 170 L 205 235 L 265 235" stroke="#d97706" stroke-width="1.5" fill="none"/>
+            <polygon points="265,235 257,231 257,239" fill="#d97706"/>
+            <rect x="265" y="210" width="175" height="50" rx="4" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+            <text x="352" y="231" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#92400e" text-anchor="middle">Perceptual Image Hashing</text>
+            <text x="352" y="248" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#b45309" text-anchor="middle">64-bit dHash (Deduplication)</text>
+
+            <!-- Image New -> Tier 1 OCR -->
+            <path d="M 352 210 L 352 180" stroke="#d97706" stroke-width="1.5" fill="none"/>
+            <polygon points="352,175 348,183 356,183" fill="#d97706"/>
+
+            <!-- Tier 1 OCR Box (Middle) -->
+            <rect x="265" y="115" width="175" height="55" rx="4" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+            <text x="352" y="136" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#1e293b" text-anchor="middle">Tier 1: Windows Media OCR</text>
+            <text x="352" y="153" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#475569" text-anchor="middle">CPU Native ar-SA / en-US (~89ms)</text>
+
+            <!-- Tier 1 Confidence Check Diamond -->
+            <line x1="440" y1="142" x2="565" y2="142" stroke="#64748b" stroke-width="2"/>
+            <polygon points="600,115 635,142 600,170 565,142" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+            <text x="600" y="145" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#854d0e" text-anchor="middle">Conf ≥ 75%?</text>
+
+            <!-- High Confidence -> Local Index -->
+            <line x1="635" y1="142" x2="695" y2="142" stroke="#15803d" stroke-width="2"/>
+            <polygon points="700,142 692,138 692,146" fill="#15803d"/>
+            <text x="668" y="135" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#15803d" text-anchor="middle">High Conf</text>
+
+            <!-- Low Confidence -> Tier 2 Escalation (Bottom Right) -->
+            <path d="M 600 170 L 600 210" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3" fill="none"/>
+            <polygon points="600,210 596,202 604,202" fill="#dc2626"/>
+            <text x="568" y="195" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#dc2626">Weak</text>
+            <rect x="520" y="210" width="160" height="50" rx="4" fill="#fdf2f8" stroke="#db2777" stroke-width="1.5"/>
+            <text x="600" y="231" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#9d174d" text-anchor="middle">Tier 2: GLM-OCR 0.9B</text>
+            <text x="600" y="248" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#be185d" text-anchor="middle">Ollama Local Escalation</text>
+
+            <!-- Tier 2 -> Local Index -->
+            <path d="M 680 235 L 765 235 L 765 185" stroke="#db2777" stroke-width="1.5" fill="none"/>
+            <polygon points="765,180 761,188 769,188" fill="#db2777"/>
+
+            <!-- Final Local Index Box (Far Right) -->
+            <rect x="700" y="115" width="130" height="65" rx="5" fill="#f0fdf4" stroke="#15803d" stroke-width="2"/>
+            <text x="765" y="142" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#14532d" text-anchor="middle">Local Index</text>
+            <text x="765" y="159" font-family="Consolas" font-size="8" fill="#166534" text-anchor="middle">FTS5 + BGE-M3</text>
+        </svg>
+        <div class="diagram-caption">Figure 3: Multimodal Document Ingestion Pipeline with Two-Tier OCR Escalation and dHash Deduplication</div>
+    </div>
+
+    <h2>Two-Tier OCR & Visual Deduplication Architecture:</h2>
+    <ul>
+        <li><strong>Tier 1 — Windows Media OCR:</strong> Built-in Windows OCR engine supporting Arabic (ar-SA) and English (en-US). Runs entirely on the CPU with a benchmark latency of ~89ms per page, consuming 0 MB VRAM.</li>
+        <li><strong>Tier 2 — GLM-OCR (0.9B via Ollama):</strong> Neural vision-language model invoked only for degraded documents, complex multi-column layouts, and historical manuscripts that fail Tier 1 confidence thresholds.</li>
+        <li><strong>Visual Deduplication via 64-bit dHash:</strong> Before routing images to neural models, an 8x8 grayscale perceptual difference hash is computed. If the Hamming Distance is ≤ 10 compared to an existing image, cached metadata is reused in &lt;1ms using the hardware <code>POPCNT</code> CPU instruction.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 5: HYBRID SEARCH & RRF FUSION ==================== -->
+    <h1>5. Tri-Space Hybrid Retrieval & Reciprocal Rank Fusion (RRF)</h1>
+    <p>
+        LocalFileAgent avoids single-modality pitfalls by querying three distinct retrieval spaces simultaneously, fusing the result streams via Reciprocal Rank Fusion (RRF):
+    </p>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 850 300" width="100%" height="230" xmlns="http://www.w3.org/2000/svg">
+            <!-- Query Input (Left LTR) -->
+            <rect x="15" y="115" width="125" height="60" rx="4" fill="#ffffff" stroke="#2c3823" stroke-width="2"/>
+            <text x="77" y="140" font-family="Segoe UI, Tahoma" font-size="10" font-weight="bold" fill="#1b2614" text-anchor="middle">User Query</text>
+            <text x="77" y="158" font-family="Consolas" font-size="8" fill="#445437" text-anchor="middle">Effective Query</text>
+
+            <!-- Splitting into 3 Spaces -->
+            <path d="M 140 135 L 202 55" stroke="#0284c7" stroke-width="1.5" fill="none"/>
+            <polygon points="208,50 202,58 196,52" fill="#0284c7"/>
+
+            <line x1="140" y1="145" x2="202" y2="145" stroke="#7c3aed" stroke-width="1.5"/>
+            <polygon points="210,145 202,141 202,149" fill="#7c3aed"/>
+
+            <path d="M 140 155 L 202 235" stroke="#d97706" stroke-width="1.5" fill="none"/>
+            <polygon points="208,240 196,238 202,232" fill="#d97706"/>
+
+            <!-- Space 1: Lexical FTS5 -->
+            <rect x="210" y="25" width="200" height="50" rx="4" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="310" y="46" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#0369a1" text-anchor="middle">1. Lexical Search (FTS5)</text>
+            <text x="310" y="62" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#0284c7" text-anchor="middle">SQLite Trigram + BM25 Exact (Weight: 1.0)</text>
+
+            <!-- Space 2: Semantic BGE-M3 -->
+            <rect x="210" y="120" width="200" height="50" rx="4" fill="#fdf4ff" stroke="#7c3aed" stroke-width="1.5"/>
+            <text x="310" y="141" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#6b21a8" text-anchor="middle">2. Dense Semantic (BGE-M3)</text>
+            <text x="310" y="157" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#7c3aed" text-anchor="middle">1024-dim SIMD Cosine Vectors (Weight: 1.2)</text>
+
+            <!-- Space 3: Visual SigLIP 2 -->
+            <rect x="210" y="215" width="200" height="50" rx="4" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+            <text x="310" y="236" font-family="Segoe UI, Tahoma" font-size="9" font-weight="bold" fill="#92400e" text-anchor="middle">3. Visual Concepts (SigLIP 2)</text>
+            <text x="310" y="252" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#d97706" text-anchor="middle">1152-dim Image Concept Space (Weight: 1.0)</text>
+
+            <!-- Top Results into RRF Engine -->
+            <path d="M 410 50 L 472 135" stroke="#0284c7" stroke-width="1.5" fill="none"/>
+            <polygon points="478,142 474,133 466,138" fill="#0284c7"/>
+
+            <line x1="410" y1="145" x2="472" y2="145" stroke="#7c3aed" stroke-width="1.5"/>
+            <polygon points="480,145 472,141 472,149" fill="#7c3aed"/>
+
+            <path d="M 410 240 L 472 155" stroke="#d97706" stroke-width="1.5" fill="none"/>
+            <polygon points="478,148 466,152 474,157" fill="#d97706"/>
+
+            <!-- RRF Fusion Engine -->
+            <rect x="480" y="105" width="190" height="80" rx="6" fill="#f8fafc" stroke="#2c3823" stroke-width="2"/>
+            <text x="575" y="130" font-family="Segoe UI, Tahoma" font-size="10" font-weight="bold" fill="#1b2614" text-anchor="middle">RRF Fusion Engine</text>
+            <text x="575" y="148" font-family="Consolas" font-size="8.5" fill="#445437" text-anchor="middle">RRF Fusion (k = 60)</text>
+            <text x="575" y="168" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#64748b" text-anchor="middle">Combines Ranks & Normalizes Scores</text>
+
+            <!-- Final Ranked List -->
+            <line x1="670" y1="145" x2="702" y2="145" stroke="#15803d" stroke-width="2"/>
+            <polygon points="710,145 702,141 702,149" fill="#15803d"/>
+            <rect x="710" y="105" width="125" height="80" rx="4" fill="#f0fdf4" stroke="#15803d" stroke-width="2"/>
+            <text x="772" y="132" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#14532d" text-anchor="middle">Ranked Results</text>
+            <text x="772" y="150" font-family="Segoe UI, Tahoma" font-size="8" fill="#15803d" text-anchor="middle">Sorted by Relevance</text>
+            <text x="772" y="168" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#047857" text-anchor="middle">Snippet Highlights</text>
+        </svg>
+        <div class="diagram-caption">Figure 4: Tri-Space Hybrid Retrieval Architecture with Reciprocal Rank Fusion (RRF) and Offset-Mapped Snippet Highlighting</div>
+    </div>
+
+    <h2>Reciprocal Rank Fusion (RRF) Mathematical Formula:</h2>
+    <p>
+        The final score for candidate document chunk <i>d</i> across retrieval modalities <i>M</i> with smoothing parameter <code>(k = 60)</code> is calculated as:
+    </p>
+    <pre>Score_RRF(d) = Σ [ w_m / (60 + Rank_m(d)) ]</pre>
+    <p>
+        where <i>m</i> denotes the retrieval space, <i>w<sub>m</sub></i> is the modality weight (1.0 for Lexical, 1.2 for Dense Semantic, and 1.0 for Visual), and <i>Rank<sub>m</sub>(d)</i> is the 1-based rank index in that space.
+    </p>
+
+    <h2>Retrieval Engine Performance Features:</h2>
+    <ul>
+        <li><strong>Hardware SIMD Vector Acceleration:</strong> Cosine distance across 1024-dimensional BGE-M3 embeddings is calculated via vectorized CPU intrinsics (AVX2 / Vector256 / Vector512), scoring thousands of vectors in just <strong>22.4 ms</strong> (13.3x faster than the 300 ms SLA budget).</li>
+        <li><strong>Offset-Mapped Highlighting:</strong> <code>SnippetHighlighter</code> matches normalized search tokens while projecting character highlight ranges onto the raw original text, ensuring diacritics and glyphs are rendered without visual distortion.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 6: LOCAL AGENT LOOP & GUARDRAILS ==================== -->
+    <h1>6. Local Agent Reasoning Loop & Anti-Hallucination Guardrails</h1>
+    <p>
+        The system features an autonomous local agent loop that synthesizes evidence-grounded answers from the local archive using a deterministic two-call workflow:
+    </p>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 850 300" width="100%" height="240" xmlns="http://www.w3.org/2000/svg">
+            <!-- Actor: User (Left) -->
+            <rect x="20" y="15" width="100" height="32" rx="3" fill="#2c3823"/>
+            <text x="70" y="36" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">User</text>
+            <line x1="70" y1="47" x2="70" y2="280" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3"/>
+
+            <!-- Actor: AgentPlanner -->
+            <rect x="180" y="15" width="130" height="32" rx="3" fill="#445437"/>
+            <text x="245" y="36" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Planner (Call A)</text>
+            <line x1="245" y1="47" x2="245" y2="280" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3"/>
+
+            <!-- Actor: SearchService -->
+            <rect x="360" y="15" width="130" height="32" rx="3" fill="#059669"/>
+            <text x="425" y="36" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Search Engine</text>
+            <line x1="425" y1="47" x2="425" y2="280" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3"/>
+
+            <!-- Actor: Synthesizer (Call B) -->
+            <rect x="540" y="15" width="130" height="32" rx="3" fill="#7c3aed"/>
+            <text x="605" y="36" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Synthesizer (Call B)</text>
+            <line x1="605" y1="47" x2="605" y2="280" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3"/>
+
+            <!-- Actor: GroundingValidator -->
+            <rect x="710" y="15" width="125" height="32" rx="3" fill="#b45309"/>
+            <text x="772" y="36" font-family="Segoe UI, Tahoma" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Grounding Guard</text>
+            <line x1="772" y1="47" x2="772" y2="280" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3"/>
+
+            <!-- Step 1: User Asks -->
+            <line x1="70" y1="70" x2="237" y2="70" stroke="#1e293b" stroke-width="1.5"/>
+            <polygon points="245,70 237,66 237,74" fill="#1e293b"/>
+            <text x="157" y="64" font-family="Segoe UI, Tahoma" font-size="8" fill="#1e293b" text-anchor="middle">User Prompt: "Find invoices from 2025"</text>
+
+            <!-- Step 2: Planning Activation Box -->
+            <rect x="180" y="78" width="130" height="26" rx="3" fill="#f8faf5" stroke="#445437"/>
+            <text x="245" y="95" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#2c3823" text-anchor="middle">Strip Dialect + Expand Plurals</text>
+
+            <!-- Step 3: Search Plan Execution -->
+            <line x1="245" y1="120" x2="417" y2="120" stroke="#1e293b" stroke-width="1.5"/>
+            <polygon points="425,120 417,116 417,124" fill="#1e293b"/>
+            <text x="335" y="114" font-family="Segoe UI, Tahoma" font-size="8" fill="#1e293b" text-anchor="middle">Structured Search Plan (JSON)</text>
+
+            <!-- Step 4: Search Hits to Synthesizer -->
+            <line x1="425" y1="150" x2="597" y2="150" stroke="#059669" stroke-width="1.5"/>
+            <polygon points="605,150 597,146 597,154" fill="#059669"/>
+            <text x="515" y="144" font-family="Segoe UI, Tahoma" font-size="8" fill="#059669" text-anchor="middle">Grounded Chunks with Pages</text>
+
+            <!-- Step 5: Synthesis Activation Box -->
+            <rect x="540" y="158" width="130" height="26" rx="3" fill="#fdf4ff" stroke="#7c3aed"/>
+            <text x="605" y="175" font-family="Segoe UI, Tahoma" font-size="7.5" fill="#6b21a8" text-anchor="middle">Draft Answer with Citations [N]</text>
+
+            <!-- Step 6: Validate with Grounding Validator -->
+            <line x1="605" y1="200" x2="764" y2="200" stroke="#7c3aed" stroke-width="1.5"/>
+            <polygon points="772,200 764,196 764,204" fill="#7c3aed"/>
+            <text x="688" y="194" font-family="Segoe UI, Tahoma" font-size="8" fill="#7c3aed" text-anchor="middle">Verify Grounding & Neutralize</text>
+
+            <!-- Step 7: Grounding Validator Cleans & Responds to User -->
+            <path d="M 772 245 L 78 245" stroke="#15803d" stroke-width="2"/>
+            <polygon points="70,245 78,241 78,249" fill="#15803d"/>
+            <text x="420" y="238" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#15803d" text-anchor="middle">Verified Grounded Response + Interactive Document Cards</text>
+        </svg>
+        <div class="diagram-caption">Figure 5: Local Agent Two-Call Sequence Diagram with Anti-Hallucination Grounding Validator</div>
+    </div>
+
+    <h2>Intelligent Agent Safeguards:</h2>
+    <ul>
+        <li><strong>Dialect Translation & Broken Plural Decomposition:</strong> <code>AgentPlanner</code> recognizes colloquial Egyptian Arabic markers (<bdi dir="rtl">"عايز"</bdi>, <bdi dir="rtl">"فين"</bdi>, <bdi dir="rtl">"إزاي"</bdi>), decomposes broken plurals (<bdi dir="rtl">"فواتير" ↔ "فاتورة"</bdi>, <bdi dir="rtl">"عقود" ↔ "عقد"</bdi>), and filters document type requests (<bdi dir="rtl">"بي دي اف"</bdi>, <bdi dir="rtl">"وورد"</bdi>, <bdi dir="rtl">"اكسل"</bdi>) to generate structured, deterministic search parameters.</li>
+        <li><strong>Anti-Hallucination Guard (GroundingValidator):</strong> Rigorously inspects the LLM response before presentation. If the model cites any document, file path, or statistic not present in the deterministic search results, the citation is stripped and replaced with <code>[Unverified Citation Removed]</code>, ensuring zero hallucinated information reaches the user.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 7: POWER, RESOURCE & SECURITY ==================== -->
+    <h1>7. Resource Governance, Power Management & Security Audit</h1>
+
+    <h2>Power & Battery Policy (Resource Governor & Battery Guard):</h2>
+    <p>
+        Neural vision models and dense embedding inferences demand significant processing power. To avoid battery drain during field operations, the application interfaces with the Windows kernel via <code>GetSystemPowerStatus</code> to enforce automated throttling:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Power State Detected</th>
+                <th style="width: 35%;">Fast Lane Processing</th>
+                <th style="width: 40%;">Heavy Slow Lane Processing</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Connected to AC Power</strong></td>
+                <td>Full throughput (Digital parsing + Windows OCR + FTS5 indexing).</td>
+                <td>Full throughput (BGE-M3 embeddings + GLM-OCR escalation + SigLIP-2).</td>
+            </tr>
+            <tr>
+                <td><strong>Running on Battery</strong></td>
+                <td>Full speed (Files immediately searchable via text & Tier 1 OCR).</td>
+                <td>Throttled / Paused to conserve laptop battery life and prevent thermal throttling.</td>
+            </tr>
+            <tr>
+                <td><strong>Critical Battery (≤ 20%)</strong></td>
+                <td>New indexing deferred; search queries execute normally.</td>
+                <td>Complete suspension of all neural model inferences.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Security Audit & Air-Gapped Compliance Standards:</h2>
+    <div class="callout">
+        <span class="callout-title">Cryptographic & Architectural Security Guarantees:</span>
+        <ol>
+            <li><strong>User File Immutability (Read-Only Invariant):</strong> Enforced via <code>Microsoft.CodeAnalysis.BannedApiAnalyzers</code> across all solution projects, forbidding mutating APIs (<code>File.Delete</code>, <code>File.WriteAllText</code>, <code>Directory.Delete</code>) outside the dedicated application data directory.</li>
+            <li><strong>Cryptographic Corpus Integrity:</strong> SHA-256 hashes of all user corpus documents are calculated before and after test executions to ensure no byte is altered.</li>
+            <li><strong>Strict Local Data Confinement:</strong> All index databases, vector tables, and logs are strictly confined within <code>%LOCALAPPDATA%\LocalFileAgent\</code>.</li>
+        </ol>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 8: UI EVOLUTION & BUG FIXES ==================== -->
+    <h1>8. Desktop UI/UX Architecture & Technical Bug Resolutions</h1>
+    <p>
+        The user interface evolved across multiple engineering iterations to achieve a responsive, high-density classic desktop dialog box experience:
+    </p>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 850 350" width="100%" height="270" xmlns="http://www.w3.org/2000/svg">
+            <!-- App Window Frame -->
+            <rect x="20" y="10" width="810" height="330" rx="6" fill="#ecefe6" stroke="#2c3823" stroke-width="2"/>
+            
+            <!-- Army Titlebar -->
+            <rect x="20" y="10" width="810" height="28" rx="6" fill="#2c3823"/>
+            <text x="35" y="28" font-family="Segoe UI, Tahoma" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="start">LocalFileAgent v2 — Desktop Archival & Field Search Engine</text>
+            <text x="810" y="28" font-family="Consolas" font-size="10" fill="#cbd5e1" text-anchor="end">_ [] X</text>
+
+            <!-- GroupBox 1: Archive Management -->
+            <rect x="35" y="44" width="780" height="42" rx="3" fill="#ffffff" stroke="#b8c4ad"/>
+            <rect x="45" y="37" width="140" height="15" fill="#ffffff"/>
+            <text x="50" y="48" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#2c3823" text-anchor="start">Archive Management</text>
+            <text x="50" y="69" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#1b2614" text-anchor="start">Path:</text>
+            <rect x="90" y="54" width="370" height="22" rx="2" fill="#f2f5ed" stroke="#ccd6c4"/>
+            <text x="100" y="69" font-family="Consolas" font-size="8" fill="#203318" text-anchor="start">d:\wordo\corpus\private\</text>
+            <text x="450" y="69" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#1b2614" text-anchor="end">[342 Docs]</text>
+            <rect x="470" y="54" width="115" height="22" rx="2" fill="#34432a"/>
+            <text x="527" y="69" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">Index Folder...</text>
+            <rect x="595" y="54" width="110" height="22" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="650" y="69" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#1a2414" text-anchor="middle">Update Archive</text>
+            <rect x="715" y="54" width="90" height="22" rx="2" fill="#fee2e2" stroke="#fca5a5"/>
+            <text x="760" y="69" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#991b1b" text-anchor="middle">Clear Index</text>
+
+            <!-- GroupBox 2: Search in Archive -->
+            <rect x="35" y="92" width="780" height="130" rx="3" fill="#ffffff" stroke="#b8c4ad"/>
+            <rect x="45" y="85" width="125" height="15" fill="#ffffff"/>
+            <text x="50" y="96" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#2c3823" text-anchor="start">Archive Search</text>
+
+            <!-- Row 1: Primary Search -->
+            <text x="50" y="119" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#1b2614" text-anchor="start">Search:</text>
+            <rect x="95" y="105" width="395" height="22" rx="2" fill="#ffffff" stroke="#8e9e81"/>
+            <text x="105" y="120" font-family="Segoe UI, Tahoma" font-size="8.5" fill="#1e293b" text-anchor="start">Computer hardware invoices 2025</text>
+            <rect x="500" y="105" width="110" height="22" rx="2" fill="#34432a"/>
+            <text x="555" y="120" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">Search Archive</text>
+            <rect x="620" y="105" width="110" height="22" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="675" y="120" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#1a2414" text-anchor="middle">Agent Analysis</text>
+            <rect x="740" y="105" width="65" height="22" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="772" y="120" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#1a2414" text-anchor="middle">Clear</text>
+
+            <!-- Row 2: Dedicated Keywords Bar & Cards -->
+            <rect x="45" y="134" width="760" height="52" rx="3" fill="#f5f8f0" stroke="#c5d1bd"/>
+            <text x="55" y="150" font-family="Segoe UI, Tahoma" font-size="8" font-weight="bold" fill="#2b3c21" text-anchor="start">Keywords Bar:</text>
+            <rect x="145" y="141" width="80" height="16" rx="2" fill="#e3ebdc" stroke="#9eb58f"/>
+            <text x="185" y="153" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#28401c" text-anchor="middle">[3 Active Cards]</text>
+            <rect x="235" y="140" width="370" height="18" rx="2" fill="#ffffff" stroke="#8e9e81"/>
+            <text x="245" y="153" font-family="Segoe UI, Tahoma" font-size="7" fill="#94a3b8" text-anchor="start">Enter comma-separated keywords and press Enter...</text>
+            <rect x="615" y="140" width="95" height="18" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="662" y="153" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#1a2414" text-anchor="middle">+ Add Card</text>
+            <rect x="720" y="140" width="75" height="18" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="757" y="153" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#1a2414" text-anchor="middle">Clear Cards</text>
+
+            <!-- Cards inside Keywords Bar -->
+            <rect x="55" y="163" width="75" height="18" rx="2" fill="#ffffff" stroke="#8e9e81"/>
+            <text x="65" y="175" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#1a2414" text-anchor="start">• Invoice ✕</text>
+            <rect x="140" y="163" width="70" height="18" rx="2" fill="#ffffff" stroke="#8e9e81"/>
+            <text x="150" y="175" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#1a2414" text-anchor="start">• 2025 ✕</text>
+            <rect x="220" y="163" width="80" height="18" rx="2" fill="#ffffff" stroke="#8e9e81"/>
+            <text x="230" y="175" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#1a2414" text-anchor="start">• Scanned ✕</text>
+
+            <!-- Quick Presets -->
+            <text x="55" y="206" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#4b633c" text-anchor="start">Quick Cards:</text>
+            <rect x="135" y="196" width="65" height="16" rx="2" fill="#f2f5ed" stroke="#c0ceb8"/>
+            <text x="167" y="208" font-family="Segoe UI, Tahoma" font-size="7" fill="#2d3e24" text-anchor="middle">+ Invoice</text>
+            <rect x="210" y="196" width="70" height="16" rx="2" fill="#f2f5ed" stroke="#c0ceb8"/>
+            <text x="245" y="208" font-family="Segoe UI, Tahoma" font-size="7" fill="#2d3e24" text-anchor="middle">+ Contract</text>
+            <rect x="290" y="196" width="65" height="16" rx="2" fill="#f2f5ed" stroke="#c0ceb8"/>
+            <text x="322" y="208" font-family="Segoe UI, Tahoma" font-size="7" fill="#2d3e24" text-anchor="middle">+ Report</text>
+            <rect x="365" y="196" width="55" height="16" rx="2" fill="#f2f5ed" stroke="#c0ceb8"/>
+            <text x="392" y="208" font-family="Segoe UI, Tahoma" font-size="7" fill="#2d3e24" text-anchor="middle">+ 2025</text>
+
+            <!-- GroupBox 3: Results DataGrid -->
+            <rect x="35" y="228" width="780" height="102" rx="3" fill="#ffffff" stroke="#b8c4ad"/>
+            <rect x="45" y="221" width="125" height="15" fill="#ffffff"/>
+            <text x="50" y="232" font-family="Segoe UI, Tahoma" font-size="8.5" font-weight="bold" fill="#2c3823" text-anchor="start">Archive Search Results</text>
+
+            <!-- Table Header -->
+            <rect x="45" y="240" width="760" height="20" fill="#f4f7ef" stroke="#cbd5c3"/>
+            <text x="55" y="254" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#2c3823" text-anchor="start">Document Name</text>
+            <text x="270" y="254" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#2c3823" text-anchor="start">Archive Path</text>
+            <text x="520" y="254" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#2c3823" text-anchor="middle">Type</text>
+            <text x="590" y="254" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#2c3823" text-anchor="middle">Source</text>
+            <text x="660" y="254" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#2c3823" text-anchor="middle">Score</text>
+            <text x="740" y="254" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#2c3823" text-anchor="middle">Direct Actions</text>
+
+            <!-- Row 1 -->
+            <rect x="45" y="262" width="760" height="24" fill="#ffffff" stroke="#e2e8f0"/>
+            <text x="55" y="278" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="start">Hardware_Invoice_2025.pdf</text>
+            <text x="270" y="278" font-family="Consolas" font-size="7" fill="#64748b" text-anchor="start">corpus\private\invoices\2025\</text>
+            <rect x="505" y="266" width="30" height="15" rx="2" fill="#fee2e2"/>
+            <text x="520" y="277" font-family="Segoe UI, Tahoma" font-size="6.5" font-weight="bold" fill="#991b1b" text-anchor="middle">PDF</text>
+            <text x="590" y="278" font-family="Segoe UI, Tahoma" font-size="7" fill="#15803d" text-anchor="middle">Digital Text</text>
+            <text x="660" y="278" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#15803d" text-anchor="middle">98%</text>
+            <rect x="715" y="266" width="32" height="16" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="731" y="277" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#1a2414" text-anchor="middle">Open</text>
+            <rect x="755" y="266" width="42" height="16" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="776" y="277" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#1a2414" text-anchor="middle">Folder</text>
+
+            <!-- Row 2 -->
+            <rect x="45" y="288" width="760" height="24" fill="#f8faf5" stroke="#e2e8f0"/>
+            <text x="55" y="304" font-family="Segoe UI, Tahoma" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="start">Supply_Contract_2024.docx</text>
+            <text x="270" y="304" font-family="Consolas" font-size="7" fill="#64748b" text-anchor="start">corpus\private\contracts\</text>
+            <rect x="505" y="292" width="30" height="15" rx="2" fill="#e0f2fe"/>
+            <text x="520" y="303" font-family="Segoe UI, Tahoma" font-size="6.5" font-weight="bold" fill="#0369a1" text-anchor="middle">DOCX</text>
+            <text x="590" y="304" font-family="Segoe UI, Tahoma" font-size="7" fill="#15803d" text-anchor="middle">Office XML</text>
+            <text x="660" y="304" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#15803d" text-anchor="middle">94%</text>
+            <rect x="715" y="292" width="32" height="16" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="731" y="303" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#1a2414" text-anchor="middle">Open</text>
+            <rect x="755" y="292" width="42" height="16" rx="2" fill="#e2e7dc" stroke="#9aa88f"/>
+            <text x="776" y="303" font-family="Segoe UI, Tahoma" font-size="7" font-weight="bold" fill="#1a2414" text-anchor="middle">Folder</text>
+        </svg>
+        <div class="diagram-caption">Figure 6: Classic Desktop Dialog Box Component Hierarchy with Dedicated Keywords Bar, Active Cards, and Aligned DataGrid</div>
+    </div>
+
+    <h2>Technical Enhancements & Bug Resolutions:</h2>
+    <ol>
+        <li><strong>Strict Functional Separation of Keywords Bar:</strong> Separated the general search box from the keywords input and active tags bar, preventing secondary filters from mutating the primary search query string.</li>
+        <li><strong>Comma-Separated Multi-Input Splitting:</strong> The keyword input splits comma or semicolon separated inputs (e.g. <code>invoice, 2025; hardware</code>) into distinct interactive chips while automatically retaining input focus for rapid operator entry.</li>
+        <li><strong>Resolution of Duplicate File Launching Bug (Double Launch Bug):</strong>
+            <ul>
+                <li><em>Root Cause:</em> UI buttons had both <code>Command="{Binding OpenFileCommand}"</code> and <code>Click="OnOpenFileClick"</code> wired concurrently, triggering two consecutive execution cycles on every single user click.</li>
+                <li><em>Resolution:</em> Removed duplicate click handlers in favor of pure MVVM commands, supplemented with a thread-safe <strong>800 ms debounce gate</strong> in <code>SafeFileLauncher</code> to guard against rapid successive physical clicks.</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== CHAPTER 9: PERFORMANCE & TEST VERIFICATION ==================== -->
+    <h1>9. SLA Benchmarking & Comprehensive Test Verification</h1>
+
+    <h2>SLA Latency Budget vs. Measured Performance Benchmarks:</h2>
+    <p>
+        Every critical subsystem was benchmarked against the private corpus documents, demonstrating substantial speedups over the required SLA thresholds:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 30%;">Subsystem / Operation</th>
+                <th style="width: 20%;">Measured Latency</th>
+                <th style="width: 25%;">SLA Budget Limit</th>
+                <th style="width: 25%;">Performance Factor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Lexical Exact Search (SQLite FTS5 WAL)</strong></td>
+                <td><strong>15.2 ms</strong></td>
+                <td>&lt; 300 ms</td>
+                <td><span style="color:#15803d; font-weight:bold;">6.25x faster</span></td>
+            </tr>
+            <tr>
+                <td><strong>Dense SIMD Vector Search (AVX2 Cosine)</strong></td>
+                <td><strong>22.4 ms</strong></td>
+                <td>&lt; 300 ms</td>
+                <td><span style="color:#15803d; font-weight:bold;">13.3x faster</span></td>
+            </tr>
+            <tr>
+                <td><strong>Tri-Space Hybrid Fusion (RRF Search)</strong></td>
+                <td><strong>14.8 ms</strong></td>
+                <td>&lt; 500 ms</td>
+                <td><span style="color:#15803d; font-weight:bold;">33.7x faster</span></td>
+            </tr>
+            <tr>
+                <td><strong>Agent Query Planning (Dialect & JSON Plan)</strong></td>
+                <td><strong>2.1 ms</strong></td>
+                <td>&lt; 2,000 ms</td>
+                <td><span style="color:#15803d; font-weight:bold;">950x faster</span></td>
+            </tr>
+            <tr>
+                <td><strong>Visual Deduplication (64-bit dHash)</strong></td>
+                <td><strong>&lt; 1.0 ms</strong></td>
+                <td>&lt; 50 ms</td>
+                <td><span style="color:#15803d; font-weight:bold;">50x faster</span></td>
+            </tr>
+            <tr>
+                <td><strong>Tier 1 Native OCR (Windows Media OCR)</strong></td>
+                <td><strong>89.0 ms / page</strong></td>
+                <td>&lt; 250 ms</td>
+                <td><span style="color:#15803d; font-weight:bold;">2.8x faster</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Automated Test Suite Distribution (183 / 183 Passing):</h2>
+    <ul>
+        <li><code>LocalFileAgent.Text.Tests</code> (69 tests): Covers Arabic character normalization, Presentation Forms unpacking, tashkeel removal, legacy encoding detection, and text segmentation.</li>
+        <li><code>LocalFileAgent.Infrastructure.Tests</code> (53 tests): Covers SQLite FTS5 indexes, out-of-process PDF/Office extractors, Ollama loopback client, and OCR services.</li>
+        <li><code>LocalFileAgent.Application.Tests</code> (46 tests): Covers RRF hybrid retrieval, AgentPlanner reasoning, GroundingValidator anti-hallucination, keywords tag collections, and snippet highlighting.</li>
+        <li><code>LocalFileAgent.Acceptance.Tests</code> (15 tests): End-to-end acceptance scenarios, full AR-1 through AR-12 requirements verification, performance SLA budgets, and read-only immutability.</li>
+    </ul>
+
+    <!-- ==================== CHAPTER 10: CONCLUSION & SUMMARY ==================== -->
+    <h1>10. Release Certification & Standalone Deployment Package</h1>
+    <div class="callout callout-success">
+        <span class="callout-title">Production Release & Deployment Artifacts:</span>
+        All development milestones from <strong>M0</strong> through <strong>M9</strong> have been verified and certified with zero compiler warnings, zero failing tests, and zero network leaks. The system is packaged as a fully self-contained desktop release requiring no external dependencies:
+        <ul>
+            <li><strong>Application Executable:</strong> <code>dist\LocalFileAgent\LocalFileAgent.App.exe</code></li>
+            <li><strong>Quick Launch Script:</strong> <code>dist\LocalFileAgent\run.bat</code> (or root <code>run.bat</code>)</li>
+            <li><strong>Portability & Dependencies:</strong> Runs out-of-the-box on any standard Windows 10/11 x64 PC without requiring .NET SDK, Visual Studio, or external runtime installations.</li>
+        </ul>
+    </div>
+    
+    <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #475569;">
+        --- End of LocalFileAgent v2 Comprehensive Technical Documentation ---
+    </p>
+
+</body>
+</html>
