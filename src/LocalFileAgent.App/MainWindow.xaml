@@ -6,91 +6,81 @@
         xmlns:local="clr-namespace:LocalFileAgent.App"
         xmlns:search="clr-namespace:LocalFileAgent.Application.Search;assembly=LocalFileAgent.Application"
         mc:Ignorable="d"
-        Title="{DynamicResource AppTitle}" 
-        Height="800" 
-        Width="1100"
-        MinHeight="550"
-        MinWidth="780"
+        Title="LocalFileAgent — أداة البحث والأرشفة المحلية" 
+        Height="780" 
+        Width="1020"
+        MinHeight="560" 
+        MinWidth="740"
         WindowStartupLocation="CenterScreen"
         FlowDirection="RightToLeft"
-        FontFamily="Segoe UI Variable Display, Segoe UI, Tahoma, Arial"
-        FontSize="14"
-        Background="#F8FAFC">
+        FontFamily="Segoe UI, Tahoma, Cairo, Arial"
+        FontSize="13"
+        Background="#ECEFE6">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
 
-        <!-- Card elevation shadow -->
-        <DropShadowEffect x:Key="CardShadow" BlurRadius="12" Direction="270" ShadowDepth="2" Color="#0F172A" Opacity="0.05" />
-        <DropShadowEffect x:Key="SubtleShadow" BlurRadius="6" Direction="270" ShadowDepth="1" Color="#0F172A" Opacity="0.04" />
+        <!-- Muted Army & Dialog Brushes -->
+        <SolidColorBrush x:Key="ArmyTitlebarBrush" Color="#2C3823" />
+        <SolidColorBrush x:Key="ArmyTitlebarTextBrush" Color="#F0F4EC" />
+        <SolidColorBrush x:Key="ArmyBorderBrush" Color="#445437" />
+        <SolidColorBrush x:Key="GroupBorderBrush" Color="#B8C4AD" />
+        <SolidColorBrush x:Key="DialogBgBrush" Color="#ECEFE6" />
+        <SolidColorBrush x:Key="TacticalYellowBrush" Color="#EAB308" />
+        <SolidColorBrush x:Key="YellowHighlightBrush" Color="#FEF08A" />
+        <SolidColorBrush x:Key="YellowSelectBrush" Color="#FEF9C3" />
 
-        <!-- Style for Badges -->
-        <Style x:Key="BadgeBorderStyle" TargetType="Border">
-            <Setter Property="CornerRadius" Value="6" />
-            <Setter Property="Padding" Value="8,3" />
-            <Setter Property="Margin" Value="4,0" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-
-        <!-- Base Flat Button Style with Smooth Hover -->
-        <Style x:Key="ModernButtonStyle" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Padding" Value="14,8" />
+        <!-- Classic GroupBox Style (Fieldset / Legend) -->
+        <Style TargetType="GroupBox">
+            <Setter Property="BorderBrush" Value="#B8C4AD" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Template">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="HeaderTemplate">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" 
-                                Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="8" 
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.9" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.75" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" 
+                                   FontWeight="Bold" 
+                                   FontSize="12" 
+                                   Foreground="#2C3823" 
+                                   Padding="6,0" />
+                    </DataTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Action Button Style (Open / Folder) -->
-        <Style x:Key="CardActionButtonStyle" TargetType="Button">
+        <!-- Classic Push Button Style -->
+        <Style x:Key="ClassicButtonStyle" TargetType="Button">
             <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="FontSize" Value="12" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Padding" Value="10,4" />
+            <Setter Property="Padding" Value="12,5" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Background" Value="#F8FAFC" />
-            <Setter Property="BorderBrush" Value="#E2E8F0" />
-            <Setter Property="Foreground" Value="#334155" />
+            <Setter Property="Background" Value="#E2E7DC" />
+            <Setter Property="BorderBrush" Value="#9AA88F" />
+            <Setter Property="Foreground" Value="#1A2414" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="BtnBorder" 
-                                Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="6" 
+                        <Border x:Name="BtnBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BtnBorder" Property="Background" Value="#EFF6FF" />
-                                <Setter TargetName="BtnBorder" Property="BorderBrush" Value="#93C5FD" />
-                                <Setter Property="Foreground" Value="#1D4ED8" />
+                                <Setter TargetName="BtnBorder" Property="Background" Value="#F0F4EA" />
+                                <Setter TargetName="BtnBorder" Property="BorderBrush" Value="#6D7D61" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="BtnBorder" Property="Background" Value="#DBEAFE" />
+                                <Setter TargetName="BtnBorder" Property="Background" Value="#D4DED0" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="BtnBorder" Property="Opacity" Value="0.6" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -98,37 +88,33 @@
             </Setter>
         </Style>
 
-        <!-- Clickable Path Hyperlink Button -->
-        <Style x:Key="PathLinkButtonStyle" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
+        <!-- Default (Primary) Classic Button Style -->
+        <Style x:Key="DefaultButtonStyle" TargetType="Button" BasedOn="{StaticResource ClassicButtonStyle}">
+            <Setter Property="Background" Value="#34432A" />
+            <Setter Property="BorderBrush" Value="#212C1A" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="PathBorder" 
-                                Background="#F1F5F9" 
-                                BorderBrush="#E2E8F0" 
-                                BorderThickness="1" 
-                                CornerRadius="6" 
-                                Padding="8,4">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🔗" FontSize="11" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding DisplayPath}" 
-                                           FlowDirection="LeftToRight"
-                                           Foreground="#2563EB" 
-                                           FontSize="12" 
-                                           FontWeight="Medium"
-                                           TextDecorations="Underline"
-                                           VerticalAlignment="Center"/>
-                            </StackPanel>
+                        <Border x:Name="DefBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="PathBorder" Property="Background" Value="#EFF6FF" />
-                                <Setter TargetName="PathBorder" Property="BorderBrush" Value="#3B82F6" />
+                                <Setter TargetName="DefBorder" Property="Background" Value="#425536" />
+                                <Setter TargetName="DefBorder" Property="BorderBrush" Value="#2A3821" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="DefBorder" Property="Background" Value="#26331E" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="DefBorder" Property="Opacity" Value="0.6" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -136,11 +122,61 @@
             </Setter>
         </Style>
 
-        <!-- Modern Clean Text Box Style -->
-        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Padding" Value="12,10" />
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="BorderBrush" Value="#CBD5E1" />
+        <!-- Danger Classic Button Style -->
+        <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource ClassicButtonStyle}">
+            <Setter Property="Background" Value="#FEF2F2" />
+            <Setter Property="BorderBrush" Value="#FCA5A5" />
+            <Setter Property="Foreground" Value="#991B1B" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="DngBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="DngBorder" Property="Background" Value="#FEE2E2" />
+                                <Setter TargetName="DngBorder" Property="BorderBrush" Value="#EF4444" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="DngBorder" Property="Background" Value="#FECACA" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="DngBorder" Property="Opacity" Value="0.6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Mini Row Action Button Style -->
+        <Style x:Key="MiniRowButtonStyle" TargetType="Button" BasedOn="{StaticResource ClassicButtonStyle}">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Padding" Value="6,2" />
+            <Setter Property="Margin" Value="2,0" />
+        </Style>
+
+        <!-- Keyword Chip Button Style -->
+        <Style x:Key="KeywordChipButtonStyle" TargetType="Button" BasedOn="{StaticResource ClassicButtonStyle}">
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="Padding" Value="7,3" />
+            <Setter Property="Margin" Value="2,2" />
+            <Setter Property="Background" Value="#F2F5ED" />
+            <Setter Property="BorderBrush" Value="#C0CEB8" />
+            <Setter Property="Foreground" Value="#2D3E24" />
+        </Style>
+
+        <!-- Classic Input Text Box Style -->
+        <Style x:Key="ClassicTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Padding" Value="8,5" />
+            <Setter Property="FontSize" Value="13.5" />
+            <Setter Property="BorderBrush" Value="#8E9E81" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Background" Value="#FFFFFF" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -151,13 +187,42 @@
                                 Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="8">
+                                CornerRadius="2">
                             <ScrollViewer x:Name="PART_ContentHost" Margin="0" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="BoxBorder" Property="BorderBrush" Value="#3B82F6" />
+                                <Setter TargetName="BoxBorder" Property="BorderBrush" Value="#2C3823" />
                                 <Setter TargetName="BoxBorder" Property="BorderThickness" Value="1.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ListView Item Style with Soft Yellow Selection Highlight -->
+        <Style x:Key="ClassicListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="ItemBorder"
+                                Background="Transparent"
+                                BorderBrush="#E2E7DC"
+                                BorderThickness="0,0,0,1"
+                                Padding="8,5">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#F4F7EF" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#FEF9C3" />
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#CA8A04" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -166,238 +231,613 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="24,20,24,20">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" /> <!-- Row 0: Modern Header -->
-            <RowDefinition Height="Auto" /> <!-- Row 1: Search & Agent Card -->
-            <RowDefinition Height="Auto" /> <!-- Row 2: Indexing Progress Alert -->
-            <RowDefinition Height="*" />    <!-- Row 3: Results Area -->
-            <RowDefinition Height="Auto" /> <!-- Row 4: Status Footer -->
+            <RowDefinition Height="Auto" /> <!-- Row 0: Army Title Bar with Search App Icon -->
+            <RowDefinition Height="*" />    <!-- Row 1: Responsive Main Content Container -->
+            <RowDefinition Height="Auto" /> <!-- Row 2: Clean Status Bar -->
         </Grid.RowDefinitions>
 
-        <!-- Row 0: Modern Top Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <!-- Row 0: Army Title Bar with Search App Icon -->
+        <Border Grid.Row="0" Background="#2C3823" BorderBrush="#445437" BorderThickness="0,0,0,1" Padding="12,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <!-- Brand Title & Tagline -->
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Border Background="#4F46E5" CornerRadius="10" Width="44" Height="44" Margin="0,0,14,0" VerticalAlignment="Center">
-                    <TextBlock Text="⚡" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="LocalFileAgent" 
-                               FontSize="22" 
-                               FontWeight="Bold" 
-                               Foreground="#0F172A" />
+                <!-- Search App Icon & App Title -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#1C2616" BorderBrush="#EAB308" BorderThickness="1.5" CornerRadius="3" Width="26" Height="26" Margin="0,0,10,0">
+                        <Path HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Data="M 8 2 A 6 6 0 1 0 8 14 A 6 6 0 1 0 8 2 Z M 12.5 12.5 L 17 17 M 8 5 L 8 11 M 5 8 L 11 8"
+                              Stroke="#FACC15" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                    </Border>
+                    <TextBlock Text="LocalFileAgent — أداة البحث والأرشفة الميدانية"
+                               Foreground="#F0F4EC"
+                               FontSize="13.5"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center" />
                 </StackPanel>
-            </StackPanel>
 
-            <!-- Top Actions & Stats -->
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                <!-- Files count pill -->
-                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="12,6" Margin="4,0" Effect="{StaticResource SubtleShadow}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="📁" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                        <TextBlock Text="الملفات: " Foreground="#64748B" FontWeight="Medium" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding IndexedFilesCount}" Foreground="#0F172A" FontWeight="Bold" VerticalAlignment="Center" />
-                    </StackPanel>
+                <!-- App Stats Badge -->
+                <Border Grid.Column="1" Background="#1C2616" BorderBrush="#445437" BorderThickness="1" CornerRadius="2" Padding="8,3" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding IndexedFilesCount, StringFormat='{}الأرشيف: {0} وثيقة'}" 
+                               Foreground="#D0DECA" 
+                               FontSize="11.5" 
+                               FontWeight="Bold" 
+                               VerticalAlignment="Center" />
                 </Border>
+            </Grid>
+        </Border>
 
-                <!-- Chunks count pill -->
-                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="12,6" Margin="4,0" Effect="{StaticResource SubtleShadow}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="🧩" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                        <TextBlock Text="المقاطع: " Foreground="#64748B" FontWeight="Medium" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding IndexedChunksCount}" Foreground="#0F172A" FontWeight="Bold" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Border>
+        <!-- Row 1: Responsive Main Content (Dynamic Grid) -->
+        <Grid Grid.Row="1" Margin="14,10,14,6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /> <!-- Group 1: Local Archive Management -->
+                <RowDefinition Height="Auto" /> <!-- Group 2: Search with TOP Loading Indicator -->
+                <RowDefinition Height="Auto" /> <!-- Group 3: Spacious Formatted Agent Answer (when active) -->
+                <RowDefinition Height="*" />    <!-- Group 4: Responsive Matched Archived Documents Table -->
+                <RowDefinition Height="Auto" /> <!-- Group 5: Archived Snippet Preview -->
+            </Grid.RowDefinitions>
 
-                <!-- Index Folder Button -->
-                <Button Click="OnIndexFolderClick"
-                        Style="{StaticResource ModernButtonStyle}"
-                        Background="#4F46E5"
-                        BorderBrush="#4338CA"
-                        Foreground="White"
-                        Margin="8,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📂" FontSize="14" Margin="0,0,6,0" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource IndexFolder}" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Button>
-
-                <!-- Clear Index Button -->
-                <Button Click="OnClearIndexClick"
-                        Style="{StaticResource ModernButtonStyle}"
-                        Background="#FEF2F2"
-                        BorderBrush="#FECACA"
-                        Foreground="#DC2626"
-                        ToolTip="مسح كافة الملفات والمقاطع المفهرسة من قاعدة بيانات التطبيق"
-                        Margin="6,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🗑️" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center" />
-                        <TextBlock Text="مسح الفهرس" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-        </Grid>
-
-        <!-- Row 1: Search Box & Agent Card -->
-        <Border Grid.Row="1" 
-                Background="White" 
-                CornerRadius="12" 
-                Padding="16" 
-                BorderBrush="#E2E8F0" 
-                BorderThickness="1" 
-                Effect="{StaticResource CardShadow}"
-                Margin="0,0,0,16">
-            <StackPanel>
-                <!-- Search Input & Action Buttons -->
+            <!-- GROUP 1: LOCAL ARCHIVE MANAGEMENT -->
+            <GroupBox Grid.Row="0" Header="إدارة الأرشيف الميداني والمجلدات">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="SearchBox"
-                             Style="{StaticResource ModernTextBoxStyle}"
-                             Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"
-                             KeyDown="OnSearchBoxKeyDown" />
+                    <!-- Current Archived Folder Indicator -->
+                    <Border Background="#F2F5ED" BorderBrush="#CCD6C4" BorderThickness="1" CornerRadius="2" Padding="8,5" VerticalAlignment="Center">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                    <!-- Quick Search Button -->
-                    <Button Grid.Column="1"
-                            Command="{Binding SearchCommand}"
-                            Style="{StaticResource ModernButtonStyle}"
-                            Background="#2563EB"
-                            BorderBrush="#1D4ED8"
-                            Foreground="White"
-                            Margin="8,0,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🔍" FontSize="14" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="بحث فوري" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Button>
+                            <TextBlock Text="المسار المؤرشف حالياً: " FontWeight="Bold" Foreground="#2A3821" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" 
+                                       Text="{Binding CurrentDirectoryPath}" 
+                                       FlowDirection="LeftToRight"
+                                       Foreground="#203318" 
+                                       FontFamily="Consolas, 'Courier New', monospace"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center" 
+                                       TextTrimming="CharacterEllipsis" 
+                                       Margin="6,0" />
+                            <TextBlock Grid.Column="2" 
+                                       Text="{Binding IndexedFilesCount, StringFormat='[ {0} وثيقة مؤرشفة ]'}" 
+                                       Foreground="#475C3A" 
+                                       FontWeight="Bold" 
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
 
-                    <!-- Ask Agent Button -->
-                    <Button Grid.Column="2"
-                            Command="{Binding AskAgentCommand}"
-                            Style="{StaticResource ModernButtonStyle}"
-                            Background="#7C3AED"
-                            BorderBrush="#6D28D9"
-                            Foreground="White"
-                            Margin="8,0,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🤖" FontSize="14" Margin="0,0,6,0" VerticalAlignment="Center" />
-                            <TextBlock Text="اسأل الوكيل الذكي" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Button>
+                    <!-- Archive Action Buttons -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <Button Click="OnIndexFolderClick"
+                                Style="{StaticResource DefaultButtonStyle}"
+                                ToolTip="اختر مجلداً من القرص لأرشفة وثائقه وفهرستها محلياً">
+                            <TextBlock Text="أرشفة مجلد جديد..." VerticalAlignment="Center" />
+                        </Button>
 
-                    <!-- Clear Button -->
-                    <Button Grid.Column="3"
-                            Command="{Binding ClearSearchCommand}"
-                            Style="{StaticResource ModernButtonStyle}"
-                            Background="#F1F5F9"
-                            BorderBrush="#E2E8F0"
-                            Foreground="#64748B"
-                            Margin="8,0,0,0">
-                        <TextBlock Text="✕ مسح" FontSize="13" VerticalAlignment="Center" />
-                    </Button>
+                        <Button Command="{Binding UpdateArchiveCommand}"
+                                Click="OnUpdateArchiveClick"
+                                Style="{StaticResource ClassicButtonStyle}"
+                                ToolTip="إعادة فحص وتحديث الأرشيف للتحقق من أي وثائق جديدة أو معدلة"
+                                Margin="6,0,0,0">
+                            <TextBlock Text="تحديث الأرشيف" VerticalAlignment="Center" />
+                        </Button>
+
+                        <Button Click="OnClearIndexClick"
+                                Style="{StaticResource DangerButtonStyle}"
+                                ToolTip="مسح كافة الوثائق المفهرسة من قاعدة بيانات التطبيق"
+                                Margin="6,0,0,0">
+                            <TextBlock Text="مسح الأرشيف" VerticalAlignment="Center" />
+                        </Button>
+                    </StackPanel>
                 </Grid>
+            </GroupBox>
 
-                <!-- Agent Grounded Answer Card (Collapsible, scrollable, polished) -->
-                <Border Background="#FAF5FF"
-                        BorderBrush="#C4B5FD"
-                        BorderThickness="1"
-                        CornerRadius="10"
-                        Padding="14"
-                        Margin="0,14,0,0"
-                        Effect="{StaticResource SubtleShadow}"
-                        Visibility="{Binding IsAgentMode, Converter={StaticResource BoolToVisConverter}}">
+            <!-- GROUP 2: SEARCH IN ARCHIVE WITH TOP LOADING INDICATOR -->
+            <GroupBox Grid.Row="1" Header="البحث في الأرشيف المحلي">
+                <StackPanel>
+                    <!-- 1. PRIMARY SEARCH BAR ROW -->
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="نص البحث:" 
+                                   FontWeight="Bold" 
+                                   Foreground="#2A3821" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,8,0" />
+
+                        <TextBox Grid.Column="1"
+                                 x:Name="SearchBox"
+                                 Style="{StaticResource ClassicTextBoxStyle}"
+                                 Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}"
+                                 KeyDown="OnSearchBoxKeyDown"
+                                 ToolTip="اكتب موضوع أو سؤال أو استفسار البحث الأساسي" />
+
+                        <Button Grid.Column="2"
+                                Command="{Binding SearchCommand}"
+                                Style="{StaticResource DefaultButtonStyle}"
+                                Margin="8,0,0,0">
+                            <TextBlock Text="بحث في الأرشيف" VerticalAlignment="Center" />
+                        </Button>
+
+                        <Button Grid.Column="3"
+                                Command="{Binding AskAgentCommand}"
+                                Style="{StaticResource ClassicButtonStyle}"
+                                ToolTip="استخراج إجابة موثقة واستدلالية من الوثائق"
+                                Margin="6,0,0,0">
+                            <TextBlock Text="تحليل الوكيل" VerticalAlignment="Center" />
+                        </Button>
+
+                        <Button Grid.Column="4"
+                                Command="{Binding ClearSearchCommand}"
+                                Style="{StaticResource ClassicButtonStyle}"
+                                Margin="6,0,0,0">
+                            <TextBlock Text="مسح الكل" VerticalAlignment="Center" />
+                        </Button>
+                    </Grid>
+
+                    <!-- 2. DEDICATED KEYWORDS BAR WITH INTEGRATED CARDS & INPUT -->
+                    <Border Margin="0,8,0,0" 
+                            Background="#F5F8F0" 
+                            BorderBrush="#C5D1BD" 
+                            BorderThickness="1" 
+                            CornerRadius="2" 
+                            Padding="8,6">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Keywords Bar Input Row -->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
+                                    <TextBlock Text="شريط الكلمات المفتاحية:" 
+                                               FontWeight="Bold" 
+                                               Foreground="#2B3C21" 
+                                               FontSize="12"
+                                               VerticalAlignment="Center" />
+                                    <Border Visibility="{Binding HasKeywords, Converter={StaticResource BoolToVisConverter}}"
+                                            Background="#E3EBDC" 
+                                            BorderBrush="#9EB58F" 
+                                            BorderThickness="1" 
+                                            CornerRadius="2" 
+                                            Padding="6,1" 
+                                            Margin="6,0,0,0" 
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding KeywordsSummary}" 
+                                                   Foreground="#28401C" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="11" 
+                                                   VerticalAlignment="Center" />
+                                    </Border>
+                                </StackPanel>
+
+                                <TextBox Grid.Column="1"
+                                         x:Name="AdditionalPhraseBox"
+                                         Style="{StaticResource ClassicTextBoxStyle}"
+                                         KeyDown="OnAdditionalPhraseKeyDown"
+                                         ToolTip="أدخل كلمة مفتاحية أو أكثر (مفصولة بفواصل)، واضغط Enter للإضافة السريعة أو Esc للتفريغ" />
+
+                                <Button Grid.Column="2"
+                                        Click="OnAddPhraseClick"
+                                        Style="{StaticResource ClassicButtonStyle}"
+                                        Margin="6,0,0,0"
+                                        ToolTip="إضافة الكلمة كبطاقة مفتاحية مستقلة داخل شريط الكلمات">
+                                    <TextBlock Text="+ إضافة بطاقة" VerticalAlignment="Center" />
+                                </Button>
+
+                                <Button Grid.Column="3"
+                                        Command="{Binding ClearKeywordsCommand}"
+                                        IsEnabled="{Binding HasKeywords}"
+                                        Style="{StaticResource ClassicButtonStyle}"
+                                        Margin="6,0,0,0"
+                                        FontSize="11"
+                                        ToolTip="مسح كافة بطاقات الكلمات المفتاحية النشطة">
+                                    <TextBlock Text="مسح البطاقات" VerticalAlignment="Center" />
+                                </Button>
+                            </Grid>
+
+                            <!-- Active Keyword Cards / Empty State Area (Inside Keywords Bar) -->
+                            <Grid Grid.Row="1" Margin="0,6,0,0">
+                                <!-- Empty state hint when no keywords are active -->
+                                <Border Visibility="{Binding HasNoKeywords, Converter={StaticResource BoolToVisConverter}}"
+                                        Background="#FAFCF7"
+                                        BorderBrush="#DEE6D5"
+                                        BorderThickness="1"
+                                        CornerRadius="2"
+                                        Padding="8,5">
+                                    <TextBlock Text="[ لا توجد بطاقات كلمات مفتاحية نشطة — اكتب كلمة واضغط Enter أو انقر على المقترحات أدناه لفلترة أدق ]"
+                                               Foreground="#637754"
+                                               FontSize="11.5"
+                                               FontStyle="Italic"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- Active Keyword Cards WrapPanel -->
+                                <ItemsControl Visibility="{Binding HasKeywords, Converter={StaticResource BoolToVisConverter}}"
+                                              ItemsSource="{Binding Keywords}" 
+                                              VerticalAlignment="Center">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <!-- INDIVIDUAL KEYWORD CARD -->
+                                            <Border BorderThickness="1" 
+                                                    CornerRadius="2" 
+                                                    Padding="7,3" 
+                                                    Margin="0,2,6,2">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background" Value="#FFFFFF" />
+                                                        <Setter Property="BorderBrush" Value="#8E9E81" />
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#EDF3E6" />
+                                                                <Setter Property="BorderBrush" Value="#3B5226" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <Border Width="6" Height="6" Background="#4A6536" CornerRadius="3" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="{Binding}" 
+                                                               Foreground="#1A2414" 
+                                                               FontWeight="SemiBold" 
+                                                               FontSize="12" 
+                                                               VerticalAlignment="Center" 
+                                                               Margin="0,0,6,0" />
+                                                    <Button Click="OnRemoveKeywordCardClick"
+                                                            Tag="{Binding}"
+                                                            Background="Transparent"
+                                                            BorderThickness="0"
+                                                            Padding="2,0"
+                                                            Cursor="Hand"
+                                                            ToolTip="إزالة هذه البطاقة المفتاحية">
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="CloseBorder" Background="Transparent" CornerRadius="2" Padding="2,0">
+                                                                    <TextBlock x:Name="CloseText" Text="✕" Foreground="#991B1B" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" />
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="CloseBorder" Property="Background" Value="#FEE2E2" />
+                                                                        <Setter TargetName="CloseText" Property="Foreground" Value="#DC2626" />
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- 3. QUICK PRESET KEYWORDS (ADDS CARDS TO KEYWORDS BAR) -->
+                    <Grid Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="إضافة بطاقة سريعة:" 
+                                   FontSize="11" 
+                                   Foreground="#4B633C" 
+                                   FontWeight="SemiBold" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,8,0" />
+
+                        <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ فاتورة" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة كلمة فاتورة (إضافة/إزالة)" />
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ عقد توريد" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة عقد توريد (إضافة/إزالة)" />
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ سند قبض" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة سند قبض (إضافة/إزالة)" />
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ تقرير مالي" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة تقرير مالي (إضافة/إزالة)" />
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ ٢٠٢٥" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة سنة ٢٠٢٥ (إضافة/إزالة)" />
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ مسح ضوئي OCR" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة مسح ضوئي OCR (إضافة/إزالة)" />
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ أمر شراء" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة أمر شراء (إضافة/إزالة)" />
+                            <Button Style="{StaticResource KeywordChipButtonStyle}" Content="+ شروط الضمان" Click="OnQuickKeywordClick" ToolTip="تبديل بطاقة شروط الضمان (إضافة/إزالة)" />
+                        </WrapPanel>
+                    </Grid>
+
+                    <!-- PROMINENT TOP LOADING INDICATORS (CLEAR & VISIBLE) -->
+                    <!-- Searching progress bar -->
+                    <Grid Margin="0,8,0,0" Visibility="{Binding IsSearching, Converter={StaticResource BoolToVisConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="جاري فحص ومطابقة الوثائق في الأرشيف..." 
+                                   Foreground="#166534" 
+                                   FontWeight="Bold" 
+                                   FontSize="12" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0" />
+                        <ProgressBar Grid.Column="1" 
+                                     Height="6" 
+                                     IsIndeterminate="True" 
+                                     Foreground="#16A34A" 
+                                     Background="#E2E7DC" 
+                                     VerticalAlignment="Center" />
+                    </Grid>
+
+                    <!-- Indexing progress bar -->
+                    <Grid Margin="0,8,0,0" Visibility="{Binding IsIndexing, Converter={StaticResource BoolToVisConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+                        <ProgressBar Grid.Row="0" 
+                                     Height="7" 
+                                     IsIndeterminate="True" 
+                                     Foreground="#16A34A" 
+                                     Background="#E2E7DC" />
+                        <TextBlock Grid.Row="1" 
+                                   Text="{Binding IndexingMessage}" 
+                                   Foreground="#166534" 
+                                   FontSize="12" 
+                                   FontWeight="Bold" 
+                                   Margin="0,4,0,0" 
+                                   HorizontalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
 
-                        <!-- Agent Header Row -->
-                        <Grid Grid.Row="0" Margin="0,0,0,8">
+            <!-- GROUP 3: SPACIOUS & WELL-FORMATTED AGENT ANSWER BOX -->
+            <GroupBox Grid.Row="2" 
+                      Header="تحليل واستدلال الوكيل الذكي من الأرشيف"
+                      Visibility="{Binding IsAgentMode, Converter={StaticResource BoolToVisConverter}}"
+                      Background="#FDFCF8"
+                      BorderBrush="#CA8A04">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" /> <!-- Agent Header Actions -->
+                        <RowDefinition Height="*" />    <!-- Formatted Scrollable Text -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Header Row -->
+                    <Border Grid.Row="0" Margin="0,0,0,8" Background="#FBF7E9" Padding="6,4" CornerRadius="2">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="🤖 إجابة الوكيل الذكي الموثقة:" FontWeight="Bold" Foreground="#6B46C1" FontSize="14" VerticalAlignment="Center"/>
-                                <Border Background="#DCFCE7" CornerRadius="6" Padding="8,2" Margin="10,0,0,0" VerticalAlignment="Center"
+                                <TextBlock Text="إفادة الوكيل المستخلصة من الوثائق:" FontWeight="Bold" Foreground="#854D0E" FontSize="12.5" VerticalAlignment="Center"/>
+                                <Border Background="#DCFCE7" BorderBrush="#86EFAC" BorderThickness="1" CornerRadius="2" Padding="6,2" Margin="8,0,0,0" VerticalAlignment="Center"
                                         Visibility="{Binding IsAnswerGrounded, Converter={StaticResource BoolToVisConverter}}">
-                                    <TextBlock Text="✓ موثقة بالكامل من الملفات" Foreground="#15803D" FontSize="11" FontWeight="Bold" />
+                                    <TextBlock Text="[موثقة بالكامل من الأرشيف]" Foreground="#166534" FontSize="11" FontWeight="Bold" />
                                 </Border>
                             </StackPanel>
 
-                            <!-- Close Agent Card Button -->
-                            <Button Grid.Column="1"
-                                    Command="{Binding CloseAgentAnswerCommand}"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="#A855F7"
-                                    Cursor="Hand"
-                                    ToolTip="إغلاق إجابة الوكيل"
-                                    Padding="4,2">
-                                <TextBlock Text="✕ إغلاق" FontSize="12" FontWeight="SemiBold" />
-                            </Button>
-                        </Grid>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <!-- Copy Answer Button -->
+                                <Button Click="OnCopyAgentAnswerClick"
+                                        Style="{StaticResource ClassicButtonStyle}"
+                                        Padding="8,2"
+                                        FontSize="11"
+                                        ToolTip="نسخ نص الإفادة كاملاً إلى الحافظة">
+                                    <TextBlock Text="نسخ الإفادة" VerticalAlignment="Center" />
+                                </Button>
 
-                        <!-- Formatted Answer Text Container -->
-                        <ScrollViewer Grid.Row="1" MaxHeight="160" VerticalScrollBarVisibility="Auto">
+                                <!-- Close Answer Button -->
+                                <Button Command="{Binding CloseAgentAnswerCommand}"
+                                        Style="{StaticResource ClassicButtonStyle}"
+                                        Padding="8,2"
+                                        FontSize="11"
+                                        Margin="6,0,0,0"
+                                        ToolTip="إغلاق نافذة الإفادة">
+                                    <TextBlock Text="إغلاق الإفادة" VerticalAlignment="Center" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Spacious Formatted Answer Container -->
+                    <ScrollViewer Grid.Row="1" MinHeight="110" MaxHeight="220" VerticalScrollBarVisibility="Auto">
+                        <Border Background="#FFFFFF" BorderBrush="#E9E2CE" BorderThickness="1" Padding="12,10">
                             <TextBlock Text="{Binding AgentAnswerText}"
                                        TextWrapping="Wrap"
-                                       Foreground="#334155"
+                                       Foreground="#1A2416"
                                        FontSize="13.5"
-                                       LineHeight="22"
-                                       FontFamily="Segoe UI Variable Text, Segoe UI, Tahoma, Arial" />
+                                       LineHeight="23"
+                                       FontFamily="Segoe UI, Tahoma, Cairo" />
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+            </GroupBox>
+
+            <!-- GROUP 4: RESPONSIVE MATCHED ARCHIVED DOCUMENTS TABLE -->
+            <GroupBox Grid.Row="3" Header="{Binding TotalCount, StringFormat='الوثائق المؤرشفة المطابقة ({0} ملفات)'}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" /> <!-- Table Header Row -->
+                        <RowDefinition Height="*" />    <!-- Table Items List -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Classic Table Column Header Row -->
+                    <Border Grid.Row="0" Background="#E2E7DC" BorderBrush="#CCD5C3" BorderThickness="1,1,1,1" Padding="8,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.2*" /> <!-- File Name -->
+                                <ColumnDefinition Width="2.5*" /> <!-- Path -->
+                                <ColumnDefinition Width="0.7*" /> <!-- Type -->
+                                <ColumnDefinition Width="1.2*" /> <!-- OCR / Source -->
+                                <ColumnDefinition Width="0.9*" /> <!-- Relevance -->
+                                <ColumnDefinition Width="1.2*" /> <!-- Direct Action -->
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="اسم الوثيقة المؤرشفة" FontWeight="Bold" Foreground="#26331E" FontSize="11.5" />
+                            <TextBlock Grid.Column="1" Text="المسار في الأرشيف" FontWeight="Bold" Foreground="#26331E" FontSize="11.5" />
+                            <TextBlock Grid.Column="2" Text="النوع" FontWeight="Bold" Foreground="#26331E" FontSize="11.5" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="3" Text="المصدر / OCR" FontWeight="Bold" Foreground="#26331E" FontSize="11.5" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="4" Text="الصلة" FontWeight="Bold" Foreground="#26331E" FontSize="11.5" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="5" Text="إجراء سريع" FontWeight="Bold" Foreground="#26331E" FontSize="11.5" HorizontalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Table Data Rows -->
+                    <Border Grid.Row="1" Background="#FFFFFF" BorderBrush="#CCD5C3" BorderThickness="1,0,1,1">
+                        <ListView ItemsSource="{Binding Results}"
+                                  SelectedItem="{Binding SelectedResult}"
+                                  ItemContainerStyle="{StaticResource ClassicListViewItemStyle}"
+                                  BorderThickness="0"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  VirtualizingStackPanel.IsVirtualizing="True"
+                                  VirtualizingStackPanel.VirtualizationMode="Recycling">
+                            <ListView.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                                             FlowDirection="RightToLeft" 
+                                             FontFamily="Segoe UI, Tahoma">
+                                    <MenuItem Header="فتح الملف" Command="{Binding OpenFileCommand}" CommandParameter="{Binding SelectedResult}" FontWeight="Bold" />
+                                    <MenuItem Header="عرض موقع الملف في المجلد" Command="{Binding OpenFolderCommand}" CommandParameter="{Binding SelectedResult}" />
+                                    <Separator />
+                                    <MenuItem Header="إزالة هذه الوثيقة من الأرشيف" Command="{Binding DeleteFromIndexCommand}" CommandParameter="{Binding SelectedResult}" Foreground="#DC2626" />
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="{x:Type search:SearchResultViewModel}">
+                                    <Grid MouseLeftButtonDown="OnResultItemMouseDoubleClick">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2.2*" />
+                                            <ColumnDefinition Width="2.5*" />
+                                            <ColumnDefinition Width="0.7*" />
+                                            <ColumnDefinition Width="1.2*" />
+                                            <ColumnDefinition Width="0.9*" />
+                                            <ColumnDefinition Width="1.2*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- File Name (Double-click or click) -->
+                                        <TextBlock Text="{Binding DisplayFileName}" 
+                                                   FontWeight="Bold" 
+                                                   Foreground="#1A2414" 
+                                                   VerticalAlignment="Center" 
+                                                   TextTrimming="CharacterEllipsis" />
+
+                                        <!-- Path -->
+                                        <TextBlock Grid.Column="1" 
+                                                   Text="{Binding DisplayPath}" 
+                                                   FlowDirection="LeftToRight"
+                                                   Foreground="#55664C" 
+                                                   FontFamily="Consolas, monospace"
+                                                   FontSize="11"
+                                                   VerticalAlignment="Center" 
+                                                   TextTrimming="CharacterEllipsis" 
+                                                   Margin="6,0" />
+
+                                        <!-- Extension Badge -->
+                                        <Border Grid.Column="2" Background="#E8EFE3" BorderBrush="#C0CEB8" BorderThickness="1" CornerRadius="2" Padding="4,1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Extension}" FontSize="10.5" FontWeight="Bold" Foreground="#2C3D22" />
+                                        </Border>
+
+                                        <!-- Source Kind / OCR -->
+                                        <TextBlock Grid.Column="3" 
+                                                   Text="{Binding SourceKindDisplay}" 
+                                                   FontSize="11" 
+                                                   Foreground="#445639" 
+                                                   HorizontalAlignment="Center" 
+                                                   VerticalAlignment="Center" />
+
+                                        <!-- Relevance Percent -->
+                                        <TextBlock Grid.Column="4" 
+                                                   Text="{Binding ScorePercentDisplay}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="11" 
+                                                   Foreground="#15803D" 
+                                                   HorizontalAlignment="Center" 
+                                                   VerticalAlignment="Center" />
+
+                                        <!-- Direct Row Actions -->
+                                        <StackPanel Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Button Command="{Binding OpenFileCommand}"
+                                                    Style="{StaticResource MiniRowButtonStyle}"
+                                                    ToolTip="فتح الملف في البرنامج الافتراضي">
+                                                <TextBlock Text="فتح" VerticalAlignment="Center" />
+                                            </Button>
+                                            <Button Command="{Binding OpenFolderCommand}"
+                                                    Style="{StaticResource MiniRowButtonStyle}"
+                                                    ToolTip="عرض موقع الملف في المجلد">
+                                                <TextBlock Text="المجلد" VerticalAlignment="Center" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Border>
+                </Grid>
+            </GroupBox>
+
+            <!-- GROUP 5: ARCHIVED SNIPPET PREVIEW -->
+            <GroupBox Grid.Row="4" Header="معاينة المقطع المطابق من داخل الأرشيف">
+                <Border Background="#FBFDF9" BorderBrush="#D4DCCB" BorderThickness="1" Padding="10,6" MinHeight="44" MaxHeight="90">
+                    <Grid>
+                        <!-- Highlighted Snippet -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <TextBlock local:SnippetHighlightBehavior.Runs="{Binding SelectedResult.SnippetRuns}"
+                                       TextWrapping="Wrap"
+                                       FontSize="12.5"
+                                       LineHeight="19"
+                                       Foreground="#222C1D"
+                                       Visibility="{Binding SelectedResult.HasSnippet, Converter={StaticResource BoolToVisConverter}}" />
                         </ScrollViewer>
+
+                        <!-- Fallback Placeholder when nothing selected or no snippet -->
+                        <TextBlock Text="حدد وثيقة من الجدول أعلاه لمعاينة المقطع المطابق المستخرج عبر الفحص أو تقنية OCR (أو انقر نقراً مزدوجاً لفتحها مباشرة)."
+                                   Foreground="#7B8C70"
+                                   FontSize="12"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedResult.HasSnippet}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SelectedResult}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Grid>
                 </Border>
+            </GroupBox>
+        </Grid>
 
-                <!-- Search Live Status Row -->
-                <Grid Margin="0,12,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Search status message -->
-                    <TextBlock Text="{Binding StatusMessage}" 
-                               VerticalAlignment="Center" 
-                               Foreground="#0284C7" 
-                               FontWeight="Medium"
-                               FontSize="13" />
-
-                    <!-- Searching indicator -->
-                    <ProgressBar Grid.Column="1"
-                                 Width="120" 
-                                 Height="5" 
-                                 IsIndeterminate="True"
-                                 Visibility="{Binding IsSearching, Converter={StaticResource BoolToVisConverter}}" 
-                                 VerticalAlignment="Center" />
-                </Grid>
-            </StackPanel>
-        </Border>
-
-        <!-- Row 2: Indexing Progress Notification (shown when indexing) -->
-        <Border Grid.Row="2"
-                Background="#EFF6FF"
-                BorderBrush="#BFDBFE"
-                BorderThickness="1"
-                CornerRadius="8"
-                Padding="14,10"
-                Margin="0,0,0,14"
-                Effect="{StaticResource SubtleShadow}"
-                Visibility="{Binding IsIndexing, Converter={StaticResource BoolToVisConverter}}">
+        <!-- Row 2: Clean Status Bar (WITHOUT REDUNDANT TEXT / WITHOUT NON-WORKING BUTTONS) -->
+        <Border Grid.Row="2" Background="#E2E7DC" BorderBrush="#C0CBB6" BorderThickness="0,1,0,0" Padding="12,5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -405,241 +845,19 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <ProgressBar Width="140" Height="6" IsIndeterminate="True" Margin="0,0,12,0" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding IndexingMessage}" Foreground="#1E40AF" FontWeight="SemiBold" VerticalAlignment="Center" FontSize="13"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#2B3C21" FontSize="11.5" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <TextBlock Text=" | " Foreground="#97A78C" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding IndexedFilesCount, StringFormat='المؤرشف: {0} وثيقة'}" Foreground="#415634" FontSize="11.5" VerticalAlignment="Center" />
+                    <TextBlock Text=" | " Foreground="#97A78C" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding IndexedChunksCount, StringFormat='المقاطع: {0}'}" Foreground="#415634" FontSize="11.5" VerticalAlignment="Center" />
                 </StackPanel>
 
-                <Button Grid.Column="1"
-                        Content="{DynamicResource Cancel}"
-                        Command="{Binding CancelIndexingCommand}"
-                        Style="{StaticResource ModernButtonStyle}"
-                        Padding="12,4"
-                        Background="#EF4444"
-                        BorderBrush="#DC2626"
-                        Foreground="White"
-                        FontSize="12" />
+                <TextBlock Grid.Column="1" 
+                           Text="انقر نقراً مزدوجاً أو بالزر الأيمن على أي صف لفتح الملف وإدارته" 
+                           Foreground="#5D7350" 
+                           FontSize="11" 
+                           VerticalAlignment="Center" />
             </Grid>
         </Border>
-
-        <!-- Row 3: Modern Search Results List -->
-        <Border Grid.Row="3" 
-                Background="White" 
-                CornerRadius="12" 
-                BorderBrush="#E2E8F0" 
-                BorderThickness="1" 
-                Effect="{StaticResource CardShadow}"
-                Padding="6">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <!-- Results List Header -->
-                <Border Grid.Row="0" BorderBrush="#F1F5F9" BorderThickness="0,0,0,1" Padding="12,10,12,10" Margin="4,0,4,4">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="نتائج البحث والمطابقات" FontWeight="Bold" FontSize="14" Foreground="#1E293B" Margin="0,0,8,0"/>
-                            <Border Background="#F1F5F9" CornerRadius="6" Padding="8,2" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TotalCount, StringFormat='{}{0} نتيجة'}" FontSize="12" FontWeight="SemiBold" Foreground="#475569" />
-                            </Border>
-                        </StackPanel>
-                        <TextBlock Grid.Column="1" Text="انقر نقراً مزدوجاً على أي بطاقة أو انقر على المسار لفتح الملف مباشرة" FontSize="12" Foreground="#94A3B8" VerticalAlignment="Center"/>
-                    </Grid>
-                </Border>
-
-                <!-- Cards ListView -->
-                <ListView Grid.Row="1"
-                          ItemsSource="{Binding Results}"
-                          SelectedItem="{Binding SelectedResult}"
-                          BorderThickness="0"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          VirtualizingStackPanel.IsVirtualizing="True"
-                          VirtualizingStackPanel.VirtualizationMode="Recycling">
-                    <ListView.ItemTemplate>
-                        <DataTemplate DataType="{x:Type search:SearchResultViewModel}">
-                            <!-- Interactive Result Card with Elevation -->
-                            <Border Margin="4,5" 
-                                    Padding="14" 
-                                    Background="White" 
-                                    CornerRadius="10" 
-                                    BorderBrush="#E2E8F0" 
-                                    BorderThickness="1"
-                                    Effect="{StaticResource SubtleShadow}"
-                                    MouseLeftButtonDown="OnResultItemMouseDoubleClick">
-                                <StackPanel>
-                                    <!-- Top Row: File Icon + File Name + Badges -->
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <!-- File Icon & Name (Clickable) -->
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <!-- File Type Pill -->
-                                            <Border CornerRadius="6" 
-                                                    Padding="6,3" 
-                                                    Margin="0,0,10,0" 
-                                                    Background="{Binding FileTypeBadgeBg}" 
-                                                    VerticalAlignment="Center">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding FileTypeIcon}" FontSize="13" Margin="0,0,4,0" VerticalAlignment="Center"/>
-                                                    <TextBlock Text="{Binding Extension}" FontSize="11" FontWeight="Bold" Foreground="{Binding FileTypeBadgeFg}" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Border>
-
-                                            <!-- Clickable File Name -->
-                                            <Button Command="{Binding OpenFileCommand}"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    Padding="0"
-                                                    Cursor="Hand"
-                                                    ToolTip="انقر لفتح هذا الملف فوراً">
-                                                <TextBlock Text="{Binding DisplayFileName}" 
-                                                           FontWeight="Bold" 
-                                                           FontSize="15" 
-                                                           Foreground="#1D4ED8" 
-                                                           VerticalAlignment="Center" />
-                                            </Button>
-                                        </StackPanel>
-
-                                        <!-- Badges: Source, Page, Score -->
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                            <!-- Source badge (OCR / VLM / Text) -->
-                                            <Border Style="{StaticResource BadgeBorderStyle}" Background="{Binding SourceBadgeBg}">
-                                                <TextBlock Text="{Binding SourceKindDisplay}" FontSize="11" Foreground="{Binding SourceBadgeFg}" FontWeight="SemiBold"/>
-                                            </Border>
-
-                                            <!-- Page badge -->
-                                            <Border Style="{StaticResource BadgeBorderStyle}" Background="#F1F5F9"
-                                                    Visibility="{Binding PageDisplay.Length, Converter={StaticResource BoolToVisConverter}}">
-                                                <TextBlock Text="{Binding PageDisplay}" FontSize="11" Foreground="#475569" FontWeight="SemiBold"/>
-                                            </Border>
-
-                                            <!-- Relevance badge -->
-                                            <Border Style="{StaticResource BadgeBorderStyle}" Background="#ECFDF5">
-                                                <TextBlock Text="{Binding ScorePercentDisplay}" FontSize="11" Foreground="#059669" FontWeight="Bold"/>
-                                            </Border>
-                                        </StackPanel>
-                                    </Grid>
-
-                                    <!-- Middle Row: Clickable File Path & Direct Actions (The User's Request) -->
-                                    <Grid Margin="0,8,0,8">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <!-- Clickable Path Button -->
-                                        <Button Style="{StaticResource PathLinkButtonStyle}"
-                                                Command="{Binding OpenFileCommand}"
-                                                ToolTip="انقر لفتح الملف مباشرة" />
-
-                                        <!-- Direct Action Buttons -->
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                            <!-- Open File Button -->
-                                            <Button Style="{StaticResource CardActionButtonStyle}"
-                                                    Command="{Binding OpenFileCommand}"
-                                                    ToolTip="فتح الملف في البرنامج الافتراضي"
-                                                    Margin="6,0,0,0">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="↗️" FontSize="11" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                                    <TextBlock Text="فتح الملف" VerticalAlignment="Center" />
-                                                </StackPanel>
-                                            </Button>
-
-                                            <!-- Open Containing Folder Button -->
-                                            <Button Style="{StaticResource CardActionButtonStyle}"
-                                                    Command="{Binding OpenFolderCommand}"
-                                                    ToolTip="عرض الملف في مستكشف ويندوز"
-                                                    Margin="6,0,0,0">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="📂" FontSize="11" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                                    <TextBlock Text="في المجلد" VerticalAlignment="Center" />
-                                                </StackPanel>
-                                            </Button>
-
-                                            <!-- Delete from Index Button -->
-                                            <Button Style="{StaticResource CardActionButtonStyle}"
-                                                    Command="{Binding DataContext.DeleteFromIndexCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                    CommandParameter="{Binding}"
-                                                    ToolTip="إلغاء فهرسة هذا الملف وإزالته من قاعدة بيانات التطبيق"
-                                                    Margin="6,0,0,0">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="🗑️" FontSize="11" Margin="0,0,4,0" VerticalAlignment="Center" />
-                                                    <TextBlock Text="حذف من الفهرس" Foreground="#DC2626" VerticalAlignment="Center" />
-                                                </StackPanel>
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
-
-                                    <!-- Bottom Row: Highlighted Snippet Preview -->
-                                    <Border Background="#F8FAFC" 
-                                            CornerRadius="6" 
-                                            Padding="10,8" 
-                                            BorderBrush="#F1F5F9" 
-                                            BorderThickness="1"
-                                            Visibility="{Binding HasSnippet, Converter={StaticResource BoolToVisConverter}}">
-                                        <TextBlock local:SnippetHighlightBehavior.Runs="{Binding SnippetRuns}"
-                                                   TextWrapping="Wrap"
-                                                   FontSize="13"
-                                                   LineHeight="21"
-                                                   Foreground="#334155" />
-                                    </Border>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
-                <!-- Friendly Empty State Watermark -->
-                <StackPanel Grid.Row="1" 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center"
-                            Visibility="{Binding Results.Count, Converter={StaticResource BoolToVisConverter}}">
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding Results.Count}" Value="0" />
-                                        <Condition Binding="{Binding IsSearching}" Value="False" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                    <TextBlock Text="🔍" FontSize="36" HorizontalAlignment="Center" Margin="0,0,0,8" Opacity="0.4"/>
-                    <TextBlock Text="لم يتم العثور على أي نتائج تطابق البحث" 
-                               FontSize="16" 
-                               FontWeight="SemiBold" 
-                               Foreground="#64748B" 
-                               HorizontalAlignment="Center"/>
-                    <TextBlock Text="جرب البحث بكلمات أخرى أو استخدم 'اسأل الوكيل' للبحث الذكي" 
-                               FontSize="13" 
-                               Foreground="#94A3B8" 
-                               HorizontalAlignment="Center" 
-                               Margin="0,4,0,0"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <!-- Row 4: Modern Footer Status Bar -->
-        <Grid Grid.Row="4" Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Text="جاهز • نظام بحث محلي فوري وآمن 100%" Foreground="#94A3B8" FontSize="12" VerticalAlignment="Center"/>
-            <TextBlock Grid.Column="1" Text="LocalFileAgent v2 (Windows 10/11) • بدون إنترنت" Foreground="#94A3B8" FontSize="12" VerticalAlignment="Center"/>
-        </Grid>
     </Grid>
 </Window>

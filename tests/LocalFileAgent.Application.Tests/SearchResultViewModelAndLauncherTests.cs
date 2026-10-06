@@ -77,6 +77,9 @@ public class SearchResultViewModelAndLauncherTests
 
         vm.OpenContainingFolderCommand.Execute(null);
         launcher.LastOpenedFolder.Should().Be("D:\\docs\\invoice.pdf");
+
+        vm.OpenFolderCommand.Execute(null);
+        launcher.LastOpenedFolder.Should().Be("D:\\docs\\invoice.pdf");
     }
 
     [Fact]

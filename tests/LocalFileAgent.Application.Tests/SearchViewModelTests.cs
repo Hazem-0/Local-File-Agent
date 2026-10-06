@@ -285,4 +285,56 @@ public class SearchViewModelTests
         vm.IndexedChunksCount.Should().Be(0);
         vm.StatusMessage.Should().Contain("تم مسح كافة الملفات والمقاطع");
     }
+
+    [Fact]
+    public void Keywords_Cards_CanAddRemoveClearAndBuildEffectiveQuery()
+    {
+        var fakeStore = new FakeIndexStore();
+        var normalizer = new ArabicTextNormalizer();
+
+        using var vm = new SearchViewModel(fakeStore, normalizer) { DebounceDelayMs = 0 };
+
+        // Initially empty
+        vm.Keywords.Should().BeEmpty();
+        vm.HasKeywords.Should().BeFalse();
+        vm.HasNoKeywords.Should().BeTrue();
+        vm.KeywordsCount.Should().Be(0);
+        vm.GetEffectiveQuery().Should().BeEmpty();
+
+        // Add first keyword card
+        vm.AddKeyword("+ فاتورة");
+        vm.Keywords.Should().ContainSingle().Which.Should().Be("فاتورة");
+        vm.HasKeywords.Should().BeTrue();
+        vm.HasNoKeywords.Should().BeFalse();
+        vm.KeywordsCount.Should().Be(1);
+        vm.KeywordsSummary.Should().Contain("1");
+        vm.GetEffectiveQuery().Should().Be("فاتورة");
+
+        // Add duplicate keyword (should be ignored)
+        vm.AddKeyword("فاتورة");
+        vm.Keywords.Should().HaveCount(1);
+
+        // Add multi-delimiter keywords (comma, Arabic comma, semicolon)
+        vm.AddKeyword("٢٠٢٥، توريد ; عقد");
+        vm.Keywords.Should().Equal("فاتورة", "٢٠٢٥", "توريد", "عقد");
+        vm.KeywordsCount.Should().Be(4);
+        vm.GetEffectiveQuery().Should().Be("فاتورة ٢٠٢٥ توريد عقد");
+
+        // Set main query
+        vm.Query = "شركة النيل";
+        vm.GetEffectiveQuery().Should().Be("شركة النيل فاتورة ٢٠٢٥ توريد عقد");
+
+        // Remove a keyword card
+        vm.RemoveKeyword("فاتورة");
+        vm.Keywords.Should().Equal("٢٠٢٥", "توريد", "عقد");
+        vm.GetEffectiveQuery().Should().Be("شركة النيل ٢٠٢٥ توريد عقد");
+
+        // Clear all keywords
+        vm.ClearKeywords();
+        vm.Keywords.Should().BeEmpty();
+        vm.HasKeywords.Should().BeFalse();
+        vm.HasNoKeywords.Should().BeTrue();
+        vm.KeywordsCount.Should().Be(0);
+        vm.GetEffectiveQuery().Should().Be("شركة النيل");
+    }
 }

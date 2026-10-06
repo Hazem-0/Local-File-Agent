@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalFileAgent — أداة البحث والأرشفة المحلية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Muted Army & Field Palette */
+            --army-titlebar: #2c3823;
+            --army-titlebar-text: #f0f4ec;
+            --army-border: #445437;
+            --army-border-light: #677a56;
+            
+            /* Dialog Surfaces */
+            --dialog-bg: #ecefe6;
+            --group-bg: #ffffff;
+            --group-border: #b8c4ad;
+            
+            /* Tactical Yellow Accents */
+            --yellow-highlight: #fef08a;
+            --yellow-select: #fef9c3;
+            --yellow-border: #ca8a04;
+            --yellow-accent: #eab308;
+
+            /* Grid & Text */
+            --text-main: #141c10;
+            --text-muted: #4e5f44;
+            --grid-header-bg: #e2e7dc;
+            --grid-border: #ccd5c3;
+            --grid-row-alt: #f8faf6;
+            --grid-row-selected: #e5edd8;
+
+            --font-main: 'Tahoma', 'Segoe UI', 'Cairo', sans-serif;
+            --font-mono: 'JetBrains Mono', Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #1a2215;
+            color: var(--text-main);
+            font-size: 13px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* SVG Icon Utility */
+        .icon-svg {
+            display: inline-block;
+            vertical-align: middle;
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Main Classic Dialog Shell */
+        .classic-dialog {
+            background: var(--dialog-bg);
+            border: 2px solid var(--army-titlebar);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+            width: 100%;
+            max-width: 880px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 2px;
+        }
+
+        /* Dialog Title Bar */
+        .dialog-titlebar {
+            background: var(--army-titlebar);
+            color: var(--army-titlebar-text);
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12.5px;
+            font-weight: 700;
+            user-select: none;
+            border-bottom: 1px solid var(--army-border);
+        }
+
+        .titlebar-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 3px;
+        }
+
+        .win-btn {
+            width: 16px;
+            height: 16px;
+            background: #3e4d32;
+            border: 1px solid #556945;
+            color: #dce5d3;
+            font-size: 9px;
+            line-height: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            user-select: none;
+        }
+
+        .win-btn:hover {
+            background: #4f6140;
+        }
+
+        /* Dialog Content Container */
+        .dialog-content {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Classic GroupBox (Fieldset) */
+        .dialog-group {
+            border: 1px solid var(--group-border);
+            padding: 10px 12px 12px 12px;
+            background: var(--group-bg);
+            border-radius: 2px;
+        }
+
+        .dialog-group legend {
+            padding: 0 6px;
+            font-weight: 700;
+            color: var(--army-titlebar);
+            font-size: 12px;
+        }
+
+        /* Search Input Row */
+        .search-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            border: 1px solid #8e9e81;
+            padding: 6px 8px;
+            font-family: inherit;
+            font-size: 13px;
+            background: #ffffff;
+            color: #000000;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--army-titlebar);
+            box-shadow: 0 0 0 1px var(--army-titlebar);
+        }
+
+        /* Archive Control Row */
+        .archive-ctrl-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            gap: 12px;
+        }
+
+        .archive-info-badge {
+            background: #f2f5ed;
+            border: 1px solid #c9d4c0;
+            padding: 5px 10px;
+            font-size: 11.5px;
+            color: #27361f;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+        }
+
+        /* Classic Push Buttons */
+        .btn-classic {
+            background: #e2e7dc;
+            border: 1px solid #9aa88f;
+            color: #1a2414;
+            padding: 5px 14px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-classic:hover {
+            background: #f0f4ea;
+            border-color: #6d7d61;
+        }
+
+        .btn-classic:active {
+            background: #d4ded0;
+            border-style: inset;
+        }
+
+        .btn-classic.default-btn {
+            background: #34432a;
+            color: #ffffff;
+            border-color: #212c1a;
+            font-weight: 700;
+        }
+
+        .btn-classic.default-btn:hover {
+            background: #425536;
+        }
+
+        .btn-classic.danger-btn {
+            color: #991b1b;
+            border-color: #fca5a5;
+            background: #fef2f2;
+        }
+
+        .btn-classic.danger-btn:hover {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        /* Results Table / DataGrid */
+        .table-container {
+            border: 1px solid var(--grid-border);
+            background: #ffffff;
+            max-height: 190px;
+            overflow-y: auto;
+        }
+
+        .dialog-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .dialog-table th {
+            background: var(--grid-header-bg);
+            border: 1px solid var(--grid-border);
+            padding: 5px 8px;
+            font-weight: 700;
+            color: #26331e;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .dialog-table td {
+            border: 1px solid var(--grid-border);
+            padding: 6px 8px;
+            color: #1a2215;
+            white-space: nowrap;
+        }
+
+        .dialog-table tr:nth-child(even) {
+            background: var(--grid-row-alt);
+        }
+
+        .dialog-table tr:hover {
+            background: #f2f7ec;
+            cursor: pointer;
+        }
+
+        .dialog-table tr.selected {
+            background: var(--grid-row-selected);
+            font-weight: 600;
+        }
+
+        /* Bidi Path Helper */
+        .bidi-path {
+            direction: ltr;
+            text-align: left;
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            unicode-bidi: embed;
+        }
+
+        /* Snippet Preview Box */
+        .snippet-box {
+            background: #fbfcf9;
+            border: 1px solid #d4dccb;
+            padding: 8px 10px;
+            font-size: 12.5px;
+            line-height: 1.6;
+            color: #222c1d;
+        }
+
+        .highlight-term {
+            background: var(--yellow-highlight);
+            border-bottom: 1px solid var(--yellow-border);
+            padding: 1px 3px;
+            font-weight: 700;
+        }
+
+        /* Bottom Dialog Action Row */
+        .dialog-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Status Footer */
+        .dialog-statusbar {
+            background: #e2e7dc;
+            border-top: 1px solid #c0cbb6;
+            padding: 4px 10px;
+            font-size: 11.5px;
+            color: #415137;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN CLASSIC DIALOG BOX (WITH ARCHIVE MANAGEMENT) -->
+    <div class="classic-dialog">
+
+        <!-- TITLEBAR WITH SEARCH APP ICON -->
+        <div class="dialog-titlebar">
+            <div class="titlebar-left">
+                <!-- Search App Icon -->
+                <svg class="icon-svg" style="width: 14px; height: 14px; color: #facc15;" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <span>LocalFileAgent — أداة البحث والأرشفة الميدانية</span>
+            </div>
+            <div class="window-controls">
+                <span class="win-btn">_</span>
+                <span class="win-btn">[]</span>
+                <span class="win-btn">X</span>
+            </div>
+        </div>
+
+        <!-- DIALOG CONTENT AREA -->
+        <div class="dialog-content">
+
+            <!-- GROUP 1: ARCHIVE CONTROL & FOLDER INDEXING -->
+            <fieldset class="dialog-group">
+                <legend>إدارة الأرشيف الميداني والمجلدات</legend>
+                <div class="archive-ctrl-row">
+                    <div class="archive-info-badge">
+                        <span style="font-weight: 700; color: #324426;">المسار المؤرشف حالياً:</span>
+                        <span class="bidi-path" style="color: #2b451b; font-weight: 700;">d:\wordo\corpus\private\</span>
+                        <span style="margin-inline-start: auto; color: #536746;">[٣٤٢ وثيقة مؤرشفة]</span>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <button class="btn-classic default-btn" onclick="archiveNewFolder()">أرشفة مجلد جديد...</button>
+                        <button class="btn-classic" onclick="refreshArchive()">تحديث الأرشيف</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- GROUP 2: SEARCH IN ARCHIVE -->
+            <fieldset class="dialog-group">
+                <legend>البحث في الأرشيف المحلي</legend>
+                
+                <!-- 1. PRIMARY SEARCH BAR -->
+                <div class="search-row" style="flex-wrap: wrap; gap: 8px;">
+                    <label for="searchQuery" style="font-weight: 700; color: #2a3721; white-space: nowrap;">نص البحث:</label>
+                    <input type="text" id="searchQuery" class="search-input" value="فاتورة توريد حاسبات" placeholder="اكتب اسم الوثيقة أو موضوع البحث..." style="flex: 1; min-width: 220px;">
+                    
+                    <button class="btn-classic default-btn" onclick="alert('تم فحص الأرشيف: عُثر على ٣ وثائق مطابقة')">بحث في الأرشيف</button>
+                    <button class="btn-classic" onclick="alert('تحليل واستدلال الوكيل الذكي للأرشيف')">تحليل الوكيل</button>
+                    <button class="btn-classic" onclick="document.getElementById('searchQuery').value=''; clearAllCards();">مسح الكل</button>
+                </div>
+
+                <!-- 2. DEDICATED KEYWORDS BAR WITH DYNAMIC BADGE & MULTI-INPUT -->
+                <div style="margin-top: 8px; background: #f5f8f0; border: 1px solid #c5d1bd; padding: 8px; border-radius: 2px;">
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <span style="font-weight: 700; color: #2b3c21; font-size: 12px;">شريط الكلمات المفتاحية:</span>
+                        <span id="kwBadge" style="background: #e3ebdc; border: 1px solid #9eb58f; padding: 1px 6px; font-size: 11px; font-weight: 700; color: #28401c; border-radius: 2px;">[ ٣ بطاقات نشطة ]</span>
+                        
+                        <input type="text" id="extraQuery" class="search-input" placeholder="أدخل كلمة أو كلمات مفصولة بفاصلة (،) واضغط Enter..." style="flex: 1; min-width: 200px;" onkeydown="if(event.key==='Enter'){addKeywordCard(this.value); this.value='';} else if(event.key==='Escape'){this.value='';}">
+                        
+                        <button class="btn-classic" onclick="addKeywordCard(document.getElementById('extraQuery').value); document.getElementById('extraQuery').value='';">+ إضافة بطاقة</button>
+                        <button class="btn-classic" id="clearKwBtn" onclick="clearAllCards()">مسح البطاقات</button>
+                    </div>
+
+                    <!-- ACTIVE KEYWORD CARDS OR EMPTY STATE -->
+                    <div id="cardsContainer" style="margin-top: 6px;">
+                        <div id="emptyHint" style="display: none; background: #fafcf7; border: 1px solid #dee6d5; padding: 6px 10px; font-size: 11.5px; font-style: italic; color: #637754; text-align: center;">
+                            [ لا توجد بطاقات كلمات مفتاحية نشطة — اكتب كلمة واضغط Enter أو انقر على المقترحات أدناه لفلترة أدق ]
+                        </div>
+                        <div id="keywordCardsList" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                            <!-- Initial cards -->
+                            <span class="kw-card" data-val="فاتورة" style="background: #ffffff; border: 1px solid #8e9e81; padding: 3px 8px; border-radius: 2px; font-size: 12px; font-weight: 600; color: #1a2414; display: inline-flex; align-items: center; gap: 6px;">
+                                <span style="width: 6px; height: 6px; background: #4a6536; border-radius: 50%; display: inline-block;"></span>
+                                فاتورة
+                                <span style="color: #991b1b; cursor: pointer; font-weight: bold; font-size: 11px;" onclick="removeKeywordCard(this.parentElement)">✕</span>
+                            </span>
+                            <span class="kw-card" data-val="٢٠٢٥" style="background: #ffffff; border: 1px solid #8e9e81; padding: 3px 8px; border-radius: 2px; font-size: 12px; font-weight: 600; color: #1a2414; display: inline-flex; align-items: center; gap: 6px;">
+                                <span style="width: 6px; height: 6px; background: #4a6536; border-radius: 50%; display: inline-block;"></span>
+                                ٢٠٢٥
+                                <span style="color: #991b1b; cursor: pointer; font-weight: bold; font-size: 11px;" onclick="removeKeywordCard(this.parentElement)">✕</span>
+                            </span>
+                            <span class="kw-card" data-val="توريد" style="background: #ffffff; border: 1px solid #8e9e81; padding: 3px 8px; border-radius: 2px; font-size: 12px; font-weight: 600; color: #1a2414; display: inline-flex; align-items: center; gap: 6px;">
+                                <span style="width: 6px; height: 6px; background: #4a6536; border-radius: 50%; display: inline-block;"></span>
+                                توريد
+                                <span style="color: #991b1b; cursor: pointer; font-weight: bold; font-size: 11px;" onclick="removeKeywordCard(this.parentElement)">✕</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. QUICK KEYWORDS ROW (TOGGLE BEHAVIOR) -->
+                <div style="margin-top: 8px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span style="font-size: 11px; font-weight: 600; color: #4b633c;">إضافة بطاقة سريعة:</span>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('فاتورة')">+ فاتورة</button>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('عقد توريد')">+ عقد توريد</button>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('سند قبض')">+ سند قبض</button>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('تقرير مالي')">+ تقرير مالي</button>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('٢٠٢٥')">+ ٢٠٢٥</button>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('مسح ضوئي OCR')">+ مسح ضوئي OCR</button>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('أمر شراء')">+ أمر شراء</button>
+                    <button class="btn-classic" style="padding: 2px 7px; font-size: 11px; background: #f2f5ed; border-color: #c0ceb8;" onclick="toggleKeywordPreset('شروط الضمان')">+ شروط الضمان</button>
+                </div>
+            </fieldset>
+
+            <script>
+                function updateCardsState() {
+                    var cards = document.querySelectorAll('.kw-card');
+                    var badge = document.getElementById('kwBadge');
+                    var empty = document.getElementById('emptyHint');
+                    var clearBtn = document.getElementById('clearKwBtn');
+                    if (cards.length > 0) {
+                        badge.style.display = 'inline-block';
+                        badge.innerText = '[ ' + cards.length + ' بطاقات نشطة ]';
+                        empty.style.display = 'none';
+                        clearBtn.disabled = false;
+                        clearBtn.style.opacity = '1';
+                    } else {
+                        badge.style.display = 'none';
+                        empty.style.display = 'block';
+                        clearBtn.disabled = true;
+                        clearBtn.style.opacity = '0.5';
+                    }
+                }
+
+                function addKeywordCard(terms) {
+                    if (!terms || !terms.trim()) return;
+                    var tokens = terms.split(/[،,;\n\r]+/);
+                    var list = document.getElementById('keywordCardsList');
+                    
+                    tokens.forEach(function(token) {
+                        var clean = token.replace(/^\+/, '').trim();
+                        if (!clean) return;
+                        
+                        // Prevent duplicates
+                        var existing = Array.from(document.querySelectorAll('.kw-card')).find(function(c) {
+                            return c.getAttribute('data-val') === clean;
+                        });
+                        if (existing) return;
+
+                        var span = document.createElement('span');
+                        span.className = 'kw-card';
+                        span.setAttribute('data-val', clean);
+                        span.style.cssText = 'background: #ffffff; border: 1px solid #8e9e81; padding: 3px 8px; border-radius: 2px; font-size: 12px; font-weight: 600; color: #1a2414; display: inline-flex; align-items: center; gap: 6px;';
+                        span.innerHTML = '<span style="width: 6px; height: 6px; background: #4a6536; border-radius: 50%; display: inline-block;"></span> ' + clean + ' <span style="color: #991b1b; cursor: pointer; font-weight: bold; font-size: 11px;" onclick="removeKeywordCard(this.parentElement)">✕</span>';
+                        list.appendChild(span);
+                    });
+                    updateCardsState();
+                }
+
+                function removeKeywordCard(el) {
+                    if (el) el.remove();
+                    updateCardsState();
+                }
+
+                function toggleKeywordPreset(preset) {
+                    var clean = preset.replace(/^\+/, '').trim();
+                    var existing = Array.from(document.querySelectorAll('.kw-card')).find(function(c) {
+                        return c.getAttribute('data-val') === clean;
+                    });
+                    if (existing) {
+                        removeKeywordCard(existing);
+                    } else {
+                        addKeywordCard(clean);
+                    }
+                }
+
+                function clearAllCards() {
+                    var cards = document.querySelectorAll('.kw-card');
+                    cards.forEach(function(c) { c.remove(); });
+                    updateCardsState();
+                }
+
+                // Initialize state on load
+                updateCardsState();
+            </script>
+
+            <!-- GROUP 3: MATCHED ARCHIVED RESULTS -->
+            <fieldset class="dialog-group">
+                <legend>الوثائق المؤرشفة المطابقة (٣ ملفات)</legend>
+                <div class="table-container">
+                    <table class="dialog-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35%;">اسم الوثيقة المؤرشفة</th>
+                                <th style="width: 35%;">المسار في الأرشيف</th>
+                                <th style="width: 10%;">النوع</th>
+                                <th style="width: 10%;">دقة OCR</th>
+                                <th style="width: 10%;">حالة الأرشيف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="selected">
+                                <td><strong>فاتورة_توريد_أجهزة_وحاسبات_٢٠٢٥.pdf</strong></td>
+                                <td><span class="bidi-path">finance\invoices\INV-0912.pdf</span></td>
+                                <td>PDF</td>
+                                <td style="color: #274d14; font-weight: 700;">98.4%</td>
+                                <td style="color: #274d14; font-weight: 700;">مؤرشف ومفهرس</td>
+                            </tr>
+                            <tr>
+                                <td>عقد_توريد_وصيانة_الأجهزة_المكتبية_نهائي.docx</td>
+                                <td><span class="bidi-path">legal\contracts\vendor_supply_2025.docx</span></td>
+                                <td>DOCX</td>
+                                <td>نص أصلي</td>
+                                <td style="color: #274d14; font-weight: 700;">مؤرشف ومفهرس</td>
+                            </tr>
+                            <tr>
+                                <td>إشعار_تحويل_بنكي_سداد_حاسبات.png</td>
+                                <td><span class="bidi-path">finance\receipts\receipt_transfer_2025.png</span></td>
+                                <td>PNG</td>
+                                <td style="color: #274d14; font-weight: 700;">94.1%</td>
+                                <td style="color: #274d14; font-weight: 700;">مؤرشف ومفهرس</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+
+            <!-- GROUP 4: ARCHIVED SNIPPET PREVIEW -->
+            <fieldset class="dialog-group">
+                <legend>معاينة المقطع من داخل الأرشيف</legend>
+                <div class="snippet-box">
+                    شركة التقنية المتقدمة للتوريدات. فاتورة رقم ٢٠٢٥/٠٩. بيان الأصناف المعتمدة في الأرشيف: 
+                    <span class="highlight-term">توريد حاسبات</span> آلية مكتبية وخوادم شبكات بقيمة ١٤٥,٠٠٠ جنيه مصري فقط لا غير، والتسليم بالمقر الرئيسي...
+                </div>
+            </fieldset>
+
+            <!-- BOTTOM ACTIONS -->
+            <div class="dialog-bottom-row">
+                <div style="display: flex; gap: 6px;">
+                    <button class="btn-classic danger-btn" onclick="removeFromArchive()">إزالة من الأرشيف</button>
+                    <button class="btn-classic" onclick="archiveSingleFile()">أرشفة ملف منفرد...</button>
+                </div>
+                <div class="dialog-actions">
+                    <button class="btn-classic default-btn" onclick="alert('فتح الوثيقة في البرنامج الافتراضي')">فتح الملف</button>
+                    <button class="btn-classic" onclick="alert('فتح مسار الملف في مستكشف Windows')">عرض في المجلد</button>
+                    <button class="btn-classic" onclick="alert('إغلاق مربع الحوار')">إغلاق</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- STATUS BAR -->
+        <div class="dialog-statusbar">
+            <div>
+                <span>حالة الأرشيف: نشط ومطابق بالكامل</span>
+                <span style="margin-right: 12px;">إجمالي المؤرشف: ٣٤٢ وثيقة</span>
+            </div>
+            <div>
+                <span>أرشيف محلي 100% معزول عن الإنترنت</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT FOR ARCHIVE ACTIONS -->
+    <script>
+        function archiveNewFolder() {
+            const folderPath = prompt("أدخل مسار المجلد المراد أرشفته وإضافته لقاعدة البيانات المحلية:", "C:\\Users\\User\\Documents\\Invoices");
+            if (folderPath) {
+                alert("تمت أرشفة المجلد بنجاح: " + folderPath + "\nتمت إضافة الوثائق إلى الفهرس المحلي وتوليد المتجهات ونصوص OCR.");
+            }
+        }
+
+        function archiveSingleFile() {
+            alert("تم فتح نافذة اختيار ملف لأرشفته فوراً في قاعدة بيانات التطبيق.");
+        }
+
+        function refreshArchive() {
+            alert("جاري إعادة فحص وتحديث الأرشيف المحلي... تم التحقق من ٣٤٢ وثيقة.");
+        }
+
+        function removeFromArchive() {
+            if (confirm("هل تريد إزالة هذا الملف من الأرشيف المحلي وقاعدة البيانات؟")) {
+                alert("تمت إزالة الملف من الأرشيف بنجاح.");
+            }
+        }
+    </script>
+</body>
+</html>

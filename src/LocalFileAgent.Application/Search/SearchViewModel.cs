@@ -75,16 +75,31 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     private bool _isAnswerGrounded = true;
 
+    [ObservableProperty]
+    private string _currentDirectoryPath = @"d:\wordo\corpus\private\";
+
     public int DebounceDelayMs { get; set; } = 250;
 
     public ObservableCollection<SearchResultViewModel> Results { get; } = [];
+    public ObservableCollection<string> Keywords { get; } = [];
+
+    private static readonly char[] KeywordDelimiters = [ '،', ',', ';', '\r', '\n' ];
+
+    public bool HasKeywords => Keywords.Count > 0;
+    public bool HasNoKeywords => Keywords.Count == 0;
+    public int KeywordsCount => Keywords.Count;
+    public string KeywordsSummary => string.Format(CultureInfo.InvariantCulture, "[ {0} بطاقات نشطة ]", Keywords.Count);
 
     public IAsyncRelayCommand SearchCommand { get; }
     public IAsyncRelayCommand AskAgentCommand { get; }
     public IRelayCommand ClearSearchCommand { get; }
+    public IRelayCommand<string?> AddKeywordCommand { get; }
+    public IRelayCommand<string?> RemoveKeywordCommand { get; }
+    public IRelayCommand ClearKeywordsCommand { get; }
     public IAsyncRelayCommand<string?> StartIndexingCommand { get; }
     public IRelayCommand CancelIndexingCommand { get; }
     public IAsyncRelayCommand RefreshStatsCommand { get; }
+    public IAsyncRelayCommand UpdateArchiveCommand { get; }
     public IRelayCommand<object?> OpenFileCommand { get; }
     public IRelayCommand<object?> OpenFolderCommand { get; }
     public IRelayCommand CloseAgentAnswerCommand { get; }
@@ -110,12 +125,24 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         _vectorIndex = vectorIndex;
         _visualVectorIndex = visualVectorIndex;
 
-        SearchCommand = new AsyncRelayCommand(() => ExecuteSearchImmediateAsync(Query));
+        SearchCommand = new AsyncRelayCommand(() => ExecuteSearchImmediateAsync(GetEffectiveQuery()));
         AskAgentCommand = new AsyncRelayCommand(AskAgentAsync);
         ClearSearchCommand = new RelayCommand(ClearSearch);
+        AddKeywordCommand = new RelayCommand<string?>(AddKeyword);
+        RemoveKeywordCommand = new RelayCommand<string?>(RemoveKeyword);
+        ClearKeywordsCommand = new RelayCommand(ClearKeywords);
+
+        Keywords.CollectionChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(HasKeywords));
+            OnPropertyChanged(nameof(HasNoKeywords));
+            OnPropertyChanged(nameof(KeywordsCount));
+            OnPropertyChanged(nameof(KeywordsSummary));
+        };
         StartIndexingCommand = new AsyncRelayCommand<string?>(StartIndexingAsync);
         CancelIndexingCommand = new RelayCommand(CancelIndexing);
         RefreshStatsCommand = new AsyncRelayCommand(RefreshStatsAsync);
+        UpdateArchiveCommand = new AsyncRelayCommand(UpdateArchiveAsync);
 
         OpenFileCommand = new RelayCommand<object?>(param =>
         {
@@ -233,7 +260,7 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         _searchCts = new CancellationTokenSource();
 
         var token = _searchCts.Token;
-        _ = TriggerDebouncedSearchAsync(value, token);
+        _ = TriggerDebouncedSearchAsync(GetEffectiveQuery(), token);
     }
 
     private async Task TriggerDebouncedSearchAsync(string text, CancellationToken cancellationToken)
@@ -355,6 +382,7 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
     {
         _searchCts?.Cancel();
         Query = string.Empty;
+        Keywords.Clear();
         Results.Clear();
         TotalCount = 0;
         SearchLatencyMs = 0;
@@ -364,12 +392,77 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         AgentAnswerText = string.Empty;
     }
 
+    public void AddKeyword(string? keyword)
+    {
+        if (string.IsNullOrWhiteSpace(keyword)) return;
+
+        var tokens = keyword.Split(KeywordDelimiters, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        bool anyAdded = false;
+
+        foreach (var rawToken in tokens)
+        {
+            var clean = rawToken.TrimStart('+', ' ').Trim();
+            if (string.IsNullOrWhiteSpace(clean)) continue;
+
+            if (!Keywords.Any(k => string.Equals(k, clean, StringComparison.OrdinalIgnoreCase)))
+            {
+                Keywords.Add(clean);
+                anyAdded = true;
+            }
+        }
+
+        if (anyAdded)
+        {
+            _ = ExecuteSearchImmediateAsync(GetEffectiveQuery());
+        }
+    }
+
+    public void RemoveKeyword(string? keyword)
+    {
+        if (string.IsNullOrWhiteSpace(keyword)) return;
+        var clean = keyword.TrimStart('+', ' ').Trim();
+        var existing = Keywords.FirstOrDefault(k => string.Equals(k, clean, StringComparison.OrdinalIgnoreCase));
+        if (existing != null)
+        {
+            Keywords.Remove(existing);
+            _ = ExecuteSearchImmediateAsync(GetEffectiveQuery());
+        }
+    }
+
+    public void ClearKeywords()
+    {
+        if (Keywords.Count > 0)
+        {
+            Keywords.Clear();
+            _ = ExecuteSearchImmediateAsync(GetEffectiveQuery());
+        }
+    }
+
+    public string GetEffectiveQuery()
+    {
+        var parts = new List<string>();
+        if (!string.IsNullOrWhiteSpace(Query))
+        {
+            parts.Add(Query.Trim());
+        }
+        foreach (var kw in Keywords)
+        {
+            if (!string.IsNullOrWhiteSpace(kw))
+            {
+                parts.Add(kw.Trim());
+            }
+        }
+        return string.Join(" ", parts);
+    }
+
     public async Task StartIndexingAsync(string? directoryPath, CancellationToken cancellationToken = default)
     {
         if (_orchestrator == null || string.IsNullOrWhiteSpace(directoryPath))
         {
             return;
         }
+
+        CurrentDirectoryPath = directoryPath;
 
         _indexingCts?.Cancel();
         _indexingCts?.Dispose();
@@ -463,9 +556,29 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         }
     }
 
+    public async Task UpdateArchiveAsync()
+    {
+        var target = !string.IsNullOrWhiteSpace(CurrentDirectoryPath) && Directory.Exists(CurrentDirectoryPath)
+            ? CurrentDirectoryPath
+            : (Directory.Exists(@"d:\wordo\corpus\private\") ? @"d:\wordo\corpus\private\" : null);
+
+        if (!string.IsNullOrWhiteSpace(target))
+        {
+            await StartIndexingAsync(target).ConfigureAwait(false);
+        }
+        else
+        {
+            _dispatcher.Invoke(() =>
+            {
+                StatusMessage = "يرجى تحديد مجلد للأرشفة أولاً باستخدام زر [أرشفة مجلد جديد...]";
+            });
+        }
+    }
+
     private async Task AskAgentAsync()
     {
-        if (string.IsNullOrWhiteSpace(Query) || _agentService == null)
+        var effective = GetEffectiveQuery();
+        if (string.IsNullOrWhiteSpace(effective) || _agentService == null)
         {
             return;
         }
@@ -478,14 +591,14 @@ public sealed partial class SearchViewModel : ObservableObject, IDisposable
         try
         {
             var scopePaths = string.IsNullOrWhiteSpace(SelectedScope) ? null : new[] { SelectedScope };
-            var answer = await _agentService.AskAsync(Query, scopePaths).ConfigureAwait(false);
+            var answer = await _agentService.AskAsync(effective, scopePaths).ConfigureAwait(false);
 
             _dispatcher.Invoke(() =>
             {
                 Results.Clear();
                 foreach (var h in answer.Hits)
                 {
-                    Results.Add(new SearchResultViewModel(h, Query, _normalizer));
+                    Results.Add(new SearchResultViewModel(h, effective, _normalizer));
                 }
                 TotalCount = Results.Count;
                 AgentAnswerText = answer.ResponseText;

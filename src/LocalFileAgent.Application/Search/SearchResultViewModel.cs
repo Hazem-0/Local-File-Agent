@@ -116,6 +116,12 @@ public sealed partial class SearchResultViewModel : ObservableObject
         _fileLauncher.OpenContainingFolder(FilePath);
     }
 
+    [RelayCommand]
+    public void OpenFolder()
+    {
+        _fileLauncher.OpenContainingFolder(FilePath);
+    }
+
     private static (string Icon, string Bg, string Fg) GetFileTypeStyles(string ext) => ext switch
     {
         "PDF" => ("📕", "#FEE2E2", "#DC2626"),

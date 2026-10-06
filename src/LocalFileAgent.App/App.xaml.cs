@@ -80,6 +80,7 @@ public partial class App : System.Windows.Application
         _host.Start();
 
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
+        this.MainWindow = mainWindow;
         var viewModel = _host.Services.GetRequiredService<SearchViewModel>();
         mainWindow.DataContext = viewModel;
         mainWindow.Show();

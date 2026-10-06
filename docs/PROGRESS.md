@@ -1,5 +1,45 @@
 # Progress Tracking
 
+## Classic Minimal Dialog UI & Multi-Keyword Search (2026-10-06)
+**Status:** done
+**Tasks done:**
+- Redesigned UI to a minimal, responsive classic desktop dialog box aesthetic (Windows 2000/XP GroupBoxes / Fieldsets) with army olive (`#2C3823`), khaki, and tactical yellow accents.
+- Replaced emojis across all UI strings, XAML controls, and headers with clean Arabic text and vector icons (magnifying glass app icon).
+- Moved progress bars to the top inside GroupBox 2 for immediate visibility during search and indexing.
+- Expanded Agent answer container with formatted text display, copy-to-clipboard, and grounded archive verification badge.
+- Added multi-input search functionality:
+  - Primary search box (`SearchBox`) for general query.
+  - Secondary phrase/keyword input (`AdditionalPhraseBox`) beside the main search box with an "+ إضافة" button (and Enter key support) that appends keywords directly to the query and executes the search.
+  - Quick preset keyword chips row (`+ فاتورة`, `+ عقد توريد`, `+ سند قبض`, `+ تقرير مالي`, `+ ٢٠٢٥`, `+ مسح ضوئي OCR`, `+ أمر شراء`, `+ شروط الضمان`).
+- Fixed `[المجلد]` row button and context menu:
+  - Added missing `OpenFolderCommand` to `SearchResultViewModel` alongside `OpenContainingFolderCommand`.
+  - Added explicit `Click="OnOpenFolderClick"` event routing in `MainWindow.xaml.cs`.
+  - Enhanced `SafeFileLauncher` with full BiDi isolate character trimming, relative path resolution, and shell explorer launching.
+- Fixed `[تحديث الأرشيف]` button:
+  - Replaced static database count fetch (`RefreshStatsCommand`) with an active re-indexing workflow (`UpdateArchiveCommand` and `OnUpdateArchiveClick`).
+  - Automatically triggers directory scanning, incremental indexing, and top progress bar feedback on the active archive directory (`CurrentDirectoryPath`).
+  - Dynamically bound the displayed archive path in GroupBox 1 to `CurrentDirectoryPath`.
+- Transformed keyword handling into independent, distinct visual cards (Tag Chips):
+  - Each keyword now has its own dedicated card (`Border`, bold text, individual red `✕` delete button).
+  - Added `Keywords` collection and commands (`AddKeywordCommand`, `RemoveKeywordCommand`, `ClearKeywordsCommand`) in `SearchViewModel`.
+  - Searches combine the primary `Query` and all active keyword cards via `GetEffectiveQuery()`.
+  - Adding phrases or clicking preset buttons (`+ فاتورة`, `+ ٢٠٢٥`, etc.) generates distinct cards instead of merging plain text into a single input.
+  - Added `ClearKeywordsCommand` button (`مسح البطاقات`) to reset all cards at once.
+  - Added unit test `Keywords_Cards_CanAddRemoveClearAndBuildEffectiveQuery` in `SearchViewModelTests.cs`.
+- Clear visual and functional separation between Primary Search Bar (holds main query exclusively) and Dedicated Keywords Bar (holds keyword input and active cards), ensuring keywords never contaminate or modify the search bar text.
+- Updated loading indicator progress bars from red to tactical green (`#16A34A`) with clean readable green status text (`#166534`).
+- Fixed "فتح" (Open file) and "المجلد" (Reveal in Explorer) duplicate opening bug:
+  - Removed duplicate `Click="OnOpenFileClick"` and `Click="OnOpenFolderClick"` event bindings from `MainWindow.xaml` that caused both `Command` and `Click` to fire sequentially on a single user click.
+  - Removed obsolete redundant event handlers in `MainWindow.xaml.cs`.
+  - Added thread-safe 800ms debounce protection in `SafeFileLauncher` for both `OpenFile` and `OpenContainingFolder` to guard against rapid successive double-clicks or OS-level duplicate events.
+- Built and published self-contained win-x64 release to `dist/LocalFileAgent/` with `run.bat` launcher.
+
+**Evidence:**
+- `tools/check.ps1` returned exit code 0 (`ALL CHECKS PASSED`, 183 tests passing across all test projects).
+- Self-contained build published to `dist/LocalFileAgent/LocalFileAgent.App.exe` and verified running.
+
+---
+
 ## Index Deletion & Database Clear Management (2026-10-02)
 **Status:** done
 **Tasks done:**
